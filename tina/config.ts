@@ -23,7 +23,6 @@ export default defineConfig({
   token: process.env.TINA_TOKEN || "",
   build: { outputFolder: "admin", publicFolder: "public" },
   media: { tina: { mediaRoot: "images", publicFolder: "public" } },
-  search: { tina: { indexerToken: process.env.TINA_SEARCH_TOKEN || "", stopwordLanguages: ["eng"] } },
 
   schema: {
     collections: [
