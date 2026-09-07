@@ -1,0 +1,41 @@
+name: Sync sermons from YouTube
+
+on:
+  schedule:
+    - cron: "0 18 * * 1"   # Mondays 18:00 UTC ≈ 12:00 noon Baytown, the day after a service
+  workflow_dispatch:        # lets a human run it from the Actions tab
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-sermons
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Pull new sermons
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+          YOUTUBE_CHANNEL_ID: ${{ vars.YOUTUBE_CHANNEL_ID }}
+        run: node scripts/sync-sermons.mjs
+
+      - name: Commit anything that changed
+        run: |
+          if [ -z "$(git status --porcelain content/sermons)" ]; then
+            echo "No new sermons. Nothing to do."
+            exit 0
+          fi
+          git config user.name  "Baker Road sermon bot"
+          git config user.email "bakerroadbaptist@gmail.com"
+          git add content/sermons
+          git commit -m "Add new sermons from YouTube"
+          git push

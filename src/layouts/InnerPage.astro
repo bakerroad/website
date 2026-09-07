@@ -1,0 +1,16 @@
+---
+import Base from "./Base.astro";
+import Sections from "../components/Sections.astro";
+const { page } = Astro.props as { page: any };
+---
+<Base title={page.title} description={page.metaDescription}>
+  <div class="phead">
+    <div class="wrap">
+      {page.eyebrow && <p class="eyebrow">{page.eyebrow}</p>}
+      <h1>{page.headline}</h1>
+      {page.intro && <p class="lede">{page.intro}</p>}
+    </div>
+  </div>
+  <Sections sections={page.sections ?? []} />
+  <slot />
+</Base>

@@ -1,0 +1,38 @@
+{
+  "title": "Watch — Sermons from Baker Road Baptist Church",
+  "metaDescription": "Recorded services and messages from Pastor Marvin Rose at Baker Road Baptist Church in Baytown, Texas.",
+  "eyebrow": "Watch and listen",
+  "headline": "Sermons and services.",
+  "intro": "If you cannot be here in person, or you want to hear a message again, our services are on YouTube.",
+  "sections": [
+    {
+      "eyebrow": "",
+      "heading": "",
+      "body": "",
+      "note": "Prefer to listen on the way to work? Every message on the YouTube channel plays as audio in the background. Put it on in the truck and let it run.",
+      "items": [
+        {
+          "title": "Our sermon channel",
+          "meta": "YouTube",
+          "body": "Recorded services and messages from Pastor Marvin Rose. Subscribe there and new messages show up on their own.",
+          "linkText": "Open the channel",
+          "linkUrl": "@youtubeUrl"
+        },
+        {
+          "title": "Baker Road on your phone",
+          "meta": "Mobile app",
+          "body": "Our app carries messages, giving, and church announcements. Search your app store for Baker Road Baptist Church, on iPhone or Android.",
+          "linkText": "Get the app",
+          "linkUrl": "@appUrl"
+        },
+        {
+          "title": "Day to day news",
+          "meta": "Facebook",
+          "body": "The quickest place to see what happened last Sunday and what is coming up this week.",
+          "linkText": "Follow along",
+          "linkUrl": "@facebookUrl"
+        }
+      ]
+    }
+  ]
+}

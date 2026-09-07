@@ -1,0 +1,31 @@
+---
+import InnerPage from "../layouts/InnerPage.astro";
+import page from "../../content/pages/contact.json";
+import { site, telHref } from "../lib/site";
+const tel = telHref(site.phone);
+---
+<InnerPage page={page}>
+  <section class="sec" style="order:-1">
+    <div class="wrap">
+      <div class="cards">
+        <article class="card">
+          <p class="meta">Where we are</p>
+          <h3>{site.churchName}</h3>
+          <p>{site.street}<br />{site.city}, {site.state} {site.zip}</p>
+          {site.mapUrl && <a href={site.mapUrl}>Get directions</a>}
+        </article>
+        <article class="card">
+          <p class="meta">By phone</p>
+          <h3>{site.phone}</h3>
+          <p>A real person answers during office hours.</p>
+          {tel && <a href={tel}>Call the office</a>}
+        </article>
+        <article class="card">
+          <p class="meta">Office hours</p>
+          <h3>During the week</h3>
+          <p>{site.officeHours.map((h: any) => `${h.day}: ${h.hours}`).join(" · ")}</p>
+        </article>
+      </div>
+    </div>
+  </section>
+</InnerPage>

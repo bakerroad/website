@@ -1,0 +1,31 @@
+---
+import InnerPage from "../layouts/InnerPage.astro";
+import page from "../../content/pages/watch.json";
+import { allSermons } from "../lib/site";
+const sermons = allSermons().slice(0, 12);
+const fmt = (d: string) => new Date(d + "T12:00:00").toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+---
+<InnerPage page={page}>
+  {sermons.length > 0 && (
+    <section class="sec">
+      <div class="wrap">
+        <p class="eyebrow">Recent messages</p>
+        <h2>The last few Sundays</h2>
+        <p class="body">This list updates itself from our YouTube channel. Nobody has to add anything to it.</p>
+        <div class="sermons">
+          {sermons.map((s: any) => (
+            <article class="sermon">
+              {s.thumbnail && <img src={s.thumbnail} alt="" loading="lazy" width="480" height="270" />}
+              <div class="b">
+                {s.series && <p class="s">{s.series}</p>}
+                <h3>{s.title}</h3>
+                <time datetime={s.date}>{fmt(s.date)}</time>
+                <a class="play" href={`https://www.youtube.com/watch?v=${s.youtubeId}`} rel="noopener">Watch this message</a>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+</InnerPage>

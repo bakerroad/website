@@ -1,0 +1,10 @@
+{
+  "note": "Known sermon series. The YouTube sync uses this to sort messages into series, because the video titles spell them inconsistently. Add a new series when one starts; add an 'aliases' entry for any misspelling that has gone out on YouTube.",
+  "series": [
+    { "name": "Deep Waters", "aliases": [] },
+    { "name": "From Shadows to Savior", "aliases": ["From Shadow to Savior"] },
+    { "name": "Follow Me", "aliases": [] },
+    { "name": "Sacred", "aliases": [] },
+    { "name": "Blessed to Be a Blessing", "aliases": [] }
+  ]
+}

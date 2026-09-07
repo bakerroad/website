@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.astro/
+.env
+.env.local
+.DS_Store
+tina/__generated__/client.ts
+tina/__generated__/types.ts

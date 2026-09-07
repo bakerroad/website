@@ -1,0 +1,26 @@
+{
+  "name": "brbc-website",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "dev": "tinacms dev -c \"astro dev\"",
+    "build": "tinacms build --skip-cloud-checks -c \"astro build\"",
+    "preview": "astro preview",
+    "check": "astro check",
+    "sync:sermons": "node scripts/sync-sermons.mjs",
+    "sync:events": "node scripts/sync-events.mjs"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.3",
+    "@tinacms/astro": "^0.6.1",
+    "astro": "^7.2.7",
+    "tinacms": "^3.12.1"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.9",
+    "@tinacms/cli": "^2.6.1",
+    "typescript": "^6.0.3"
+  }
+}

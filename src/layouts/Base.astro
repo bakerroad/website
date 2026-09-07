@@ -1,0 +1,99 @@
+---
+import "../styles/global.css";
+import { site, NAV, telHref, fullAddress } from "../lib/site";
+
+interface Props { title: string; description?: string; }
+const { title, description = "" } = Astro.props;
+const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
+const year = new Date().getFullYear();
+const tel = telHref(site.phone);
+---
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+    <link rel="canonical" href={new URL(path, Astro.site).href} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Source+Sans+3:wght@400;600;700&display=swap" />
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org", "@type": "Church",
+      name: site.churchName, telephone: site.phone,
+      url: Astro.site?.href,
+      address: { "@type": "PostalAddress", streetAddress: site.street, addressLocality: site.city, addressRegion: site.state, postalCode: site.zip, addressCountry: "US" },
+      sameAs: [site.facebookUrl, site.youtubeUrl].filter(Boolean),
+    })} />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+
+    <header class="hdr">
+      <div class="wrap hdr-in">
+        <a class="brand" href="/">
+          <span>{site.churchName}<small>{site.city}, {site.state}</small></span>
+        </a>
+        <button class="navtoggle" id="navtoggle" aria-expanded="false" aria-controls="nav">Menu</button>
+        <nav class="nav" id="nav" aria-label="Main">
+          {NAV.map((n) => (
+            <a href={n.href} aria-current={n.href === path ? "page" : undefined}>{n.label}</a>
+          ))}
+        </nav>
+      </div>
+    </header>
+
+    <main id="main"><slot /></main>
+
+    <footer class="ftr">
+      <div class="wrap">
+        <div class="ftr-grid">
+          <div>
+            <h2>Where we are</h2>
+            <p><strong>{site.churchName}</strong></p>
+            <p>{site.street}</p>
+            <p>{site.city}, {site.state} {site.zip}</p>
+            {site.mapUrl && <p style="margin-top:.5rem"><a href={site.mapUrl}>Get directions</a></p>}
+          </div>
+          <div>
+            <h2>Sundays</h2>
+            <ul>{site.sunday.map((s: any) => <li><strong>{s.time}</strong> — {s.label}</li>)}</ul>
+            <h2 style="margin-top:1rem">Wednesdays</h2>
+            <ul>{site.wednesday.map((s: any) => <li><strong>{s.time}</strong> — {s.label}</li>)}</ul>
+          </div>
+          <div>
+            <h2>Office hours</h2>
+            <ul>{site.officeHours.map((h: any) => <li>{h.day} — {h.hours}</li>)}</ul>
+          </div>
+          <div>
+            <h2>Get in touch</h2>
+            <ul>
+              {tel && <li><a href={tel}>{site.phone}</a></li>}
+              {site.email && <li><a href={`mailto:${site.email}`}>{site.email}</a></li>}
+              {site.facebookUrl && <li><a href={site.facebookUrl}>Facebook</a></li>}
+              {site.youtubeUrl && <li><a href={site.youtubeUrl}>YouTube</a></li>}
+            </ul>
+          </div>
+        </div>
+        <div class="bot">
+          <span>© {year} {site.churchName}</span>
+          <a href="/privacy-policy">Privacy policy</a>
+        </div>
+      </div>
+    </footer>
+
+    <script is:inline>
+      (function () {
+        var b = document.getElementById("navtoggle"), n = document.getElementById("nav");
+        if (!b || !n) return;
+        b.addEventListener("click", function () {
+          var open = n.classList.toggle("open");
+          b.setAttribute("aria-expanded", String(open));
+        });
+      })();
+    </script>
+  </body>
+</html>

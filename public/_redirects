@@ -1,0 +1,49 @@
+# Old SnapPages URLs -> new pages. 301 = permanent, which is what tells Google
+# to move the ranking across rather than treat the new page as unrelated.
+# Left column is the OLD address. Do not delete rows: someone has these in a
+# bookmark, on a business card, or in a bulletin printed years ago.
+
+# Visiting
+/welcome              /visit      301
+/new                  /visit      301
+/expectations         /visit      301
+
+# About
+/our-mission          /about      301
+/beliefs              /about      301
+/our-story            /about      301
+/our-leadership       /about      301
+/committee            /about      301
+/lords-supper         /about      301
+
+# Ministries
+/crosswalk            /ministries 301
+/bible-study          /ministries 301
+/volunteering         /ministries 301
+/quiet-time           /ministries 301
+/groups               /ministries 301
+/small-groups-20-groups              /ministries 301
+/small-groups-less-than-20-groups    /ministries 301
+/bible-reading-group-signup          /ministries 301
+/volunteer-signup     /ministries 301
+
+# Next steps -> Contact
+/salvation            /contact    301
+/baptism              /contact    301
+/baptism-signup       /contact    301
+/join                 /contact    301
+/contact-us           /contact    301
+/connect-card         /contact    301
+/prayer-request       /contact    301
+
+# Giving
+/giving               /give       301
+
+# Media
+/media                /watch      301
+
+# Retired: these pages were empty or stale on the old site
+/events               /           301
+/newsletter           /           301
+/blog                 /outreach   301
+/blog/*               /outreach   301

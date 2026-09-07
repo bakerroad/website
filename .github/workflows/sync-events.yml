@@ -1,0 +1,41 @@
+name: Sync events from Planning Center
+
+on:
+  schedule:
+    - cron: "0 11 * * *"   # every day, 11:00 UTC ≈ 5:00 AM Baytown
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-events
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Pull upcoming events
+        env:
+          PCO_APP_ID: ${{ secrets.PCO_APP_ID }}
+          PCO_SECRET: ${{ secrets.PCO_SECRET }}
+        run: node scripts/sync-events.mjs
+
+      - name: Commit anything that changed
+        run: |
+          if [ -z "$(git status --porcelain content/events)" ]; then
+            echo "No event changes. Nothing to do."
+            exit 0
+          fi
+          git config user.name  "Baker Road events bot"
+          git config user.email "bakerroadbaptist@gmail.com"
+          git add content/events
+          git commit -m "Update events from Planning Center"
+          git push

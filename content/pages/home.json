@@ -1,0 +1,96 @@
+{
+  "title": "Baker Road Baptist Church — Baytown, Texas",
+  "metaDescription": "A Baptist church on Baker Road in north Baytown since 1978. Sunday School at 9:00, worship at 10:15. There is a seat for you this Sunday.",
+  "eyebrow": "A family of faith in Baytown since 1978",
+  "headline": "There is a seat for you this Sunday.",
+  "intro": "We are a Baptist church on Baker Road in north Baytown. Come as you are, sit wherever you like, and let us be glad you came.",
+  "sections": [
+    {
+      "eyebrow": "If this would be your first time",
+      "heading": "The four things people actually want to know",
+      "body": "",
+      "note": "",
+      "items": [
+        {
+          "title": "How long is it?",
+          "meta": "",
+          "body": "About an hour and a half. Doors are open before and after, and nobody minds if you slip out early."
+        },
+        {
+          "title": "What should I wear?",
+          "meta": "",
+          "body": "Whatever you already own. On any given Sunday you will see slacks and ties next to jeans and boots."
+        },
+        {
+          "title": "What about my kids?",
+          "meta": "",
+          "body": "Sunday School classes by age at 9:00, and trained, screened childcare during the 10:15 service."
+        },
+        {
+          "title": "Will I get singled out?",
+          "meta": "",
+          "body": "No. We will not ask you to stand, introduce yourself, fill out a card, or give anything."
+        }
+      ]
+    },
+    {
+      "eyebrow": "The shape of our week",
+      "heading": "Two gatherings, and everything grows out of them",
+      "body": "We keep it simple on purpose. Sunday mornings we learn and worship together. Wednesday nights we eat together and go deeper.",
+      "note": "",
+      "items": [
+        {
+          "title": "Sunday School",
+          "meta": "Sunday, 9:00 AM",
+          "body": "Classes for every age, meeting at the same hour so families can come together and split up at the door. Ask at the front doors and someone will walk you to the right room."
+        },
+        {
+          "title": "Worship",
+          "meta": "Sunday, 10:15 AM",
+          "body": "A mix of the hymns this church was built on and contemporary worship, led by Sarah Joy McClain and our worship team. Pastor Marvin preaches straight through books of the Bible, a passage at a time, so you always know where we are and where we are going next. About 90 minutes. Childcare provided."
+        },
+        {
+          "title": "Wednesday Nights",
+          "meta": "Wednesday, 5:30 PM",
+          "body": "Dinner in the Fellowship Hall first, then everybody scatters: adults to Bible study, students to ONE, kids to Children's Group. It is the easiest night of the week to visit if a Sunday morning feels like a lot."
+        }
+      ]
+    },
+    {
+      "eyebrow": "Wherever you are",
+      "heading": "What would you like to do next?",
+      "body": "",
+      "note": "",
+      "items": [
+        {
+          "title": "I am thinking about visiting",
+          "meta": "",
+          "body": "",
+          "linkText": "Plan a visit",
+          "linkUrl": "/visit"
+        },
+        {
+          "title": "I would like prayer",
+          "meta": "",
+          "body": "",
+          "linkText": "Send a request",
+          "linkUrl": "/contact"
+        },
+        {
+          "title": "I want to get involved",
+          "meta": "",
+          "body": "",
+          "linkText": "See our ministries",
+          "linkUrl": "/ministries"
+        },
+        {
+          "title": "I want to give",
+          "meta": "",
+          "body": "",
+          "linkText": "Ways to give",
+          "linkUrl": "/give"
+        }
+      ]
+    }
+  ]
+}

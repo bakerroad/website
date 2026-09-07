@@ -1,0 +1,30 @@
+{
+  "title": "Contact — Baker Road Baptist Church",
+  "metaDescription": "Call, write, or visit Baker Road Baptist Church at 900 W. Baker Rd, Baytown, Texas. Office hours, prayer requests, and how to ask about baptism or membership.",
+  "eyebrow": "Contact",
+  "headline": "Get in touch.",
+  "intro": "Call, write, or stop by during office hours. Someone will get back to you.",
+  "sections": [
+    {
+      "eyebrow": "Prayer",
+      "heading": "Let us pray for you",
+      "body": "Our prayer team prays through every request we receive. Tell us as much or as little as you want, and say whether you would like someone to follow up.",
+      "note": "Requests go to the pastor and the prayer team only. They are never read aloud or posted anywhere without your permission.",
+      "items": []
+    },
+    {
+      "eyebrow": "Anything else",
+      "heading": "Send us a note",
+      "body": "Questions about visiting, membership, baptism, weddings, or getting your family plugged in. Write to us and we will answer.",
+      "note": "",
+      "items": []
+    },
+    {
+      "eyebrow": "Next steps",
+      "heading": "Baptism and membership",
+      "body": "If you have put your faith in Jesus and have never been baptized, we would count it an honor. If Baker Road is becoming your church home, membership is how you say so out loud. Either one starts with a conversation. Call the office and ask for Pastor Marvin.",
+      "note": "",
+      "items": []
+    }
+  ]
+}

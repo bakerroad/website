@@ -1,0 +1,75 @@
+---
+import Base from "../layouts/Base.astro";
+import Sections from "../components/Sections.astro";
+import page from "../../content/pages/home.json";
+import { site, telHref, upcomingEvents } from "../lib/site";
+const tel = telHref(site.phone);
+const events = upcomingEvents().slice(0, 3);
+---
+<Base title={page.title} description={page.metaDescription}>
+  <div class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        {page.eyebrow && <p class="eyebrow">{page.eyebrow}</p>}
+        <h1>{page.headline}</h1>
+      </div>
+
+      <div class="hero-actions">
+        <p>{page.intro}</p>
+        <div class="cta">
+          <a class="btn btn-p" href="/visit">Plan your visit</a>
+          {site.mapUrl && <a class="btn btn-g" href={site.mapUrl}>Get directions</a>}
+        </div>
+        {tel && <small>Questions before you come? Call the office at <a href={tel}>{site.phone}</a>.</small>}
+      </div>
+
+      <div class="hero-times">
+        <div class="times">
+          <h2>Sunday</h2>
+          <p class="where">{site.street}</p>
+          <dl>
+            {site.sunday.map((s: any) => (
+              <div class="row">
+                <dt>{s.label}{s.note && <small>{s.note}</small>}</dt>
+                <dd>{s.time}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+        <div class="times">
+          <h2>Wednesday</h2>
+          <p class="where">Everyone welcome</p>
+          <dl>
+            {site.wednesday.map((s: any) => (
+              <div class="row">
+                <dt>{s.label}{s.note && <small>{s.note}</small>}</dt>
+                <dd>{s.time}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <Sections sections={page.sections ?? []} />
+
+  {events.length > 0 && (
+    <section class="sec">
+      <div class="wrap">
+        <p class="eyebrow">Coming up</p>
+        <h2>What's happening next</h2>
+        <div class="cards">
+          {events.map((e: any) => (
+            <article class="card">
+              <p class="meta">{new Date(e.start).toLocaleDateString("en-US", { weekday: "short", month: "long", day: "numeric" })}</p>
+              <h3>{e.title}</h3>
+              {e.location && <p>{e.location}</p>}
+              {e.url && <a href={e.url}>More details</a>}
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+</Base>
