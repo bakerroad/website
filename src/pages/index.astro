@@ -8,6 +8,21 @@ import { imageSize } from "../lib/imagesize";
 const tel = telHref(site.phone);
 const events = upcomingEvents().slice(0, 3);
 
+// Google shows church events in search when they carry Event schema.
+const eventSchema = events.length ? events.map((e: any) => ({
+  "@context": "https://schema.org", "@type": "Event",
+  name: e.title, startDate: e.start, endDate: e.end || undefined,
+  description: e.description || undefined,
+  image: e.image ? new URL(e.image, Astro.site).href : undefined,
+  url: e.url || new URL("/", Astro.site).href,
+  eventStatus: "https://schema.org/EventScheduled",
+  eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+  isAccessibleForFree: true,
+  location: { "@type": "Place", name: site.churchName,
+    address: { "@type": "PostalAddress", streetAddress: site.street, addressLocality: site.city, addressRegion: "TX", postalCode: site.zip, addressCountry: "US" } },
+  organizer: { "@type": "Organization", name: site.churchName, url: Astro.site?.href },
+})) : undefined;
+
 /** "October 4 – 31" for a run of days; a single date otherwise. */
 const dayKey = (d: Date) => d.toLocaleDateString("en-CA", { timeZone: TZ }); // YYYY-MM-DD
 const fmt = (d: Date, o: any) => d.toLocaleDateString("en-US", { timeZone: TZ, ...o });
@@ -20,7 +35,7 @@ const fmtRange = (e: any) => {
 };
 
 ---
-<Base title={page.title} description={page.metaDescription}>
+<Base title={page.title} description={page.metaDescription} schema={eventSchema}>
   <div class="hero">
     <div class="wrap hero-grid">
       <div class="hero-copy">

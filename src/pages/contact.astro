@@ -5,6 +5,19 @@ import { site, telHref, emailHref } from "../lib/site";
 const tel = telHref(site.phone);
 ---
 <InnerPage page={page}>
+  <section class="sec" id="map">
+    <div class="wrap">
+      <p class="eyebrow">Find us</p>
+      <h2>900 W. Baker Rd, Baytown</h2>
+      <div class="mapwrap">
+        <iframe
+          title="Map to Baker Road Baptist Church"
+          src={`https://www.google.com/maps?q=${encodeURIComponent(site.street + ", " + site.city + ", TX " + site.zip)}&output=embed`}
+          width="100%" height="380" style="border:0" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+      </div>
+      {site.mapUrl && <p class="seclink"><a href={site.mapUrl}>Open in Google Maps</a></p>}
+    </div>
+  </section>
   <section class="sec" style="order:-1">
     <div class="wrap">
       <div class="cards">

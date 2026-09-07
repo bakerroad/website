@@ -411,3 +411,6 @@ a:hover{color:var(--brand-hover)}
 .doc .toc{columns:2;column-gap:2rem;font-size:.95rem}
 .doc .toc a{text-decoration:none}
 @media (max-width:640px){.doc .toc{columns:1}}
+
+.mapwrap{margin-top:1.4rem;border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;background:var(--surface-alt)}
+.mapwrap iframe{display:block}

@@ -19,9 +19,24 @@ const { sermon, newer, older, inSeries } = Astro.props;
 const fmt = (d) =>
   new Date(d + "T12:00:00").toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
 const title = `${sermon.title}${sermon.series ? ` — ${sermon.series}` : ""} | Baker Road Baptist Church`;
-const desc = sermon.description || `${sermon.title}, preached at Baker Road Baptist Church in Baytown on ${fmt(sermon.date)}.`;
+// YouTube "descriptions" on this channel are often just a date, e.g. "02-15-26".
+// Anything that short, or mostly digits, is not a description; write one.
+const junk = (d?: string) => !d || d.trim().length < 40 || /^[\d\s\/\-.:]+$/.test(d.trim());
+const desc = junk(sermon.description)
+  ? `${sermon.title}${sermon.series ? `, from the series ${sermon.series}` : ""} — a sermon by ${sermon.speaker || "Pastor Marvin Rose"} at Baker Road Baptist Church in Baytown, Texas, ${fmt(sermon.date)}. Watch the full message.`
+  : sermon.description;
+const videoSchema = {
+  "@context": "https://schema.org", "@type": "VideoObject",
+  name: sermon.title, description: desc,
+  thumbnailUrl: sermon.thumbnail ? [sermon.thumbnail] : undefined,
+  uploadDate: sermon.date,
+  embedUrl: `https://www.youtube.com/embed/${sermon.youtubeId}`,
+  contentUrl: `https://www.youtube.com/watch?v=${sermon.youtubeId}`,
+  publisher: { "@type": "Organization", name: "Baker Road Baptist Church", logo: { "@type": "ImageObject", url: "https://brbcbaytown.org/images/logo.png" } },
+  ...(sermon.series ? { partOfSeries: { "@type": "CreativeWorkSeries", name: sermon.series } } : {}),
+};
 ---
-<Base title={title} description={desc}>
+<Base title={title} description={desc} ogImage={sermon.thumbnail} ogType="video.other" schema={videoSchema}>
   <article class="sermon-page">
     <div class="wrap">
       <p class="crumb"><a href="/watch">All sermons</a></p>
@@ -42,7 +57,7 @@ const desc = sermon.description || `${sermon.title}, preached at Baker Road Bapt
           allowfullscreen></iframe>
       </div>
 
-      {sermon.description && <p class="sdesc">{sermon.description}</p>}
+      {!junk(sermon.description) && <p class="sdesc">{sermon.description}</p>}
 
       <p class="seclink">
         <a href={`https://www.youtube.com/watch?v=${sermon.youtubeId}`} rel="noopener">Watch on YouTube</a>

@@ -2,8 +2,33 @@
 import "../styles/global.css";
 import { site, NAV, telHref, emailHref } from "../lib/site";
 
-interface Props { title: string; description?: string; noindex?: boolean; }
-const { title, description = "", noindex = false } = Astro.props;
+interface Props { title: string; description?: string; noindex?: boolean; ogImage?: string; ogType?: string; schema?: any; }
+const { title, description = "", noindex = false, ogImage, ogType = "website", schema } = Astro.props;
+const socialImage = new URL(ogImage || "/images/social-card.jpg", Astro.site).href;
+
+/** "Tuesday — 9:00 AM – 2:00 PM" -> "Tu 09:00-14:00" for schema.org openingHours. */
+const hours = (site.officeHours || [])
+  .filter((h: any) => h.hours && !/closed/i.test(h.hours))
+  .map((h: any) => {
+    const m = h.hours.match(/(\d{1,2})(?::(\d{2}))?\s*(AM|PM)?\s*[\u2013\u2014-]\s*(\d{1,2})(?::(\d{2}))?\s*(AM|PM)/i);
+    if (!m) return null;
+    const to24 = (hh: string, mm: string, ap: string) => { let n = +hh % 12; if (/pm/i.test(ap)) n += 12; return `${String(n).padStart(2, "0")}:${mm || "00"}`; };
+    return `${h.day.slice(0, 2)} ${to24(m[1], m[2], m[3] || m[6])}-${to24(m[4], m[5], m[6])}`;
+  }).filter(Boolean);
+
+const churchSchema = {
+  "@context": "https://schema.org", "@type": "Church",
+  "@id": new URL("/#church", Astro.site).href,
+  name: site.churchName, telephone: site.phone, email: site.email || undefined,
+  url: Astro.site?.href, image: socialImage, logo: new URL("/images/logo.png", Astro.site).href,
+  foundingDate: site.foundingYear || undefined,
+  address: { "@type": "PostalAddress", streetAddress: site.street, addressLocality: site.city, addressRegion: "TX", postalCode: site.zip, addressCountry: "US" },
+  geo: site.latitude ? { "@type": "GeoCoordinates", latitude: site.latitude, longitude: site.longitude } : undefined,
+  hasMap: site.mapUrl || undefined,
+  areaServed: { "@type": "City", name: "Baytown", containedInPlace: { "@type": "AdministrativeArea", name: "Harris County, Texas" } },
+  openingHours: hours.length ? hours : undefined,
+  sameAs: [site.facebookUrl, site.youtubeUrl, site.yelpUrl].filter(Boolean),
+};
 const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
 const year = new Date().getFullYear();
 const tel = telHref(site.phone);
@@ -16,19 +41,33 @@ const tel = telHref(site.phone);
     {description && <meta name="description" content={description} />}
     {noindex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="canonical" href={new URL(path, Astro.site).href} />
+    <meta property="og:site_name" content={site.churchName} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={new URL(path, Astro.site).href} />
+    <meta property="og:image" content={socialImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImage} />
+    <meta name="geo.region" content="US-TX" />
+    <meta name="geo.placename" content="Baytown" />
+    {site.latitude && <meta name="geo.position" content={`${site.latitude};${site.longitude}`} />}
+    {site.latitude && <meta name="ICBM" content={`${site.latitude}, ${site.longitude}`} />}
+    <meta name="theme-color" content="#224E9B" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Source+Sans+3:wght@400;600;700&display=swap" />
-    <script type="application/ld+json" set:html={JSON.stringify({
-      "@context": "https://schema.org", "@type": "Church",
-      name: site.churchName, telephone: site.phone,
-      url: Astro.site?.href,
-      address: { "@type": "PostalAddress", streetAddress: site.street, addressLocality: site.city, addressRegion: site.state, postalCode: site.zip, addressCountry: "US" },
-      sameAs: [site.facebookUrl, site.youtubeUrl].filter(Boolean),
-    })} />
+    <script type="application/ld+json" set:html={JSON.stringify(churchSchema)} />
+    {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
   </head>
   <body>
     <a class="skip" href="#main">Skip to content</a>

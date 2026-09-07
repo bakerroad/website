@@ -51,3 +51,7 @@
 # Retired during the 2026 rebuild
 /outreach             /ministries 301
 /serve                /ministries 301
+
+# One canonical host. www and the bare domain must not both serve the site.
+https://www.brbcbaytown.org/*  https://brbcbaytown.org/:splat  301
+http://www.brbcbaytown.org/*   https://brbcbaytown.org/:splat  301

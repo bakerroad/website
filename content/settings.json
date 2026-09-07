@@ -8,7 +8,7 @@
   "phone": "(281) 427-0506",
   "email": "bakerroadbc@gmail.com",
   "prayerEmail": "bakerroadbc@gmail.com",
-  "mapUrl": "https://www.google.com/maps/search/?api=1&query=900+W+Baker+Rd+Baytown+TX+77521",
+  "mapUrl": "https://www.google.com/maps/place/?q=place_id:ChIJdZCijh5cP4YRD2idB3WaxMU",
   "officeHours": [
     {
       "day": "Monday",
@@ -70,5 +70,11 @@
   "givingUrl": "https://subsplash.com/u/-7ZWBBR/give",
   "appUrl": "https://subsplash.com/bakerroadbaptistchurch",
   "connectionCardUrl": "https://bakerroadbaptistchurch.churchcenter.com/people/forms/1314833",
-  "serveFormUrl": "https://bakerroadbaptistchurch.churchcenter.com/people/forms/1314832"
+  "serveFormUrl": "https://bakerroadbaptistchurch.churchcenter.com/people/forms/1314832",
+  "googlePlaceId": "ChIJdZCijh5cP4YRD2idB3WaxMU",
+  "reviewUrl": "https://search.google.com/local/writereview?placeid=ChIJdZCijh5cP4YRD2idB3WaxMU",
+  "latitude": 29.769583,
+  "longitude": -94.9730775,
+  "yelpUrl": "https://www.yelp.com/biz/baker-rd-baptist-church-baytown",
+  "foundingYear": "1978"
 }

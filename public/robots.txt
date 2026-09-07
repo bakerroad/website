@@ -1,0 +1,7 @@
+# Baker Road Baptist Church — brbcbaytown.org
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /sop/
+
+Sitemap: https://brbcbaytown.org/sitemap-index.xml

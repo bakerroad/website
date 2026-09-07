@@ -1,0 +1,26 @@
+# Cloudflare Pages headers — https://developers.cloudflare.com/pages/configuration/headers/
+
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+
+# Tina's editor and the internal how-it-works page must never appear in Google.
+/admin/*
+  X-Robots-Tag: noindex, nofollow
+/sop/*
+  X-Robots-Tag: noindex, nofollow
+
+# Fingerprinted build assets never change — cache them for a year.
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Photos and icons: a week, revalidate after.
+/images/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+/*.png
+  Cache-Control: public, max-age=604800
+/*.ico
+  Cache-Control: public, max-age=604800
