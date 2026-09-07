@@ -4,6 +4,7 @@
 interface Item { title?: string; meta?: string; body?: string; linkText?: string; linkUrl?: string; image?: string; }
 interface Section { eyebrow?: string; heading?: string; body?: string; note?: string; items?: Item[]; linkText?: string; linkUrl?: string; image?: string; imageAlt?: string; }
 import { site, telHref } from "../lib/site";
+import { imageSize } from "../lib/imagesize";
 const { sections = [] } = Astro.props as { sections: Section[] };
 
 /** A link written as "@givingUrl" is filled in from Church Info, so the office
@@ -29,7 +30,8 @@ const isRowList = (s: Section) =>
 
       {s.image && (
         <figure class="secfig">
-          <img src={s.image} alt={s.imageAlt ?? ""} loading="lazy" />
+          <img src={s.image} alt={s.imageAlt ?? ""} loading="lazy" decoding="async"
+               width={imageSize(s.image)?.width} height={imageSize(s.image)?.height} />
         </figure>
       )}
 
@@ -50,7 +52,10 @@ const isRowList = (s: Section) =>
           <div class="cards">
             {s.items!.map((i) => (
               <article class={i.image ? "card haspic" : "card"}>
-                {i.image && <img src={i.image} alt="" loading="lazy" />}
+                {i.image && (
+                  <img src={i.image} alt="" loading="lazy" decoding="async"
+                       width={imageSize(i.image)?.width} height={imageSize(i.image)?.height} />
+                )}
                 {i.meta && <p class="meta">{i.meta}</p>}
                 {i.title && <h3>{i.title}</h3>}
                 {i.body && <p>{i.body}</p>}

@@ -31,8 +31,6 @@ a:hover{color:var(--brand-hover)}
 .wrap{max-width:1060px;margin:0 auto;padding:0 1.35rem}
 .eyebrow{font-size:.74rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--brand);margin:0 0 .55rem}
 .lede{color:var(--ink-soft);max-width:var(--measure);font-size:1.12rem;margin-top:.9rem}
-.skip{position:absolute;left:-9999px}
-.skip:focus{left:1rem;top:1rem;z-index:99;background:var(--brand);color:#fff;padding:.6rem 1rem;border-radius:var(--r-sm)}
 
 /* ── header ─────────────────────────────────────────── */
 .hdr{background:var(--surface-card);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50}
@@ -210,3 +208,62 @@ a:hover{color:var(--brand-hover)}
 .slist .sr{font-size:.78rem;color:var(--ink-faint)}
 .slist time{font-size:.87rem;color:var(--ink-faint);white-space:nowrap;font-variant-numeric:tabular-nums}
 @media (max-width:560px){.slist li{flex-direction:column;gap:.15rem}}
+
+/* ── sermon archive + detail ─────────────────────────── */
+.serieslist{display:grid;gap:1.9rem;margin-top:1.5rem}
+.sgroup h3{font-family:var(--f-display);font-size:1.22rem;font-weight:500;display:flex;
+  align-items:baseline;gap:.75rem;flex-wrap:wrap}
+.sgroup .count{font-family:var(--f-body);font-size:.74rem;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-faint)}
+.sgroup .slist{margin-top:.5rem}
+
+.sermon-page{padding:2.4rem 0 3rem}
+.crumb{font-size:.9rem;margin-bottom:1.1rem}
+.crumb a{text-decoration:none;font-weight:600}
+.crumb a::before{content:"← "}
+.sermon-page h1{font-size:clamp(1.75rem,4.2vw,2.5rem)}
+.smeta{color:var(--ink-faint);font-size:.96rem;margin-top:.5rem}
+.player{margin-top:1.5rem;border-radius:var(--r-lg);overflow:hidden;background:#000;
+  aspect-ratio:16/9;box-shadow:var(--shadow)}
+.player iframe{width:100%;height:100%;border:0;display:block}
+.sdesc{margin-top:1.3rem;color:var(--ink-soft);max-width:var(--measure)}
+.also{margin-top:2.6rem}
+.also h2{font-size:1.25rem}
+.prevnext{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:2.6rem;
+  border-top:1px solid var(--border);padding-top:1.4rem}
+.pn{text-decoration:none;font-weight:600;color:var(--ink);display:flex;flex-direction:column;gap:.2rem;min-width:0}
+.pn span{font-size:.72rem;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-faint)}
+.pn:hover{color:var(--brand)}
+.pn.next{text-align:right;grid-column:2}
+@media (max-width:600px){.prevnext{grid-template-columns:1fr}.pn.next{text-align:left;grid-column:1}}
+.slist a[aria-current="page"] .t{color:var(--brand)}
+.slist a[aria-current="page"] .t::after{content:" — you are here";font-weight:400;font-size:.8rem;color:var(--ink-faint)}
+
+/* ── touch targets ──────────────────────────────────────
+   This congregation skews older and most first contact happens on a phone.
+   Footer and inline links were 22px tall; anything a finger has to hit gets
+   at least 44px of height, which is the comfortable target on iOS and well
+   past the 24px WCAG 2.5.8 minimum. */
+.ftr ul{gap:0}
+.ftr ul li{display:flex}
+.ftr ul li a,
+.ftr ul li > strong ~ *{align-items:center}
+.ftr a{display:inline-flex;align-items:center;min-height:44px;padding:.15rem 0}
+.ftr .bot{gap:.25rem 1.6rem}
+.ftr .bot a{display:inline-flex;align-items:center;min-height:44px}
+.crumb a{display:inline-flex;align-items:center;min-height:44px}
+.card a,.seclink a,.slist a,.sermon-page .seclink a{
+  display:inline-flex;align-items:center;min-height:44px}
+.slist a{align-items:flex-start;padding:.15rem 0}
+.times .row{min-height:44px}
+.nav a{min-height:44px;display:inline-flex;align-items:center}
+
+/* the tap-to-call link sits inside a sentence, so it cannot be a 44px block
+   without wrecking the line. Padding widens the hit area within the flow. */
+.hero small a,.sec .body a,.note a{display:inline-block;padding:.45rem 0}
+
+/* the skip link, hidden without pushing the layout sideways */
+.skip{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;left:auto}
+.skip:focus{position:fixed;width:auto;height:auto;clip-path:none;left:1rem;top:1rem;z-index:99;
+  background:var(--brand);color:#fff;padding:.7rem 1.1rem;border-radius:var(--r-sm);min-height:44px;
+  display:inline-flex;align-items:center}

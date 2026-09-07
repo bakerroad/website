@@ -10,7 +10,7 @@
  */
 import { writeFileSync, readFileSync, existsSync, mkdirSync, readdirSync, unlinkSync } from "node:fs";
 import { join } from "node:path";
-import { extractDate, tidy, unshout, matchSeries, slugify } from "./lib/parse-title.mjs";
+import { extractDate, tidy, unshout, matchSeries, notSermon, slugify } from "./lib/parse-title.mjs";
 
 const API_KEY = process.env.YOUTUBE_API_KEY;
 const CHANNEL_ID = process.env.YOUTUBE_CHANNEL_ID || "UCIMoHSQCKy3dtYCG1Wj607A";
@@ -19,7 +19,9 @@ const SERIES_FILE = "content/sermon-series.json";
 
 mkdirSync(OUT, { recursive: true });
 
-const known = existsSync(SERIES_FILE) ? (JSON.parse(readFileSync(SERIES_FILE, "utf8")).series || []) : [];
+const cfg = existsSync(SERIES_FILE) ? JSON.parse(readFileSync(SERIES_FILE, "utf8")) : {};
+const known = cfg.series || [];
+const NOT_SERMON = cfg.notSermons || [];
 
 const api = async (path, params) => {
   const url = new URL(`https://www.googleapis.com/youtube/v3/${path}`);
@@ -82,9 +84,13 @@ async function main() {
 
   let created = 0, updated = 0, preserved = 0;
   const written = new Set();
+  const notSermons = [];
 
   for (const it of items) {
     const raw = it.snippet.title;
+    // This is a sermon archive, not a video archive.
+    const why = notSermon(raw, NOT_SERMON);
+    if (why) { notSermons.push(`${raw}  (matched "${why}")`); continue; }
     const [dateFromTitle, stripped] = extractDate(raw);
     const date = dateFromTitle || it.snippet.publishedAt.slice(0, 10);
     const clean = tidy(stripped);
@@ -135,8 +141,13 @@ async function main() {
     }
   }
 
-  const noSeries = items.length - [...written].length;
   console.log(`new ${created} · updated ${updated} · left alone ${preserved} · removed ${removed}`);
+  if (notSermons.length) {
+    console.log(`\nnot published — not sermons (${notSermons.length}):`);
+    notSermons.forEach((n) => console.log("  ✗ " + n));
+    console.log("If any of those ARE sermons, fix content/sermon-series.json -> notSermons.");
+  }
+  const untitled = [...written].length;
 }
 
 main().catch((e) => { console.error(e.message); process.exit(1); });

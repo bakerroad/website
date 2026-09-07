@@ -4,6 +4,7 @@ import Sections from "../components/Sections.astro";
 import Bridge from "../components/Bridge.astro";
 import page from "../../content/pages/home.json";
 import { site, telHref, upcomingEvents, TZ } from "../lib/site";
+import { imageSize } from "../lib/imagesize";
 const tel = telHref(site.phone);
 const events = upcomingEvents().slice(0, 3);
 
@@ -77,7 +78,8 @@ const fmtRange = (e: any) => {
         <div class="cards">
           {events.map((e: any) => (
             <article class="card evt">
-              {e.image && <img src={e.image} alt="" loading="lazy" width="480" height="270" />}
+              {e.image && <img src={e.image} alt="" loading="lazy" decoding="async"
+                              width={imageSize(e.image)?.width ?? 480} height={imageSize(e.image)?.height ?? 270} />}
               <p class="meta">{fmtRange(e)}</p>
               <h3>{e.title}</h3>
               {e.description && <p>{e.description}</p>}

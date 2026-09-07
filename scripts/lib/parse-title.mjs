@@ -85,24 +85,39 @@ export function matchSeries(cleanTitle, knownSeries = []) {
     const name = typeof entry === "string" ? entry : entry?.name;
     if (!name) continue;
     const aliases = typeof entry === "string" ? [] : entry.aliases || [];
-    for (const form of [name, ...aliases]) forms.push({ name, form });
+    const subtitle = typeof entry === "string" ? "" : entry.subtitle || "";
+    for (const form of [name, ...aliases]) forms.push({ name, form, subtitle });
   }
   const hit = forms
     .filter(({ form }) => norm(form) && hay.includes(norm(form)))
     .sort((a, b) => norm(b.form).length - norm(a.form).length)[0];
   if (!hit) return { series: "", title: cleanTitle };
 
-  const re = new RegExp(
-    norm(hit.form).split(" ").map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("[^A-Za-z0-9]+"),
-    "i"
-  );
-  let rest = cleanTitle.replace(re, " ");
+  const loose = (phrase) =>
+    new RegExp(
+      norm(phrase).split(" ").map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("[^A-Za-z0-9]+"),
+      "i"
+    );
+
+  let rest = cleanTitle.replace(loose(hit.form), " ");
+  // Strip the series strap-line so the sermon's own title is what remains.
+  if (hit.subtitle && loose(hit.subtitle).test(rest)) rest = rest.replace(loose(hit.subtitle), " ");
   rest = rest
     .replace(/\b(sermon\s+series|series|sermon)\b/gi, " ")
     .replace(/\b(part|week|wk|pt\.?)\s*\d+\b/gi, " ")
-    .replace(/\bexploring the depths of spiritual growth\b/gi, " ")
     .replace(/\s+/g, " ");
-  return { series: hit.name, title: tidy(rest) };
+  rest = tidy(rest);
+
+  // Nothing left but boilerplate? The strap-line is the most descriptive
+  // thing the church gave us, so use that rather than "Sunday Service".
+  if (!rest && hit.subtitle) rest = hit.subtitle;
+  return { series: hit.name, title: rest };
+}
+
+/** Is this video a sermon at all? Returns the matched phrase if NOT. */
+export function notSermon(rawTitle, patterns = []) {
+  const hay = (rawTitle || "").toLowerCase();
+  return patterns.find((p) => p && hay.includes(String(p).toLowerCase())) || null;
 }
 
 export const slugify = (s) =>

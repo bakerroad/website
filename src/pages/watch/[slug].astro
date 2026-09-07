@@ -1,0 +1,73 @@
+---
+import Base from "../../layouts/Base.astro";
+import { allSermons, sermonSlug } from "../../lib/site";
+
+export function getStaticPaths() {
+  const all = allSermons();
+  return all.map((s, i) => ({
+    params: { slug: sermonSlug(s) },
+    props: {
+      sermon: s,
+      newer: i > 0 ? all[i - 1] : null,   // allSermons() is newest-first
+      older: i < all.length - 1 ? all[i + 1] : null,
+      inSeries: s.series ? all.filter((x) => x.series === s.series) : [],
+    },
+  }));
+}
+
+const { sermon, newer, older, inSeries } = Astro.props;
+const fmt = (d) =>
+  new Date(d + "T12:00:00").toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+const title = `${sermon.title}${sermon.series ? ` — ${sermon.series}` : ""} | Baker Road Baptist Church`;
+const desc = sermon.description || `${sermon.title}, preached at Baker Road Baptist Church in Baytown on ${fmt(sermon.date)}.`;
+---
+<Base title={title} description={desc}>
+  <article class="sermon-page">
+    <div class="wrap">
+      <p class="crumb"><a href="/watch">All sermons</a></p>
+
+      {sermon.series && <p class="eyebrow">{sermon.series}</p>}
+      <h1>{sermon.title}</h1>
+      <p class="smeta">
+        <time datetime={sermon.date}>{fmt(sermon.date)}</time>
+        {sermon.speaker && <span> · {sermon.speaker}</span>}
+      </p>
+
+      <div class="player">
+        <iframe
+          src={`https://www.youtube-nocookie.com/embed/${sermon.youtubeId}?rel=0`}
+          title={sermon.title}
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen></iframe>
+      </div>
+
+      {sermon.description && <p class="sdesc">{sermon.description}</p>}
+
+      <p class="seclink">
+        <a href={`https://www.youtube.com/watch?v=${sermon.youtubeId}`} rel="noopener">Watch on YouTube</a>
+      </p>
+
+      {inSeries.length > 1 && (
+        <section class="also">
+          <h2>More from {sermon.series}</h2>
+          <ul class="slist">
+            {inSeries.map((s) => (
+              <li>
+                <a href={`/watch/${sermonSlug(s)}`} aria-current={s.youtubeId === sermon.youtubeId ? "page" : undefined}>
+                  <span class="t">{s.title}</span>
+                </a>
+                <time datetime={s.date}>{fmt(s.date)}</time>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      <nav class="prevnext" aria-label="Other sermons">
+        {older && <a class="pn" href={`/watch/${sermonSlug(older)}`}><span>Earlier</span>{older.title}</a>}
+        {newer && <a class="pn next" href={`/watch/${sermonSlug(newer)}`}><span>Later</span>{newer.title}</a>}
+      </nav>
+    </div>
+  </article>
+</Base>
