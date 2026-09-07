@@ -361,11 +361,11 @@ a:hover{color:var(--brand-hover)}
 
 
 /* ── two rectangle actions on a card ─────────────────── */
-.acts{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:auto;padding-top:.85rem}
+.acts{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:auto;padding-top:.85rem;justify-content:flex-start}
 .acts .act{
-  flex:1 1 auto;min-width:11rem;text-align:center;
-  padding:.6rem .95rem;border-radius:var(--r-sm);
-  font-weight:700;font-size:.92rem;text-decoration:none;
+  flex:0 0 auto;                 /* size to the words, not the card */
+  padding:.42rem .8rem;border-radius:var(--r-sm);
+  font-weight:700;font-size:.88rem;line-height:1.35;text-decoration:none;
   border:1px solid var(--brand);margin-top:0;
 }
 .acts .act::after{content:none}          /* these are buttons, not arrow links */
@@ -373,4 +373,3 @@ a:hover{color:var(--brand-hover)}
 .acts .act-1:hover{background:var(--brand-hover);border-color:var(--brand-hover);color:#fff}
 .acts .act-2{background:transparent;color:var(--brand)}
 .acts .act-2:hover{background:var(--brand-tint)}
-@media (max-width:520px){.acts .act{flex:1 1 100%}}
