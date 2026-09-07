@@ -29,7 +29,9 @@ const churchSchema = {
   openingHours: hours.length ? hours : undefined,
   sameAs: [site.facebookUrl, site.youtubeUrl, site.yelpUrl].filter(Boolean),
 };
-const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
+// Cloudflare serves /about/ (and 307s /about to it), and the sitemap lists the
+// slashed form, so the canonical must be the slashed form too.
+const path = Astro.url.pathname.endsWith("/") ? Astro.url.pathname : Astro.url.pathname + "/";
 const year = new Date().getFullYear();
 const tel = telHref(site.phone);
 ---
@@ -138,13 +140,13 @@ const tel = telHref(site.phone);
             {NAV.map((n: any) => (
               <li><a href={n.href} aria-current={n.href === path ? "page" : undefined}>{n.label}</a></li>
             ))}
-            <li><a href="/privacy-policy">Privacy Policy</a></li>
+            <li><a href="/privacy-policy/">Privacy Policy</a></li>
           </ul>
         </nav>
 
         <div class="bot">
           <span>© {year} {site.churchName}</span>
-          <a href="/privacy-policy">Privacy policy</a>
+          <a href="/privacy-policy/">Privacy policy</a>
         </div>
       </div>
     </footer>

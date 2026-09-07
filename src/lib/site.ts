@@ -9,20 +9,20 @@ export const TZ = "America/Chicago";
 
 export const NAV = [
   { href: "/", label: "Home" },
-  { href: "/visit", label: "Plan a Visit" },
-  { href: "/about", label: "About" },
-  { href: "/ministries", label: "Ministries", children: [
-    { href: "/ministries#children-s-ministry", label: "Children's Ministry" },
-    { href: "/ministries#student-ministry", label: "Student Ministry" },
-    { href: "/ministries#adult-bible-study", label: "Adult Bible Study" },
-    { href: "/ministries#men-s-ministry", label: "Men's Ministry" },
-    { href: "/ministries#women-s-ministry", label: "Women's Ministry" },
-    { href: "/ministries#care-ministry", label: "Care Ministry" },
-    { href: "/ministries#the-pumpkin-patch", label: "The Pumpkin Patch" },
+  { href: "/visit/", label: "Plan a Visit" },
+  { href: "/about/", label: "About" },
+  { href: "/ministries/", label: "Ministries", children: [
+    { href: "/ministries/#children-s-ministry", label: "Children's Ministry" },
+    { href: "/ministries/#student-ministry", label: "Student Ministry" },
+    { href: "/ministries/#adult-bible-study", label: "Adult Bible Study" },
+    { href: "/ministries/#men-s-ministry", label: "Men's Ministry" },
+    { href: "/ministries/#women-s-ministry", label: "Women's Ministry" },
+    { href: "/ministries/#care-ministry", label: "Care Ministry" },
+    { href: "/ministries/#the-pumpkin-patch", label: "The Pumpkin Patch" },
   ]},
-  { href: "/watch", label: "Watch" },
-  { href: "/give", label: "Give" },
-  { href: "/contact", label: "Contact" },
+  { href: "/watch/", label: "Watch" },
+  { href: "/give/", label: "Give" },
+  { href: "/contact/", label: "Contact" },
 ];
 
 /** "(281) 427-0506" -> "+12814270506" so phones can dial it. */

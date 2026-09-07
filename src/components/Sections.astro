@@ -57,7 +57,7 @@ const isRowList = (s: Section) =>
             {s.items!.map((i) => (
               <article class={i.image ? "card haspic" : "card"} id={anchor(i.title)}>
                 {i.image && (
-                  <img src={i.image} alt="" loading="lazy" decoding="async"
+                  <img src={i.image} alt={i.title || ""} loading="lazy" decoding="async"
                        width={imageSize(i.image)?.width} height={imageSize(i.image)?.height} />
                 )}
                 <div class="cbody">

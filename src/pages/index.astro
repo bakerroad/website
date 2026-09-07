@@ -18,6 +18,8 @@ const eventSchema = events.length ? events.map((e: any) => ({
   eventStatus: "https://schema.org/EventScheduled",
   eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
   isAccessibleForFree: true,
+  offers: { "@type": "Offer", price: 0, priceCurrency: "USD", availability: "https://schema.org/InStock",
+    url: e.url || new URL("/", Astro.site).href, validFrom: e.start },
   location: { "@type": "Place", name: site.churchName,
     address: { "@type": "PostalAddress", streetAddress: site.street, addressLocality: site.city, addressRegion: "TX", postalCode: site.zip, addressCountry: "US" } },
   organizer: { "@type": "Organization", name: site.churchName, url: Astro.site?.href },
@@ -46,7 +48,7 @@ const fmtRange = (e: any) => {
       <div class="hero-actions">
         <p>{page.intro}</p>
         <div class="cta">
-          <a class="btn btn-p" href="/visit">Plan your visit</a>
+          <a class="btn btn-p" href="/visit/">Plan your visit</a>
           {site.mapUrl && <a class="btn btn-g" href={site.mapUrl}>Get directions</a>}
         </div>
         {tel && <small>Questions before you come? Call the office at <a href={tel}>{site.phone}</a>.</small>}
@@ -93,7 +95,7 @@ const fmtRange = (e: any) => {
         <div class="cards">
           {events.map((e: any) => (
             <article class="card evt">
-              {e.image && <img src={e.image} alt="" loading="lazy" decoding="async"
+              {e.image && <img src={e.image} alt={e.title} loading="lazy" decoding="async"
                               width={imageSize(e.image)?.width ?? 480} height={imageSize(e.image)?.height ?? 270} />}
               <p class="meta">{fmtRange(e)}</p>
               <h3>{e.title}</h3>
