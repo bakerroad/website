@@ -300,7 +300,7 @@ import { site } from "../lib/site";
     <h2>12. Still open, as of launch</h2>
     <ul>
       <li>The <strong>privacy policy</strong> on the live site is the old one and is now wrong about the host. A replacement is drafted and waits on church approval.</li>
-      <li><strong>Two Cloudflare dashboard settings are off.</strong> (a) <em>Always Use HTTPS</em> — <code>http://brbcbaytown.org</code> serves the site unencrypted: SSL/TLS → Edge Certificates. (b) <em>www redirect</em> — <code>www.brbcbaytown.org</code> serves a duplicate; it needs a Redirect Rule (Rules → Redirect Rules), because the <code>_redirects</code> file cannot redirect across hostnames on Workers. Exact rule in SEO-AUDIT.md §1.</li>
+      <li><strong>Done 7 Sep 2026:</strong> Cloudflare <em>Always Use HTTPS</em> is on, and a Redirect Rule named <code>www to apex</code> sends <code>www.brbcbaytown.org</code> to the bare domain. If either ever stops working, both live in the Cloudflare dashboard, not in this repository.</li>
       <li>The <strong>Google Business Profile is unclaimed</strong> and has no reviews. This matters more for "church in Baytown" searches than anything on the website. The review link is in Church Info. See SEO-AUDIT.md §2.</li>
       <li><strong>Yelp and Yellow Pages call the church "Baker Rd"</strong>, and several directories still list <code>bakerroadbc@comcast.net</code>. Claim and correct them.</li>
       <li>The <strong>YouTube API key is blank</strong>, so the sermon sync only sees the 15 newest videos. Add a key and the older sermons appear.</li>

@@ -30,24 +30,17 @@ that moves the needle.
 
 ## Needs a human — in priority order
 
-### 1. Cloudflare: two dashboard settings  *(5 minutes, do first)*
-Neither of these can be fixed in code.
+### 1. Cloudflare: two dashboard settings  ✅ DONE 7 Sep 2026
+Both were completed on 7 September. **Always Use HTTPS** was switched on by Matt.
+The **www → apex** Redirect Rule (`www to apex`, wildcard `https://www.*` →
+`https://${1}`, 301, query string preserved) was created from Cloudflare's
+"Redirect from WWW to root" template. Cloudflare warned that `www` might not be
+proxied; it is (the Worker's custom domain), so the warning was ignored.
+Verified live: `http://www.brbcbaytown.org/about` → `https://brbcbaytown.org/about`.
 
-**a) Always Use HTTPS.** `http://brbcbaytown.org` currently **serves the site
-over plain HTTP** with no redirect — a duplicate-content problem for Google and
-a trust problem for visitors. Cloudflare → `brbcbaytown.org` zone → **SSL/TLS →
-Edge Certificates → Always Use HTTPS → On.** While there: Minimum TLS 1.2, and
-turn on HSTS (the site already sends the header; this enforces it).
-
-**b) www → apex redirect.** `https://www.brbcbaytown.org` serves a full
-duplicate of the site. I tried to fix this in the `_redirects` file, but
-Cloudflare Workers static assets **do not support domain-level redirects**
-there — only same-host paths. So: Cloudflare → **Rules → Redirect Rules →
-Create rule**: *when* Hostname equals `www.brbcbaytown.org` → *then* Dynamic
-redirect, expression `concat("https://brbcbaytown.org", http.request.uri.path)`,
-status 301, preserve query string. Canonical tags already point every www page
-at the apex, so Google is unlikely to be confused in the meantime — but the
-redirect is the proper fix.
+Left off on purpose: Cloudflare's own **HSTS** toggle. The site already sends
+the HSTS header from `_headers`; turning on Cloudflare's version too is harmless
+but adds nothing.
 
 ### 2. Google Business Profile  *(the single highest-value item on this list)*
 The church has a Google Maps listing — the Place ID above proves it — but
