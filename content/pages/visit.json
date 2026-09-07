@@ -22,7 +22,7 @@
     {
       "eyebrow": "Your children",
       "heading": "Where the kids go",
-      "body": "Classes are divided by age, from bed babies through grade 5, with a separate youth class for grades 6 through 12. Childcare is available during worship. You are also welcome to keep your kids with you in the service, and nobody will look sideways at a noisy toddler.",
+      "body": "Classes are divided by age, from birth through 5th grade, with a separate youth class for grades 6 through 12. Childcare is available during worship. You are also welcome to keep your kids with you in the service, and nobody will look sideways at a noisy toddler.",
       "note": "",
       "items": []
     },
@@ -45,7 +45,7 @@
         {
           "title": "Prayer and offering",
           "meta": "10:40",
-          "body": "Boxes by the exits, no plate passed to you"
+          "body": ""
         },
         {
           "title": "Teaching from Scripture",
@@ -62,9 +62,17 @@
     {
       "eyebrow": "",
       "heading": "Still have a question?",
-      "body": "Call the church office during the week and a real person will answer. Pastor Marvin is glad to meet with anyone who wants to talk before they ever set foot in a service.",
+      "body": "Call the church office during office hours, or send us an email.",
       "note": "",
-      "items": []
+      "items": [
+        {
+          "title": "Send us a note",
+          "meta": "",
+          "body": "We read everything that comes in.",
+          "linkText": "Email us",
+          "linkUrl": "@mailto"
+        }
+      ]
     }
   ]
 }

@@ -1,6 +1,6 @@
 ---
 import "../styles/global.css";
-import { site, NAV, telHref, fullAddress } from "../lib/site";
+import { site, NAV, telHref, emailHref } from "../lib/site";
 
 interface Props { title: string; description?: string; }
 const { title, description = "" } = Astro.props;
@@ -73,7 +73,7 @@ const tel = telHref(site.phone);
             <h2>Get in touch</h2>
             <ul>
               {tel && <li><a href={tel}>{site.phone}</a></li>}
-              {site.email && <li><a href={`mailto:${site.email}`}>{site.email}</a></li>}
+              {site.email && <li><a href={emailHref()}>Email us</a></li>}
               {site.facebookUrl && <li><a href={site.facebookUrl}>Facebook</a></li>}
               {site.youtubeUrl && <li><a href={site.youtubeUrl}>YouTube</a></li>}
             </ul>

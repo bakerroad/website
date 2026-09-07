@@ -1,7 +1,7 @@
 ---
 import InnerPage from "../layouts/InnerPage.astro";
 import page from "../../content/pages/contact.json";
-import { site, telHref } from "../lib/site";
+import { site, telHref, emailHref } from "../lib/site";
 const tel = telHref(site.phone);
 ---
 <InnerPage page={page}>
@@ -19,6 +19,12 @@ const tel = telHref(site.phone);
           <h3>{site.phone}</h3>
           <p>A real person answers during office hours.</p>
           {tel && <a href={tel}>Call the office</a>}
+        </article>
+        <article class="card">
+          <p class="meta">By email</p>
+          <h3>Write to us</h3>
+          <p>The office reads everything that comes in.</p>
+          {site.email && <a href={emailHref()}>Email us</a>}
         </article>
         <article class="card">
           <p class="meta">Office hours</p>

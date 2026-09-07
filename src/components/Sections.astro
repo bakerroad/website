@@ -8,8 +8,11 @@ const { sections = [] } = Astro.props as { sections: Section[] };
 
 /** A link written as "@givingUrl" is filled in from Church Info, so the office
  *  updates one field in one place instead of hunting through pages. */
-const resolve = (url?: string) =>
-  url?.startsWith("@") ? ((site as any)[url.slice(1)] || "") : (url || "");
+const resolve = (url?: string) => {
+  if (!url?.startsWith("@")) return url || "";
+  if (url === "@mailto") return site.email ? `mailto:${site.email}` : "";
+  return (site as any)[url.slice(1)] || "";
+};
 
 const isRowList = (s: Section) =>
   (s.items ?? []).length > 2 && (s.items ?? []).every((i) => i.meta && !i.linkUrl);

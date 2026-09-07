@@ -19,6 +19,12 @@ export const telHref = (phone: string) => {
   return d ? `tel:+${d.length === 10 ? "1" : ""}${d}` : "";
 };
 
+/** The address is never printed as text anywhere — links read "Email us".
+ *  That keeps it out of the page for a casual reader and off most scrapers'
+ *  visible-text harvest. It is still in the mailto, so a determined scraper
+ *  can find it; the real defence is Gmail's spam filtering. */
+export const emailHref = () => (site.email ? `mailto:${site.email}` : "");
+
 export const fullAddress = () =>
   [site.street, [site.city, site.state].filter(Boolean).join(", "), site.zip].filter(Boolean).join(" ");
 

@@ -9,6 +9,54 @@ Each item says exactly where the answer goes.
 
 ---
 
+## Answered — 6 September 2026
+
+| # | Question | Answer | Where it went |
+|---|---|---|---|
+| 1 | Email address | `bakerroadbc@gmail.com` | Church Info. Shown as **"Email us"**, never as text |
+| 2 | Online giving link | Subsplash | Church Info → Online giving link |
+| 3 | Who owns the site | **Sarah Rose** (`bakerroadbc@gmail.com`) | Tina editor #1 |
+| 4 | Domain account | Matt has access | Ready for the DNS cutover |
+| 5 | Pumpkin Patch dates | **October 4–31** | Outreach |
+| 6 | SONrise annual? | Yes | Kept on Outreach |
+| 7 | Adult class names | Assume current names correct | No change |
+| 8 | Children's ages | **Birth through 5th grade**; youth grades 6–12 | Plan a Visit, Ministries |
+| 9 | Church app | `subsplash.com/bakerroadbaptistchurch` | Church Info → app link |
+| 11 | Forms | Will be built in Planning Center | Pending PCO connection |
+| 12 | ~70 committee names | Leave them off | Done |
+| 13 | Photos | Sorted and catalogued | See `PHOTOS.md` |
+
+### Two things I changed on my own judgment — check me
+
+**The giving link had test parameters on it.** What you sent was
+`.../give/payment?amount=1&fund_id=...&next_process_date=09%2F06%2F2026&frequency=once`
+— that prefills a **$1** gift and hard-codes today's date, which would be stale
+tomorrow. I stripped it to the plain giving page, `subsplash.com/u/-7ZWBBR/give`,
+which resolves fine. If you specifically wanted a named fund preselected, send
+the fund ID and I will add just that parameter.
+
+**Two email addresses are now in play.** You first said the church account was
+`bakerroadbaptist@gmail.com`; the contact address you have given is
+`bakerroadbc@gmail.com`. The site uses **bakerroadbc**. `SETUP.md` still tells
+you to create GitHub, Tina, Cloudflare and Google Cloud under
+**bakerroadbaptist**. Tell me which is which and I will make them agree.
+
+### Still open
+
+- **#10 — the privacy policy.** You said you did not know what this is, so:
+  every site that collects anything — a form, an email address, analytics —
+  normally publishes a page saying what it collects and what it does with it.
+  Baker Road already has one, written for the old SnapPages site, and the new
+  site carries it over word for word. It is now partly untrue: different host,
+  different cookies, different forms. It is a legal document, so I have not
+  rewritten it. Once the Planning Center forms exist I can draft a replacement
+  that matches what the site actually does, for someone at the church to approve.
+- **Pumpkin Patch hours.** The 2023 poster in the photo set says Mon–Fri
+  12:30–8:30, Sat 10:00–8:30, Sun 12:00–8:30, plus live music, a "Bootiful Baby
+  Contest" and *Oliver the Watusi*. Are those still right for this year?
+
+---
+
 ## Blocking — the site should not launch with these unanswered
 
 **1. At least one real email address.**
