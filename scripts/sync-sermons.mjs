@@ -44,7 +44,9 @@ async function fetchFromRss() {
       title: unesc(pick(/<title>([\s\S]*?)<\/title>/)).trim(),
       publishedAt: pick(/<published>([^<]+)</),
       description: unesc(pick(/<media:description>([\s\S]*?)<\/media:description>/)),
-      thumb: pick(/<media:thumbnail[^>]*url="([^"]+)"/),
+      // YouTube rotates CDN hosts (i.ytimg / i1.ytimg ...) in RSS, which would make every
+      // weekly run "update" all 15 files. Build a canonical URL instead; hqdefault always exists.
+      thumb: `https://i.ytimg.com/vi/${pick(/<yt:videoId>([^<]+)</)}/hqdefault.jpg`,
     };
   }).filter((v) => v.videoId);
 }
