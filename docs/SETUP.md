@@ -1,7 +1,14 @@
 # Setting this up from nothing
 
-Every account below is **new and owned by Baker Road**, created under
-`bakerroadbaptist@gmail.com`. Nothing here touches any other church's accounts.
+## Two email addresses, two jobs
+
+| Address | What it is for |
+|---|---|
+| **`bakerroadbaptist@gmail.com`** | The **build** account. GitHub, Tina Cloud, Cloudflare, Google Cloud. Matt created it. |
+| **`bakerroadbc@gmail.com`** | The **church's** account. The public contact address on the site, and Sarah Rose's Tina login. |
+
+Everything below is created under the **build** account. Nothing here touches
+any other church's accounts.
 
 Turn on 2-factor authentication on every one of them, and write the recovery
 codes somewhere physical. The realistic disaster is not a break-in — it is one
@@ -34,10 +41,11 @@ from losing its website.
 1. Sign in at **app.tina.io** with the church Google account.
 2. Create a project, point it at the `brbc-website` repo, branch `main`.
 3. Copy the **Client ID** and generate a **Read-Only Token**.
-4. Invite the church's editors. **The free plan allows 2.** Pick the two people
-   who will actually make changes — most likely the ministry assistant and the
-   pastor. A third person needs the $24/month plan, so route extra requests
-   through one of the two instead.
+4. Invite the editors. **The free plan allows 2**, and both are spoken for:
+   - **Sarah Rose** — `bakerroadbc@gmail.com`
+   - **Matt** — whichever address you want to administer from
+   A third person needs the $24/month plan, so route extra requests through
+   Sarah instead.
 
 Local `.env` (copy from `.env.example`):
 

@@ -32,26 +32,39 @@ async function pco(path, params = {}) {
 }
 
 async function fetchInstances() {
-  const after = new Date();
-  const before = new Date(); before.setMonth(before.getMonth() + MONTHS_AHEAD);
+  const cutoff = new Date(); cutoff.setMonth(cutoff.getMonth() + MONTHS_AHEAD);
   const rows = [], included = new Map();
   let offset = 0;
   for (;;) {
+    // `filter=future` is the documented, supported way to get upcoming
+    // instances. Range operators on where[starts_at] are NOT reliably
+    // supported, so the far end of the window is trimmed in code below.
     const p = await pco("event_instances", {
-      "where[starts_at][gte]": after.toISOString(),
-      "where[starts_at][lte]": before.toISOString(),
-      include: "event", order: "starts_at", per_page: 100, offset,
+      filter: "future", include: "event", order: "starts_at", per_page: 100, offset,
     });
     (p.included || []).forEach((i) => included.set(`${i.type}:${i.id}`, i));
-    rows.push(...(p.data || []));
+    const batch = p.data || [];
+    rows.push(...batch);
+    // Results are ordered by start, so once we pass the cutoff we can stop.
+    const last = batch[batch.length - 1]?.attributes?.starts_at;
+    if (last && new Date(last) > cutoff) break;
     const next = p.meta?.next?.offset;
-    if (next == null) break;
+    if (next == null || batch.length === 0) break;
     offset = next;
   }
-  return { rows, included };
+  return {
+    rows: rows.filter((r) => {
+      const t = r.attributes?.starts_at;
+      return t && new Date(t) <= cutoff;
+    }),
+    included,
+  };
 }
 
+const DRY = process.argv.includes("--check");
+
 async function main() {
+  if (DRY) console.log("CHECK MODE — reading Planning Center, writing nothing.\n");
   const { rows, included } = await fetchInstances();
   console.log(`Planning Center returned ${rows.length} event instances in the next ${MONTHS_AHEAD} months.`);
 
@@ -87,6 +100,7 @@ async function main() {
       _pcoInstanceId: inst.id,
     };
 
+    if (DRY) { console.log(`  would publish: ${day}  ${title}`); created++; continue; }
     if (existsSync(file)) {
       const prev = JSON.parse(readFileSync(file, "utf8"));
       // `featured` is a human decision — never let the sync reset it.
@@ -100,6 +114,12 @@ async function main() {
 
   // Drop events that were cancelled, moved out of range, or made private.
   let removed = 0;
+  if (DRY) {
+    console.log(`\nWould publish ${created} event(s).`);
+    console.log(`Would skip ${skippedPrivate} not marked visible in Church Center.`);
+    console.log("\nCredentials work. Re-run without --check to write the files.");
+    return;
+  }
   for (const f of readdirSync(OUT).filter((f) => f.endsWith(".json"))) {
     const full = join(OUT, f);
     if (!written.has(full)) { unlinkSync(full); removed++; }
