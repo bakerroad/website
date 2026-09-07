@@ -288,6 +288,7 @@ import { site } from "../lib/site";
         <tr><td><a href="https://github.com/bakerroad/website/blob/main/docs/PLANNING-CENTER.md">PLANNING-CENTER.md</a></td><td>How the events sync works, why it is opt-in by tag, and what was found in the church's calendar.</td></tr>
         <tr><td><a href="https://github.com/bakerroad/website/blob/main/docs/OPEN-QUESTIONS.md">OPEN-QUESTIONS.md</a></td><td>Every fact on the site that only the church can confirm, and which ones are still unconfirmed.</td></tr>
         <tr><td><a href="https://github.com/bakerroad/website/blob/main/docs/PHOTOS.md">PHOTOS.md</a></td><td>All 64 photos from the old site, sorted: use, maybe, do not use, and why. Plus the shot list for the photos the site still needs.</td></tr>
+        <tr><td><a href="https://github.com/bakerroad/website/blob/main/docs/SEO-AUDIT.md">SEO-AUDIT.md</a></td><td>How the site ranks in Baytown: what was fixed on the site, what needs a human (Business Profile, directories, HTTPS setting), and the Google Workspace path for the church.</td></tr>
         <tr><td><a href="https://github.com/bakerroad/website/blob/main/docs/PRIVACY-POLICY-DRAFT.md">PRIVACY-POLICY-DRAFT.md</a></td><td>A replacement privacy policy built on an audit of what the site actually does. Awaiting church approval; the live page still shows the old text.</td></tr>
         <tr><td><a href="https://github.com/bakerroad/website/blob/main/README.md">README.md</a></td><td>The technical overview for a developer.</td></tr>
         <tr><td><a href="https://github.com/bakerroad/website/blob/main/src/pages/sop.astro">sop.astro</a></td><td>This page. Edit it there.</td></tr>
@@ -299,6 +300,10 @@ import { site } from "../lib/site";
     <h2>12. Still open, as of launch</h2>
     <ul>
       <li>The <strong>privacy policy</strong> on the live site is the old one and is now wrong about the host. A replacement is drafted and waits on church approval.</li>
+      <li><strong>Cloudflare "Always Use HTTPS" is off.</strong> <code>http://brbcbaytown.org</code> serves the site unencrypted instead of redirecting. Cloudflare → SSL/TLS → Edge Certificates → Always Use HTTPS. Two minutes; do it first.</li>
+      <li>The <strong>Google Business Profile is unclaimed</strong> and has no reviews. This matters more for "church in Baytown" searches than anything on the website. The review link is in Church Info. See SEO-AUDIT.md §2.</li>
+      <li><strong>Yelp and Yellow Pages call the church "Baker Rd"</strong>, and several directories still list <code>bakerroadbc@comcast.net</code>. Claim and correct them.</li>
+      <li>The <strong>YouTube API key is blank</strong>, so the sermon sync only sees the 15 newest videos. Add a key and the older sermons appear.</li>
       <li>Several <strong>claims on the site are unconfirmed</strong> — Bibles in the pews, the 10:15–11:40 running order, food trucks at the Pumpkin Patch. One conversation with Pastor Marvin clears them. Listed in OPEN-QUESTIONS.md.</li>
       <li><strong>Six of seven ministries have no photo.</strong> Fifteen minutes on a Sunday with a phone fixes it. Shot list in PHOTOS.md.</li>
       <li>Planning Center calls the student ministry <strong>CONCORD</strong>; the website says Student Ministry. Confirm which is current.</li>
