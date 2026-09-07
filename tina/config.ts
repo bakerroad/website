@@ -98,6 +98,14 @@ export default defineConfig({
           { type: "string", name: "headline", label: "Headline", required: true },
           textarea("intro", "Opening paragraph"),
           {
+            type: "string", name: "layout", label: "Card layout",
+            description: 'How the cards on this page are arranged. "One per row" suits a list of ministries; "Side by side" suits shorter cards.',
+            options: [
+              { value: "grid", label: "Side by side" },
+              { value: "stack", label: "One per row" },
+            ],
+          },
+          {
             type: "object", name: "sections", label: "Sections", list: true,
             ui: { itemProps: (i: any) => ({ label: i?.heading || "Section" }) },
             fields: [
@@ -114,7 +122,8 @@ export default defineConfig({
                 ui: { itemProps: (i: any) => ({ label: i?.title || "Item" }) },
                 fields: [
                   { type: "string", name: "title", label: "Title" },
-                  { type: "string", name: "meta", label: "Time / detail on the right" },
+                  { type: "string", name: "meta", label: "Small label on the right" },
+                  { type: "string", name: "when", label: "When it meets" },
                   textarea("body", "Description"),
                   { type: "image", name: "image", label: "Picture (optional)" },
                   { type: "string", name: "linkText", label: "Link text (optional)" },
