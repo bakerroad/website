@@ -6,8 +6,9 @@
 > and approved it. Say the word and it goes live in about three minutes.
 >
 > **What this is based on.** An audit of the built site on 7 September 2026:
-> no analytics or tracking scripts, no cookies set by the site itself, no forms
-> hosted on the site, and exactly five third parties — Cloudflare (hosting),
+> Google Analytics 4 for anonymous visit counts (added 7 Sept, and the only
+> cookies the site sets are its), no other tracking, no forms
+> hosted on the site, and six third parties — Google Analytics, Cloudflare (hosting),
 > Google Fonts, YouTube (privacy-enhanced embeds), Subsplash (the giving panel),
 > and Planning Center (the two forms, linked not embedded). If any of that
 > changes — an analytics tag, a new embed — this document has to change with it.
@@ -35,20 +36,24 @@ in two minutes and understood without a lawyer.
 ## The short version
 
 Our website does not collect personal information on its own. It has no
-accounts, no tracking, and no forms of its own. When you fill in a form, give
+accounts and no forms of its own. It uses Google Analytics to count visits. When you fill in a form, give
 online, or watch a sermon, you are using a service run by another company, and
 that company's privacy policy governs what happens to your information there.
 This page tells you which companies those are and what they do.
 
 ## What our website collects
 
-**Nothing directly.** Our website does not ask you for information, does not set
-cookies of its own, and does not run analytics or advertising trackers. We do
-not know who visits our site, and we have not set out to find out.
+**Very little, and nothing that names you.** Our website does not ask you for
+information and has no accounts. It does use **Google Analytics**, which counts
+visits so we can tell which pages people find useful. To do that it sets a small
+number of cookies in your browser and records things like the pages you view, the
+rough area you are in, and the kind of device you use. It does not tell us who you
+are. You can block it with any common ad or tracker blocker, or by turning off
+cookies, and the site works exactly the same.
 
 ## Who else is involved
 
-Our website relies on five outside services. Each one may see your IP address
+Our website relies on six outside services. Each one may see your IP address
 and the pages you load, because that is how the internet delivers a page. Each
 has its own privacy policy, linked below.
 
@@ -57,6 +62,10 @@ host, it keeps standard server logs. [cloudflare.com/privacypolicy](https://www.
 
 **Google Fonts** supplies the typefaces on every page. Your browser fetches them
 from Google when a page loads. [policies.google.com/privacy](https://policies.google.com/privacy)
+
+**Google Analytics** counts visits to our pages, as described above. It is a
+Google service and Google's privacy policy governs what it retains.
+[policies.google.com/privacy](https://policies.google.com/privacy)
 
 **YouTube** provides the sermon videos on our Watch pages. We use YouTube's
 privacy-enhanced embed, which does not set cookies until you press play. Once

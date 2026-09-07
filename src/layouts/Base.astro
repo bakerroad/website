@@ -42,6 +42,17 @@ const tel = telHref(site.phone);
     <title>{title}</title>
     {description && <meta name="description" content={description} />}
     {noindex && <meta name="robots" content="noindex, nofollow" />}
+    {!noindex && (
+      <>
+        <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-37WGNT2TFM"></script>
+        <script is:inline>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-37WGNT2TFM');
+        </script>
+      </>
+    )}
     <link rel="canonical" href={new URL(path, Astro.site).href} />
     <meta property="og:site_name" content={site.churchName} />
     <meta property="og:title" content={title} />
