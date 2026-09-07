@@ -99,7 +99,12 @@ and editing is broken rather than both being broken. Fix Tina, then switch back.
 
 ---
 
-## 4. YouTube API key  ·  free  ·  5 min
+## 4. YouTube API key  ·  OPTIONAL
+
+**You do not need this.** Without a key the weekly sync reads the channel's free
+RSS feed — always the 15 newest public videos, which is everything a weekly job
+ever needs. Get a key only if you want the *old* sermons beyond the newest 15
+pulled onto the site once. If you do:
 
 console.cloud.google.com → new project → **Enable YouTube Data API v3** → Credentials
 → API key → restrict it to that API.

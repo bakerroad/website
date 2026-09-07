@@ -67,7 +67,7 @@ import { site } from "../lib/site";
         <tr><td><strong>Events</strong></td><td>Planning Center Calendar. Only events tagged <code>Website</code> reach the site.</td><td>calendar.planningcenteronline.com</td><td>The church's Planning Center</td></tr>
         <tr><td><strong>Forms</strong></td><td>Two Planning Center forms: <em>Connection Card</em> (1314833) and <em>Join the Team</em> (1314832). Submissions land in Planning Center People.</td><td>people.planningcenteronline.com → Forms</td><td>The church's Planning Center</td></tr>
         <tr><td><strong>Giving</strong></td><td>Subsplash. Embedded on the Give page. The website never touches payment details.</td><td>subsplash.com</td><td>The church's Subsplash</td></tr>
-        <tr><td><strong>Automation keys</strong></td><td>Three secrets the robots need (YouTube key, Planning Center ID + secret). Stored as encrypted GitHub Actions secrets.</td><td>GitHub → repo → Settings → Secrets</td><td>bakerroadbaptist@gmail.com</td></tr>
+        <tr><td><strong>Automation keys</strong></td><td>Two secrets the events robot needs (Planning Center ID + secret), stored as encrypted GitHub Actions secrets. Sermons need no key: they use YouTube's free RSS feed. A <code>YOUTUBE_API_KEY</code> is optional and only pulls the old back catalogue.</td><td>GitHub → repo → Settings → Secrets</td><td>bakerroadbaptist@gmail.com</td></tr>
         <tr><td><strong>Church email</strong></td><td>Where every "Email us" button on the site goes. Also Sarah Rose's login for the editor.</td><td>Gmail</td><td>bakerroadbc@gmail.com</td></tr>
       </tbody>
     </table></div>
@@ -222,8 +222,8 @@ import { site } from "../lib/site";
 
   <section class="sec" id="sermons"><div class="wrap doc">
     <h2>7. Sermons are automatic</h2>
-    <p>Every Monday around midday, a robot on GitHub reads the church's YouTube channel and writes any
-    new video onto the Watch page. It reads the date out of the title in whatever format it was typed,
+    <p>Every Monday around midday, a robot on GitHub reads the church's YouTube channel — its free public
+    RSS feed, no key or account needed — and writes any new video onto the Watch page. It reads the date out of the title in whatever format it was typed,
     de-shouts ALL-CAPS titles, and sorts videos into series using the list in
     <code>content/sermon-series.json</code>. Only <strong>public</strong> videos are used — unlisted and
     private ones are skipped.</p>
@@ -242,7 +242,7 @@ import { site } from "../lib/site";
         <tr><td><strong>Build is red for any other reason</strong></td><td>Something in the code.</td><td>Emergency valve: change the build command from <code>npm run build</code> to <code>npm run build:site</code>. That deploys the site without the editor, so the website is up while <code>/admin</code> is fixed. Then get help.</td></tr>
         <tr><td><strong>/admin shows "Unexpected error validating your schema" or "Branch 'main' not found"</strong></td><td>TinaCloud lost its index of the code. Usually because <code>tina/tina-lock.json</code> was deleted, or someone clicked "Change Repo" in TinaCloud.</td><td>Make sure <code>tina/tina-lock.json</code> exists in the repo. In app.tina.io → Configuration → Refresh Branches; <code>main</code> should show a green check. <strong>Never click "Change Repo"</strong> — it replaces the whole project and invalidates every token.</td></tr>
         <tr><td><strong>/admin login refused</strong></td><td>Not invited, or the two seats are full.</td><td>app.tina.io → Collaborators.</td></tr>
-        <tr><td><strong>New sermons stopped appearing</strong></td><td>The YouTube API key expired, or the weekly job failed.</td><td>GitHub → repo → Actions tab → "Sync sermons from YouTube". Red? Read the log. Usually the fix is a new key from Google Cloud pasted into Settings → Secrets → <code>YOUTUBE_API_KEY</code>. You can also run the job by hand from that tab.</td></tr>
+        <tr><td><strong>New sermons stopped appearing</strong></td><td>The weekly job failed, or the video is unlisted/private (RSS only lists public videos).</td><td>GitHub → repo → Actions tab → "Sync sermons from YouTube". Red? Read the log. No key is involved — it reads the public RSS feed. You can run the job by hand from that tab.</td></tr>
         <tr><td><strong>Events page empty, or an event missing</strong></td><td>Not tagged <code>Website</code>, or the Planning Center token was revoked.</td><td>Check the tag first — it is almost always the tag. Otherwise Actions → "Sync events from Planning Center" and read the log. A new Personal Access Token from Planning Center goes into Secrets as <code>PCO_APP_ID</code> and <code>PCO_SECRET</code>.</td></tr>
         <tr><td><strong>A form button goes to a dead page</strong></td><td>Planning Center form deleted or renamed.</td><td>Get the new form address from Planning Center → Forms → View on Church Center. Paste it into Tina → Church Info → the matching <em>form link</em> field. All buttons update.</td></tr>
         <tr><td><strong>Giving panel blank</strong></td><td>Subsplash changed the embed address.</td><td>Subsplash → Giving → embed → new address into Tina → Church Info → Online giving link.</td></tr>

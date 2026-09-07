@@ -1,7 +1,16 @@
 #!/usr/bin/env node
 /**
  * Pull sermons from the church's YouTube channel into content/sermons/*.json
- *   YOUTUBE_API_KEY=xxx node scripts/sync-sermons.mjs
+ *
+ *   node scripts/sync-sermons.mjs            # write files
+ *   node scripts/sync-sermons.mjs --check    # read only, print what would change
+ *
+ * TWO SOURCES, so the site never depends on a credential:
+ *   - No YOUTUBE_API_KEY  -> the channel's public RSS feed. Free, no account,
+ *     no quota. Always the 15 newest public videos, which is all a weekly job
+ *     ever needs. This is the default.
+ *   - YOUTUBE_API_KEY set -> the Data API, which walks the entire back
+ *     catalogue. Only needed once, to pull the old sermons the RSS feed can't.
  *
  * The titles on this channel are inconsistent, so the parser does its best and
  * then GETS OUT OF THE WAY: if someone fixes a title or series in Tina, the fix
@@ -10,144 +19,113 @@
  */
 import { writeFileSync, readFileSync, existsSync, mkdirSync, readdirSync, unlinkSync } from "node:fs";
 import { join } from "node:path";
-import { extractDate, tidy, unshout, matchSeries, notSermon, slugify } from "./lib/parse-title.mjs";
+import { extractDate, tidy, unshout, matchSeries, slugify } from "./lib/parse-title.mjs";
 
-const API_KEY = process.env.YOUTUBE_API_KEY;
+const API_KEY = process.env.YOUTUBE_API_KEY || "";
 const CHANNEL_ID = process.env.YOUTUBE_CHANNEL_ID || "UCIMoHSQCKy3dtYCG1Wj607A";
 const OUT = "content/sermons";
 const SERIES_FILE = "content/sermon-series.json";
+const DRY = process.argv.includes("--check");
 
 mkdirSync(OUT, { recursive: true });
+const known = existsSync(SERIES_FILE) ? (JSON.parse(readFileSync(SERIES_FILE, "utf8")).series || []) : [];
 
-const cfg = existsSync(SERIES_FILE) ? JSON.parse(readFileSync(SERIES_FILE, "utf8")) : {};
-const known = cfg.series || [];
-const NOT_SERMON = cfg.notSermons || [];
+const unesc = (s) => (s || "").replace(/&amp;/g, "&").replace(/&#39;/g, "'").replace(/&quot;/g, '"').replace(/&lt;/g, "<").replace(/&gt;/g, ">");
 
-const api = async (path, params) => {
-  const url = new URL(`https://www.googleapis.com/youtube/v3/${path}`);
-  Object.entries({ ...params, key: API_KEY }).forEach(([k, v]) => v != null && url.searchParams.set(k, v));
-  const r = await fetch(url);
-  if (!r.ok) throw new Error(`YouTube ${path} ${r.status}: ${(await r.text()).slice(0, 300)}`);
-  return r.json();
-};
-
-/**
- * The channel's public RSS feed. Needs no API key, but only ever returns the
- * most recent 15 uploads. Used so the Watch page has real sermons on it before
- * anyone has set up a Google Cloud project; the API path below replaces this
- * and reaches the whole archive.
- */
+/** RSS: the 15 newest public uploads. No key. */
 async function fetchFromRss() {
   const r = await fetch(`https://www.youtube.com/feeds/videos.xml?channel_id=${CHANNEL_ID}`);
   if (!r.ok) throw new Error(`YouTube RSS ${r.status}`);
   const xml = await r.text();
-  const unesc = (t) => t.replace(/&amp;/g, "&").replace(/&#39;/g, "'").replace(/&quot;/g, '"')
-                        .replace(/&lt;/g, "<").replace(/&gt;/g, ">");
   return [...xml.matchAll(/<entry>([\s\S]*?)<\/entry>/g)].map((m) => {
-    const e = m[1];
-    const pick = (re) => (e.match(re) || [, ""])[1];
-    const id = pick(/<yt:videoId>(.*?)<\/yt:videoId>/);
+    const e = m[1], pick = (re) => (e.match(re) || [, ""])[1];
     return {
-      contentDetails: { videoId: id },
-      snippet: {
-        title: unesc(pick(/<title>([\s\S]*?)<\/title>/).trim()),
-        publishedAt: pick(/<published>(.*?)<\/published>/),
-        description: unesc(pick(/<media:description>([\s\S]*?)<\/media:description>/)),
-        thumbnails: { high: { url: id ? `https://i.ytimg.com/vi/${id}/hqdefault.jpg` : "" } },
-      },
+      videoId: pick(/<yt:videoId>([^<]+)</),
+      title: unesc(pick(/<title>([\s\S]*?)<\/title>/)).trim(),
+      publishedAt: pick(/<published>([^<]+)</),
+      description: unesc(pick(/<media:description>([\s\S]*?)<\/media:description>/)),
+      thumb: pick(/<media:thumbnail[^>]*url="([^"]+)"/),
     };
-  }).filter((v) => v.contentDetails.videoId);
+  }).filter((v) => v.videoId);
 }
 
-async function fetchAll() {
+/** Data API: the whole channel, public videos only. Needs a key. */
+async function fetchFromApi() {
+  const api = async (path, params) => {
+    const url = new URL(`https://www.googleapis.com/youtube/v3/${path}`);
+    Object.entries({ ...params, key: API_KEY }).forEach(([k, v]) => v != null && url.searchParams.set(k, v));
+    const r = await fetch(url);
+    if (!r.ok) throw new Error(`YouTube ${path} ${r.status}: ${(await r.text()).slice(0, 300)}`);
+    return r.json();
+  };
   const ch = await api("channels", { part: "contentDetails", id: CHANNEL_ID });
   if (!ch.items?.length) throw new Error(`No channel ${CHANNEL_ID}`);
   const uploads = ch.items[0].contentDetails.relatedPlaylists.uploads;
-  const out = [];
-  let pageToken;
+  const out = []; let pageToken;
   do {
     const p = await api("playlistItems", { part: "snippet,contentDetails,status", playlistId: uploads, maxResults: 50, pageToken });
-    out.push(...p.items);
+    for (const it of p.items) {
+      const ps = it.status?.privacyStatus;
+      if (ps && ps !== "public") continue; // never publish unlisted or private
+      out.push({
+        videoId: it.contentDetails.videoId, title: it.snippet.title, publishedAt: it.snippet.publishedAt,
+        description: it.snippet.description || "",
+        thumb: it.snippet.thumbnails?.maxres?.url || it.snippet.thumbnails?.high?.url || it.snippet.thumbnails?.medium?.url || "",
+      });
+    }
     pageToken = p.nextPageToken;
   } while (pageToken);
   return out;
 }
 
 async function main() {
-  const source = API_KEY ? "YouTube Data API" : "public RSS feed (latest 15 only — set YOUTUBE_API_KEY for the full archive)";
-  console.log(`Source: ${source}`);
-  const items = (API_KEY ? await fetchAll() : await fetchFromRss()).filter((it) => {
-    const ps = it.status?.privacyStatus;
-    return !ps || ps === "public"; // never publish an unlisted or private video
-  });
-  console.log(`Fetched ${items.length} public videos.`);
+  const source = API_KEY ? "Data API (full catalogue)" : "RSS feed (15 newest, no key)";
+  const videos = API_KEY ? await fetchFromApi() : await fetchFromRss();
+  console.log(`${DRY ? "CHECK MODE — " : ""}${videos.length} public videos via ${source}.`);
 
   let created = 0, updated = 0, preserved = 0;
   const written = new Set();
-  const notSermons = [];
 
-  for (const it of items) {
-    const raw = it.snippet.title;
-    // This is a sermon archive, not a video archive.
-    const why = notSermon(raw, NOT_SERMON);
-    if (why) { notSermons.push(`${raw}  (matched "${why}")`); continue; }
-    const [dateFromTitle, stripped] = extractDate(raw);
-    const date = dateFromTitle || it.snippet.publishedAt.slice(0, 10);
-    const clean = tidy(stripped);
-    const m = matchSeries(clean, known);
+  for (const v of videos) {
+    const [dateFromTitle, stripped] = extractDate(v.title);
+    const date = dateFromTitle || v.publishedAt.slice(0, 10);
+    const m = matchSeries(tidy(stripped), known);
     const title = unshout(tidy(m.title)) || "Sunday Service";
-    const series = m.series || "";
-
-    const file = join(OUT, `${date}-${slugify(title) || it.contentDetails.videoId}.json`);
+    const file = join(OUT, `${date}-${slugify(title) || v.videoId}.json`);
     written.add(file);
 
     const next = {
-      title, date, series,
-      speaker: "Pastor Marvin Rose",
-      youtubeId: it.contentDetails.videoId,
-      thumbnail: it.snippet.thumbnails?.maxres?.url || it.snippet.thumbnails?.high?.url || it.snippet.thumbnails?.medium?.url || "",
-      description: (it.snippet.description || "").split("\n").filter(Boolean).slice(0, 3).join(" ").trim().slice(0, 400),
-      _sourceTitle: raw, // how we detect a human edit — do not remove
+      title, date, series: m.series || "", speaker: "Pastor Marvin Rose",
+      youtubeId: v.videoId, thumbnail: v.thumb,
+      description: v.description.split("\n").filter(Boolean).slice(0, 3).join(" ").trim().slice(0, 400),
+      _sourceTitle: v.title, // how we detect a human edit — do not remove
     };
 
     if (existsSync(file)) {
       const prev = JSON.parse(readFileSync(file, "utf8"));
-      if (prev._sourceTitle === raw) {
-        // YouTube hasn't changed, so trust whatever a person typed in Tina.
-        const merged = {
-          ...next,
-          title: prev.title || next.title,
-          series: prev.series ?? next.series,
-          speaker: prev.speaker || next.speaker,
-          description: prev.description ?? next.description,
-        };
-        if (JSON.stringify(merged) !== JSON.stringify(prev)) { writeFileSync(file, JSON.stringify(merged, null, 2) + "\n"); updated++; }
-        else preserved++;
-        continue;
-      }
-      writeFileSync(file, JSON.stringify(next, null, 2) + "\n"); updated++; continue;
+      const merged = prev._sourceTitle === v.title
+        ? { ...next, title: prev.title || next.title, series: prev.series ?? next.series, speaker: prev.speaker || next.speaker, description: prev.description ?? next.description }
+        : next;
+      if (JSON.stringify(merged) !== JSON.stringify(prev)) { if (!DRY) writeFileSync(file, JSON.stringify(merged, null, 2) + "\n"); updated++; }
+      else preserved++;
+      continue;
     }
-    writeFileSync(file, JSON.stringify(next, null, 2) + "\n"); created++;
+    if (DRY) console.log(`  would add: ${date}  ${m.series ? `[${m.series}] ` : ""}${title}`);
+    else writeFileSync(file, JSON.stringify(next, null, 2) + "\n");
+    created++;
   }
 
-  // Remove sermons whose video was deleted or made private. Only safe with the
-  // API, which returns the whole channel; RSS only shows the latest 15, so
-  // pruning against it would delete the entire back catalogue.
+  // Remove sermons whose video is gone — but ONLY when we saw the whole
+  // catalogue. The RSS feed is a 15-item window, so anything older than it
+  // is simply out of view, not deleted.
   let removed = 0;
   if (API_KEY) {
     for (const f of readdirSync(OUT).filter((f) => f.endsWith(".json"))) {
       const full = join(OUT, f);
-      if (!written.has(full)) { unlinkSync(full); removed++; }
+      if (!written.has(full)) { if (!DRY) unlinkSync(full); removed++; }
     }
   }
-
-  console.log(`new ${created} · updated ${updated} · left alone ${preserved} · removed ${removed}`);
-  if (notSermons.length) {
-    console.log(`\nnot published — not sermons (${notSermons.length}):`);
-    notSermons.forEach((n) => console.log("  ✗ " + n));
-    console.log("If any of those ARE sermons, fix content/sermon-series.json -> notSermons.");
-  }
-  const untitled = [...written].length;
+  console.log(`${DRY ? "would: " : ""}new ${created} · updated ${updated} · left alone ${preserved} · removed ${removed}`);
 }
 
 main().catch((e) => { console.error(e.message); process.exit(1); });
