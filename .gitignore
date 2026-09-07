@@ -4,5 +4,12 @@ dist/
 .env
 .env.local
 .DS_Store
+
+# Tina build output — regenerated on every build, 10MB of it
+public/admin/
 tina/__generated__/client.ts
 tina/__generated__/types.ts
+tina/__generated__/types.js
+tina/__generated__/*.gql
+tina/__generated__/static-media.json
+# NOTE: tina/tina-lock.json MUST be committed — TinaCloud needs it to index content
