@@ -10,12 +10,7 @@ export const TZ = "America/Chicago";
 export const NAV = [
   { href: "/", label: "Home" },
   { href: "/visit", label: "Plan a Visit" },
-  { href: "/about", label: "About", children: [
-    { href: "/about#make-disciples", label: "Our mission" },
-    { href: "/about#our-core-convictions", label: "What we believe" },
-    { href: "/about#on-baker-road-since-1978", label: "Our story" },
-    { href: "/about#the-people-who-serve-here", label: "Leadership" },
-  ]},
+  { href: "/about", label: "About" },
   { href: "/ministries", label: "Ministries", children: [
     { href: "/ministries#children-s-ministry", label: "Children's Ministry" },
     { href: "/ministries#student-ministry", label: "Student Ministry" },
