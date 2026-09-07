@@ -114,10 +114,26 @@ export function matchSeries(cleanTitle, knownSeries = []) {
   return { series: hit.name, title: rest };
 }
 
-/** Is this video a sermon at all? Returns the matched phrase if NOT. */
-export function notSermon(rawTitle, patterns = []) {
-  const hay = (rawTitle || "").toLowerCase();
-  return patterns.find((p) => p && hay.includes(String(p).toLowerCase())) || null;
+/**
+ * Is this video a sermon at all? Returns the matched rule if NOT.
+ * A rule is a plain substring, or `re:<pattern>` for an anchored regex —
+ * needed because "worship" on its own is a full-service recording with no
+ * sermon title, while "SHADOW WORSHIP" is a sermon. Substrings cannot tell
+ * those apart; anchors can.
+ */
+export function notSermon(rawTitle, rules = []) {
+  const raw = (rawTitle || "").trim();
+  const hay = raw.toLowerCase();
+  for (const rule of rules) {
+    if (!rule) continue;
+    const r = String(rule);
+    if (r.startsWith("re:")) {
+      let re;
+      try { re = new RegExp(r.slice(3), "i"); } catch { continue; }
+      if (re.test(raw)) return r;
+    } else if (hay.includes(r.toLowerCase())) return r;
+  }
+  return null;
 }
 
 export const slugify = (s) =>

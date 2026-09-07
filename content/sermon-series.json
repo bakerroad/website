@@ -13,23 +13,53 @@
     },
     {
       "name": "From Shadows to Savior",
-      "aliases": ["From Shadow to Savior"]
+      "aliases": [
+        "From Shadow to Savior"
+      ]
     },
     {
       "name": "Follow Me",
       "subtitle": "Encounters with Jesus That Changed Everything",
       "aliases": []
     },
-    { "name": "Sacred", "aliases": [] },
-    { "name": "Blessed to Be a Blessing", "aliases": [] }
+    {
+      "name": "Sacred",
+      "aliases": []
+    },
+    {
+      "name": "Blessed to Be a Blessing",
+      "aliases": []
+    }
   ],
-
   "notSermons": [
-    "announcement", "announcements", "promo", "trailer", "teaser",
-    "vbs recap", "recap video", "livestream test", "test stream", "mic check",
-    "special music", "choir special", "solo:", "offertory",
-    "christmas program", "easter program", "kids program", "puppet",
-    "business meeting", "committee", "wedding ceremony", "memorial service", "funeral service"
+    "announcement",
+    "announcements",
+    "promo",
+    "trailer",
+    "teaser",
+    "vbs recap",
+    "recap video",
+    "livestream test",
+    "test stream",
+    "mic check",
+    "special music",
+    "choir special",
+    "offertory",
+    "christmas program",
+    "easter program",
+    "kids program",
+    "puppet",
+    "business meeting",
+    "committee",
+    "wedding ceremony",
+    "memorial service",
+    "funeral service",
+    "live stream",
+    "livestream",
+    "re:^ *worship *( |[0-9]|$)",
+    "re:^ *sunday +worship",
+    "re:^ *baker +road +worship +service *$",
+    "re:^ *(full )?service *$"
   ],
-  "notSermonsNote": "Video titles matching any of these (case-insensitive) are not treated as sermons and never reach the website. The sync prints what it skipped so the list can be corrected."
+  "notSermonsNote": "Titles matching any of these are not treated as sermons and never reach the website. A plain entry is matched as a substring; an entry beginning 're:' is a regular expression. Regexes are written without backslashes on purpose, because this file gets edited by hand and escaping is easy to get silently wrong. The anchors matter: a video titled just 'worship' is a full-service recording with no sermon in the title, while 'SHADOW WORSHIP' is a sermon. The sync prints everything it skipped so this list can be corrected."
 }
