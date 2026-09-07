@@ -1,11 +1,15 @@
 ---
 /** Renders the `sections` array from any page JSON. Chooses a card grid or a
  *  labelled row list depending on whether the items carry a time/detail. */
-interface Item { title?: string; meta?: string; body?: string; linkText?: string; linkUrl?: string; image?: string; }
+interface Item { title?: string; meta?: string; when?: string; body?: string; linkText?: string; linkUrl?: string; image?: string; }
 interface Section { eyebrow?: string; heading?: string; body?: string; note?: string; items?: Item[]; linkText?: string; linkUrl?: string; image?: string; imageAlt?: string; }
 import { site, telHref } from "../lib/site";
 import { imageSize } from "../lib/imagesize";
-const { sections = [] } = Astro.props as { sections: Section[] };
+const { sections = [], layout = "grid" } = Astro.props as { sections: Section[]; layout?: string };
+
+/** Stable anchor from a title, so the nav dropdowns can point at a card. */
+const anchor = (t?: string) =>
+  (t || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
 /** A link written as "@givingUrl" is filled in from Church Info, so the office
  *  updates one field in one place instead of hunting through pages. */
@@ -49,17 +53,22 @@ const isRowList = (s: Section) =>
             ))}
           </div>
         ) : (
-          <div class="cards">
+          <div class={layout === "stack" ? "cards stack" : "cards"}>
             {s.items!.map((i) => (
-              <article class={i.image ? "card haspic" : "card"}>
+              <article class={i.image ? "card haspic" : "card"} id={anchor(i.title)}>
                 {i.image && (
                   <img src={i.image} alt="" loading="lazy" decoding="async"
                        width={imageSize(i.image)?.width} height={imageSize(i.image)?.height} />
                 )}
-                {i.meta && <p class="meta">{i.meta}</p>}
-                {i.title && <h3>{i.title}</h3>}
-                {i.body && <p>{i.body}</p>}
-                {resolve(i.linkUrl) && i.linkText && <a href={resolve(i.linkUrl)}>{i.linkText}</a>}
+                <div class="cbody">
+                  <div class="chead">
+                    {i.title && <h3>{i.title}</h3>}
+                    {i.meta && <p class="meta">{i.meta}</p>}
+                  </div>
+                  {i.body && <p>{i.body}</p>}
+                  {i.when && <p class="when">{i.when}</p>}
+                  {resolve(i.linkUrl) && i.linkText && <a href={resolve(i.linkUrl)}>{i.linkText}</a>}
+                </div>
               </article>
             ))}
           </div>

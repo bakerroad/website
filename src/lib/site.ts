@@ -47,23 +47,6 @@ export const sermonSlug = (s: any) =>
   `${String(s.date).slice(0, 10)}-${String(s.title || "")
     .toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 60)}`;
 
-/** Sermons grouped by series, newest series first, plus the standalone ones. */
-export function sermonsBySeries() {
-  const all = allSermons();
-  const groups = new Map<string, any[]>();
-  const standalone: any[] = [];
-  for (const s of all) {
-    if (s.series) {
-      if (!groups.has(s.series)) groups.set(s.series, []);
-      groups.get(s.series)!.push(s);
-    } else standalone.push(s);
-  }
-  const series = [...groups.entries()]
-    .map(([name, items]) => ({ name, items, latest: items[0]?.date ?? "" }))
-    .sort((a, b) => String(b.latest).localeCompare(String(a.latest)));
-  return { series, standalone, total: all.length };
-}
-
 /** Load upcoming events, soonest first. Anything already finished is dropped. */
 export function upcomingEvents() {
   const mods = import.meta.glob("../../content/events/*.json", { eager: true }) as Record<string, any>;

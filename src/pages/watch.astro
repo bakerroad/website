@@ -1,14 +1,14 @@
 ---
 import Base from "../layouts/Base.astro";
 import Sections from "../components/Sections.astro";
+import SermonCover from "../components/SermonCover.astro";
 import page from "../../content/pages/watch.json";
-import { site, allSermons, sermonsBySeries, sermonSlug } from "../lib/site";
+import { allSermons, sermonSlug, TZ } from "../lib/site";
 
 const all = allSermons();
-const latest = all[0];
-const { series, standalone, total } = sermonsBySeries();
-const fmt = (d) => new Date(d + "T12:00:00").toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
-const short = (d) => new Date(d + "T12:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+const [latest, ...rest] = all;
+const short = (d) =>
+  new Date(String(d) + "T12:00:00").toLocaleDateString("en-US", { timeZone: TZ, month: "short", day: "numeric", year: "numeric" });
 ---
 <Base title={page.title} description={page.metaDescription}>
   <div class="phead">
@@ -23,55 +23,25 @@ const short = (d) => new Date(d + "T12:00:00").toLocaleDateString("en-US", { mon
     <section class="sec">
       <div class="wrap">
         <p class="eyebrow">Most recent message</p>
-        <a class="latest" href={`/watch/${sermonSlug(latest)}`}>
-          {latest.thumbnail && <img src={latest.thumbnail} alt="" loading="lazy" width="640" height="360" />}
-          <div class="latest-b">
-            {latest.series && <p class="s">{latest.series}</p>}
-            <h2>{latest.title}</h2>
-            <p class="when">
-              <time datetime={latest.date}>{fmt(latest.date)}</time>
-              {latest.speaker && <span> · {latest.speaker}</span>}
-            </p>
-            <span class="play">Listen to this message</span>
-          </div>
+        <a class="featured" href={`/watch/${sermonSlug(latest)}`}>
+          <SermonCover sermon={latest} />
+          <span class="play">Listen to this message</span>
         </a>
       </div>
     </section>
   )}
 
-  {series.length > 0 && (
+  {rest.length > 0 && (
     <section class="sec">
       <div class="wrap">
-        <p class="eyebrow">By series</p>
-        <h2>Series</h2>
-        <div class="serieslist">
-          {series.map((g) => (
-            <section class="sgroup">
-              <h3>{g.name}<span class="count">{g.items.length} {g.items.length === 1 ? "message" : "messages"}</span></h3>
-              <ul class="slist">
-                {g.items.map((s) => (
-                  <li>
-                    <a href={`/watch/${sermonSlug(s)}`}><span class="t">{s.title}</span></a>
-                    <time datetime={s.date}>{short(s.date)}</time>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          ))}
-        </div>
-      </div>
-    </section>
-  )}
-
-  {standalone.length > 0 && (
-    <section class="sec">
-      <div class="wrap">
-        <p class="eyebrow">Standalone messages</p>
-        <h2>Not part of a series</h2>
+        <p class="eyebrow">Archive</p>
+        <h2>Earlier messages</h2>
         <ul class="slist">
-          {standalone.map((s) => (
+          {rest.map((s) => (
             <li>
-              <a href={`/watch/${sermonSlug(s)}`}><span class="t">{s.title}</span></a>
+              <a href={`/watch/${sermonSlug(s)}`}>
+                <span class="t">{s.title}{s.series ? ` (${s.series})` : ""}</span>
+              </a>
               <time datetime={s.date}>{short(s.date)}</time>
             </li>
           ))}

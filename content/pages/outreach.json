@@ -3,7 +3,7 @@
   "metaDescription": "The Pumpkin Patch, the Easter SONrise service, rides to church, missionary support, and helping neighbors in Baytown.",
   "eyebrow": "Outreach",
   "headline": "Baytown is our first mission field.",
-  "intro": "We support missionaries around the world. We carry the same responsibility for the city outside our own doors, and most of it looks like opening the parking lot and putting the coffee on.",
+  "intro": "Most of it looks like opening the parking lot and putting the coffee on.",
   "sections": [
     {
       "eyebrow": "",
@@ -14,47 +14,60 @@
         {
           "title": "The Pumpkin Patch",
           "meta": "October 4–31",
-          "body": "For two weeks every fall we turn the church lot into a pumpkin patch and open it to all of Baytown. Food trucks, face painting, a bounce house, and pumpkins large and small for one and for all. It is the easiest possible way to meet this church. You do not have to come to a service, believe anything in particular, or talk to anybody. Just come pick out a pumpkin.",
-          "linkText": "Get directions",
-          "linkUrl": "@mapUrl",
-          "image": "/images/pumpkin-patch.jpg"
+          "when": "",
+          "body": "The church lot becomes a pumpkin patch, open to all of Baytown. Come pick out a pumpkin. That is the whole invitation.",
+          "image": "/images/pumpkin-patch.jpg",
+          "linkText": "See the dates",
+          "linkUrl": "https://bakerroadbaptistchurch.churchcenter.com/calendar/event/235548104"
         },
         {
           "title": "The SONrise service",
           "meta": "Easter morning",
-          "body": "Easter starts outside on the patio before the sun is fully up, with acoustic worship, the Lord's Supper, and Scripture read by members of this church. Free breakfast in the Fellowship Hall afterward, then the regular service at 10:15. It is our favorite morning of the year, and the one we most want you to come to.",
-          "image": "/images/easter-cross.jpg"
+          "when": "",
+          "body": "Easter starts on the patio before the sun is up, with acoustic worship and the Lord's Supper. Breakfast afterward, then the regular service at 10:15.",
+          "image": "/images/easter-cross.jpg",
+          "linkText": "Ask about Easter",
+          "linkUrl": "@mailto"
         },
         {
-          "title": "We will come get you",
-          "meta": "Call the office by Friday",
-          "body": "If you want to be at church and do not have a way to get here, call the office by Friday and we will do our best to arrange a ride for Sunday.",
+          "title": "A ride to church",
+          "meta": "Call by Friday",
+          "when": "",
+          "body": "No way to get here? Call the office by Friday and we will do our best to arrange a ride for Sunday.",
           "linkText": "Call the office",
           "linkUrl": "@tel"
-        },
-        {
-          "title": "Around the world",
-          "meta": "Missionaries",
-          "body": "This church supports missionaries in the field through the cooperative work of Southern Baptist churches, and has since the beginning."
-        },
-        {
-          "title": "Open-door events",
-          "meta": "Announced in the app and on Facebook",
-          "body": "Game nights, church-wide meals, and seasonal gatherings run through the year. All of them are the kind of thing you can bring a neighbor to without warning them first."
         },
         {
           "title": "Neighbors in need",
-          "meta": "Call the office",
-          "body": "When someone in this community is up against it, the church responds directly rather than through a program. If you need help, or you know someone who does, call and ask.",
+          "meta": "Directly, not through a program",
+          "when": "",
+          "body": "If you need help, or you know someone who does, call and ask.",
           "linkText": "Call the office",
           "linkUrl": "@tel"
         },
         {
-          "title": "Want to help with any of it?",
-          "meta": "Get in touch",
-          "body": "The Pumpkin Patch alone takes dozens of people across two weeks, and none of the jobs require any experience. Tell us you are willing and we will find you a shift.",
-          "linkText": "Get in touch",
-          "linkUrl": "/contact"
+          "title": "Open-door events",
+          "meta": "Through the year",
+          "when": "",
+          "body": "Game nights, church-wide meals and seasonal gatherings. The kind of thing you can bring a neighbor to without warning them first.",
+          "linkText": "See what's coming up",
+          "linkUrl": "@facebookUrl"
+        },
+        {
+          "title": "Missionaries",
+          "meta": "Around the world",
+          "when": "",
+          "body": "Supported through the cooperative work of Southern Baptist churches, and since the beginning.",
+          "linkText": "Ask about missions",
+          "linkUrl": "@mailto"
+        },
+        {
+          "title": "Help with any of it",
+          "meta": "No experience needed",
+          "when": "",
+          "body": "The Pumpkin Patch alone takes dozens of people across two weeks.",
+          "linkText": "See ways to serve",
+          "linkUrl": "/serve"
         }
       ]
     }

@@ -1,0 +1,74 @@
+{
+  "title": "Serve — Baker Road Baptist Church",
+  "metaDescription": "Ways to serve at Baker Road Baptist Church in Baytown: worship team, media and sound, childcare, hospitality, transportation, Sunday School and the Pumpkin Patch.",
+  "eyebrow": "Serve",
+  "headline": "Every member is a minister here.",
+  "intro": "None of these need experience. Tell us what you are good at and we will find you a place.",
+  "layout": "stack",
+  "sections": [
+    {
+      "eyebrow": "",
+      "heading": "",
+      "body": "",
+      "note": "Not sure where you would fit? Call the office and say so. That is a normal way to start.",
+      "items": [
+        {
+          "title": "Worship team",
+          "meta": "Sundays",
+          "when": "Rehearsal Wednesdays 7:30 PM",
+          "body": "Vocals and instruments, alongside our worship leader.",
+          "linkText": "Ask about the worship team",
+          "linkUrl": "@mailto"
+        },
+        {
+          "title": "Media and sound",
+          "meta": "Sundays",
+          "when": "",
+          "body": "Running the slides, the sound desk, and the recording that puts each service on YouTube.",
+          "linkText": "Ask about media",
+          "linkUrl": "@mailto"
+        },
+        {
+          "title": "Childcare and Sunday School",
+          "meta": "Birth–5th grade",
+          "when": "Sundays 9:00 AM · Wednesdays 6:00 PM",
+          "body": "Teaching, helping in a classroom, or holding babies during worship.",
+          "linkText": "Ask about children's ministry",
+          "linkUrl": "@mailto"
+        },
+        {
+          "title": "Hospitality",
+          "meta": "Sundays and Wednesdays",
+          "when": "",
+          "body": "Greeting at the doors, coffee, and Wednesday night dinner in the Fellowship Hall.",
+          "linkText": "Ask about hospitality",
+          "linkUrl": "@mailto"
+        },
+        {
+          "title": "Transportation",
+          "meta": "Sunday mornings",
+          "when": "",
+          "body": "Driving the church van so people without a ride can still be here.",
+          "linkText": "Call the office",
+          "linkUrl": "@tel"
+        },
+        {
+          "title": "The Care Team",
+          "meta": "As needs come up",
+          "when": "",
+          "body": "Meals, hospital visits, and prayer for people in a hard season.",
+          "linkText": "Call the office",
+          "linkUrl": "@tel"
+        },
+        {
+          "title": "The Pumpkin Patch",
+          "meta": "Every October",
+          "when": "October 4–31",
+          "body": "Dozens of shifts across two weeks, unloading pumpkins and meeting the whole of Baytown.",
+          "linkText": "Sign up to help",
+          "linkUrl": "@mailto"
+        }
+      ]
+    }
+  ]
+}

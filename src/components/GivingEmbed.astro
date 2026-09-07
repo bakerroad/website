@@ -1,51 +1,43 @@
 ---
 /**
- * The Subsplash giving form, on the page rather than behind a button.
+ * Subsplash giving, sitting in the page rather than in a box.
  *
- * The iframe's src is still set lazily — only once the block scrolls into view.
- * That keeps Stripe, Google Pay and Subsplash's analytics out of the page for
- * anyone who reads the copy and leaves, which matters here because the page
- * opens by telling visitors to skip it. Subsplash sends `frame-ancestors *`,
- * so framing is permitted; the "open in a new tab" link covers it if that
- * ever changes, or if a browser blocks third-party frames.
+ * `?embed=true` is the important bit: it strips Subsplash's own header bar, so
+ * there is no foreign chrome to give the frame away. Measured content height is
+ * 607-627px at 390px, 700px and 1100px wide, so a fixed 700px clears the first
+ * step with no internal scrollbar at any width. The section is painted white to
+ * match Subsplash's own background, which is what makes the seam disappear.
+ *
+ * Deferred with the browser's own loading="lazy" rather than an
+ * IntersectionObserver. An observer that fails to fire leaves the giving form
+ * permanently blank, which is the worst bug this page could have; native lazy
+ * loading defers where supported and simply loads where it is not. There is no
+ * state in which the form does not appear.
  */
 import { site } from "../lib/site";
-const url = site.givingUrl || "";
+const base = site.givingUrl || "";
+const url = base ? base + (base.includes("?") ? "&" : "?") + "embed=true" : "";
 ---
 {url && (
-  <section class="sec">
+  <section class="sec give-sec">
     <div class="wrap">
       <p class="eyebrow">Online</p>
-      <h2>Give from your phone</h2>
+      <h2>Give online</h2>
       <p class="body">A one-time gift or a recurring one, by card or bank draft.</p>
-
-      <div class="give-embed" id="give-embed">
-        <p class="give-secure">
-          Handled by Subsplash, the church's own giving provider.
-          Baker Road's website never sees your card details.
-        </p>
-        <iframe id="give-frame" title="Give to Baker Road Baptist Church" data-src={url}
-                allow="payment *" referrerpolicy="no-referrer-when-downgrade"></iframe>
-        <p class="give-fallback">
-          Form not loading? <a href={url} target="_blank" rel="noopener">Open the giving page in a new tab</a>.
-        </p>
-      </div>
     </div>
 
-    <script is:inline>
-      (function () {
-        var wrap = document.getElementById("give-embed");
-        var frame = document.getElementById("give-frame");
-        if (!wrap || !frame) return;
-        function load() {
-          if (!frame.getAttribute("src")) frame.setAttribute("src", frame.dataset.src);
-        }
-        if (!("IntersectionObserver" in window)) { load(); return; }
-        var io = new IntersectionObserver(function (entries) {
-          if (entries.some(function (e) { return e.isIntersecting; })) { load(); io.disconnect(); }
-        }, { rootMargin: "300px" });
-        io.observe(wrap);
-      })();
-    </script>
+    <div class="give-embed" id="give-embed">
+      <iframe id="give-frame" title="Give to Baker Road Baptist Church" src={url}
+              loading="lazy" scrolling="no" allow="payment *"
+              referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+
+    <div class="wrap">
+      <p class="give-foot">
+        Handled by Subsplash, the church's own giving provider — Baker Road's website never sees
+        your card details. <a href={base} target="_blank" rel="noopener">Open the giving page on its own</a>.
+      </p>
+    </div>
+
   </section>
 )}

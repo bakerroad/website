@@ -159,7 +159,7 @@ a:hover{color:var(--brand-hover)}
 
 /* event cards that carry a picture */
 .card.evt{padding:0;overflow:hidden}
-.card.evt img{width:100%;aspect-ratio:16/9;object-fit:cover;background:var(--surface-alt)}
+.card.evt > img{width:100%;aspect-ratio:16/9;object-fit:cover;background:var(--surface-alt)}
 .card.evt > :not(img){padding-left:1.2rem;padding-right:1.2rem}
 .card.evt > .meta{padding-top:1rem}
 .card.evt > :last-child{padding-bottom:1.15rem}
@@ -168,35 +168,43 @@ a:hover{color:var(--brand-hover)}
 .seclink a{font-weight:700;text-decoration:none}
 .seclink a::after{content:" →"}
 
-/* ── giving ─────────────────────────────────────────── */
-.give-embed{margin-top:1.5rem;max-width:560px}
-.give-secure{font-size:.88rem;color:var(--ink-faint);margin-bottom:.7rem}
-.give-embed iframe{width:100%;min-height:min(620px,78vh);border:1px solid var(--border);
-  border-radius:var(--r-lg);background:var(--surface-alt);display:block}
-.give-fallback{font-size:.88rem;color:var(--ink-faint);margin-top:.7rem}
+/* ── giving ─────────────────────────────────────────────
+   The section is painted the same white as Subsplash's own page so the iframe
+   has no visible edge. No border, no radius, no shadow, and scrolling="no" on
+   the frame: the page scrolls, the embed never does. */
+.give-sec{background:#fff;padding-top:2.6rem;padding-bottom:2.2rem}
+.give-embed{margin-top:1.2rem;width:100%}
+.give-embed iframe{width:100%;height:700px;border:0;display:block;background:#fff;
+  overflow:hidden;color-scheme:light}
+.give-foot{margin-top:.6rem;font-size:.9rem;color:var(--ink-faint);max-width:var(--measure)}
+@media (max-width:560px){.give-embed iframe{height:660px}}
 
 /* pictures inside sections and cards */
 .secfig{margin:1.6rem 0 0;overflow:hidden;border-radius:var(--r-lg)}
 .secfig img{width:100%;height:auto;display:block}
 .card.haspic{padding:0;overflow:hidden}
-.card.haspic img{width:100%;aspect-ratio:4/5;object-fit:cover;background:var(--surface-alt)}
+.card.haspic > img{width:100%;aspect-ratio:4/5;object-fit:cover;background:var(--surface-alt)}
 .card.haspic > :not(img){padding-left:1.2rem;padding-right:1.2rem}
 .card.haspic > .meta{padding-top:1rem}
 .card.haspic > :last-child{padding-bottom:1.15rem}
 
 /* ── watch ──────────────────────────────────────────── */
-.latest{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:0;margin-top:1.5rem;
-  background:var(--surface-card);border:1px solid var(--border);border-radius:var(--r-lg);
-  overflow:hidden;text-decoration:none;color:inherit}
+.featured{display:block;margin-top:1.4rem;max-width:760px;text-decoration:none;color:inherit}
+.featured .cover{transition:transform .18s ease}
+.featured:hover .cover{transform:translateY(-2px)}
+.featured .play{display:inline-flex;align-items:center;min-height:44px;margin-top:.7rem;
+  font-weight:700;color:var(--brand)}
+.featured .play::after{content:" →"}
 .latest:hover{border-color:var(--border-strong)}
-.latest img{width:100%;height:100%;min-height:210px;object-fit:cover;background:var(--surface-alt)}
+.latest > img{width:100%;height:100%;min-height:210px;object-fit:cover;background:var(--surface-alt)}
+.latest .cover{border-radius:0;height:100%}
 .latest-b{padding:1.4rem 1.5rem;display:flex;flex-direction:column;gap:.4rem;justify-content:center}
 .latest-b .s{font-size:.72rem;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--brand)}
 .latest-b h2{font-size:1.5rem}
 .latest-b .when{font-size:.92rem;color:var(--ink-faint)}
 .latest-b .play{margin-top:.5rem;font-weight:700;color:var(--brand)}
 .latest-b .play::after{content:" →"}
-@media (max-width:760px){.latest{grid-template-columns:1fr}.latest img{min-height:0;aspect-ratio:16/9}}
+@media (max-width:760px){.latest{grid-template-columns:1fr}.latest > img{min-height:0;aspect-ratio:16/9}.latest .cover{aspect-ratio:16/9}}
 
 .earlier{margin-top:2.4rem;font-family:var(--f-body);font-size:.74rem;font-weight:700;
   letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint)}
@@ -267,3 +275,25 @@ a:hover{color:var(--brand-hover)}
 .skip:focus{position:fixed;width:auto;height:auto;clip-path:none;left:1rem;top:1rem;z-index:99;
   background:var(--brand);color:#fff;padding:.7rem 1.1rem;border-radius:var(--r-sm);min-height:44px;
   display:inline-flex;align-items:center}
+
+/* ── generated sermon cover ─────────────────────────── */
+.cover{position:relative;aspect-ratio:16/9;overflow:hidden;background:var(--surface-deep);
+  color:var(--ink-on-deep);border-radius:var(--r-lg);container-type:inline-size}
+.cover-bridge{position:absolute;left:0;right:0;bottom:-2%;width:100%;height:58%;opacity:.5}
+.cover-bridge g{stroke:#4E74BE;fill:none;stroke-width:1;vector-effect:non-scaling-stroke}
+.cover-bridge g.deck{stroke:#7EA6E8;stroke-width:1.4}
+.cover-in{position:relative;height:100%;display:flex;flex-direction:column;
+  padding:7cqw 7cqw 6cqw;gap:1.4cqw}
+.cover .cover-logo{width:11cqw;min-width:40px;max-width:72px;height:auto;aspect-ratio:auto;
+  object-fit:contain;min-height:0;margin-bottom:auto;flex:none;align-self:flex-start;
+  /* the mark is navy on navy, so it sits on a light plate to stay legible */
+  background:#F4F7FC;border-radius:50%;padding:1.4cqw;box-shadow:0 1px 0 rgba(255,255,255,.15)}
+.cover-series{font-family:var(--f-body);font-weight:700;text-transform:uppercase;
+  letter-spacing:.16em;font-size:2.5cqw;color:#9DBBEA}
+.cover-title{font-family:var(--f-display);font-weight:500;line-height:1.1;
+  letter-spacing:-.015em;color:#fff;text-wrap:balance}
+.cover-foot{font-family:var(--f-body);font-size:2.5cqw;color:#93A3C0;margin-top:1.2cqw}
+.cover-xl .cover-title{font-size:9.5cqw}
+.cover-lg .cover-title{font-size:7.6cqw}
+.cover-md .cover-title{font-size:6cqw}
+.cover-sm .cover-title{font-size:4.6cqw}

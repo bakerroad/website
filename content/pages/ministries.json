@@ -1,9 +1,10 @@
 {
   "title": "Ministries — Baker Road Baptist Church",
-  "metaDescription": "Student ministry, children's ministry, Crosswalk for men, women's ministry, adult Bible study, and the Care Team at Baker Road Baptist Church in Baytown.",
+  "metaDescription": "Student ministry, children's ministry, men's Crosswalk, women's ministry, adult Bible study and the Care Team at Baker Road Baptist Church in Baytown.",
   "eyebrow": "Ministries",
   "headline": "Places to belong.",
-  "intro": "Every member is a minister here. Some of these meet weekly, some monthly, and all of them will make room for one more.",
+  "intro": "Every one of these will make room for one more. If you are not sure where you fit, call the office and ask.",
+  "layout": "stack",
   "sections": [
     {
       "eyebrow": "",
@@ -13,44 +14,51 @@
       "items": [
         {
           "title": "ONE Student Ministry",
-          "meta": "Wednesdays 6:00 PM · Sundays 9:00 AM",
-          "body": "Grades 6 through 12. Our students meet Wednesday nights after dinner, and have their own Sunday School class at 9:00. Teaching, games, and adults who actually know their names."
+          "meta": "Grades 6–12",
+          "when": "Wednesdays 6:00 PM · Sundays 9:00 AM",
+          "body": "Teaching, games, and adults who know their names.",
+          "linkText": "Ask about student ministry",
+          "linkUrl": "@mailto"
         },
         {
           "title": "Children's Ministry",
-          "meta": "Sundays 9:00 AM · Wednesdays 6:00 PM",
-          "body": "Birth through 5th grade. We work hard to give kids a safe place to learn how much God loves them, and to give parents real confidence about who is watching their children."
+          "meta": "Birth–5th grade",
+          "when": "Sundays 9:00 AM · Wednesdays 6:00 PM",
+          "body": "A safe place to learn how much God loves them, and real confidence for parents about who is watching their children.",
+          "linkText": "Ask about children's ministry",
+          "linkUrl": "@mailto"
         },
         {
           "title": "Crosswalk",
-          "meta": "Contact the office for the next gathering",
-          "body": "The men of Baker Road, gathering for breakfast, service projects, and the plain work of sharpening one another. “Iron sharpens iron, and one person sharpens another.” Proverbs 27:17",
+          "meta": "Men",
+          "when": "Call for the next gathering",
+          "body": "Breakfast, service projects, and the plain work of sharpening one another.",
           "linkText": "Call the office",
           "linkUrl": "@tel"
         },
         {
-          "title": "Women's Ministry",
-          "meta": "Sundays 9:00 AM",
-          "body": "The Ladies Bible Fellowship class meets Sunday mornings at 9:00 and is open to women of every age and stage. Fellowship and service events run through the year."
+          "title": "Ladies Bible Fellowship",
+          "meta": "Women",
+          "when": "Sundays 9:00 AM",
+          "body": "Open to women of every age and stage, with fellowship and service events through the year.",
+          "linkText": "Ask about women's ministry",
+          "linkUrl": "@mailto"
         },
         {
-          "title": "Bible Study",
-          "meta": "Sundays 9:00 AM · Wednesdays 6:00 PM",
-          "body": "Adult Bible study sits at the heart of this church. Sunday mornings the Rooted and Grounded class digs into Scripture together, and Wednesday nights go deeper still."
+          "title": "Adult Bible Study",
+          "meta": "Adults",
+          "when": "Sundays 9:00 AM · Wednesdays 6:00 PM",
+          "body": "Rooted and Grounded on Sunday mornings. Wednesday nights go deeper.",
+          "linkText": "Ask about Bible study",
+          "linkUrl": "@mailto"
         },
         {
           "title": "Care Team",
-          "meta": "Need care, or want to help? Call the office",
-          "body": "When someone in this church is in the hospital, grieving, or just quietly struggling, the Care Team is who shows up. Meals, visits, rides, and prayer.",
+          "meta": "When life is hard",
+          "when": "Any time",
+          "body": "Hospital visits, meals, rides, and prayer when someone is grieving or quietly struggling.",
           "linkText": "Call the office",
           "linkUrl": "@tel"
-        },
-        {
-          "title": "Find your place",
-          "meta": "Tell us what you are good at",
-          "body": "Worship team, media and sound, transportation, hospitality, childcare, Sunday School teaching. If you can do it, we can use it.",
-          "linkText": "Email us",
-          "linkUrl": "@mailto"
         }
       ]
     }

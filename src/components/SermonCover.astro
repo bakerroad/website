@@ -1,0 +1,39 @@
+---
+/**
+ * A generated cover for a sermon: church navy, the logo, the series, the title
+ * set in Newsreader, and the date. No image file and nothing to design — it
+ * takes whatever title the sync produces, so the most recent message always has
+ * artwork the moment it appears on YouTube.
+ *
+ * The type scale steps down as titles get longer, so a three-word title fills
+ * the panel and a fifteen-word one still fits without clipping.
+ */
+import { site, TZ } from "../lib/site";
+interface Props { sermon: any; }
+const { sermon } = Astro.props as Props;
+
+const n = (sermon.title || "").length;
+const size = n < 22 ? "xl" : n < 40 ? "lg" : n < 64 ? "md" : "sm";
+const date = new Date(String(sermon.date) + "T12:00:00").toLocaleDateString("en-US", {
+  timeZone: TZ, year: "numeric", month: "long", day: "numeric",
+});
+---
+<div class:list={["cover", `cover-${size}`]} aria-hidden="true">
+  <!-- the Fred Hartman Bridge again, barely there, as texture -->
+  <svg class="cover-bridge" viewBox="0 0 600 132" preserveAspectRatio="xMidYMax slice" focusable="false">
+    <g stroke-linecap="round">
+      <path d="M182 120 L196 30 M218 120 L204 30" /><path d="M189 76 L211 76" />
+      <path d="M382 120 L396 30 M418 120 L404 30" /><path d="M389 76 L411 76" />
+      <path d="M198 32 L96 119 M202 32 L304 117 M198 32 L152 119 M202 32 L248 117" />
+      <path d="M398 32 L296 117 M402 32 L504 119 M398 32 L352 119 M402 32 L448 117" />
+    </g>
+    <g class="deck"><path d="M14 120 Q300 112 586 120" /></g>
+  </svg>
+
+  <div class="cover-in">
+    <img class="cover-logo" src="/images/logo.png" alt="" width="500" height="411" />
+    {sermon.series && <p class="cover-series">{sermon.series}</p>}
+    <p class="cover-title">{sermon.title}</p>
+    <p class="cover-foot">{date}{sermon.speaker ? ` · ${sermon.speaker}` : ""}</p>
+  </div>
+</div>
