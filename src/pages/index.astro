@@ -6,6 +6,19 @@ import page from "../../content/pages/home.json";
 import { site, telHref, upcomingEvents } from "../lib/site";
 const tel = telHref(site.phone);
 const events = upcomingEvents().slice(0, 3);
+
+/** "October 4 – 31" for a run of days; a single date otherwise. */
+const fmtRange = (e: any) => {
+  const opts: any = { month: "long", day: "numeric" };
+  const a = new Date(e.start);
+  const b = e.end ? new Date(e.end) : null;
+  if (!b || b.toDateString() === a.toDateString()) {
+    return a.toLocaleDateString("en-US", { weekday: "short", ...opts });
+  }
+  const endDay = new Date(b.getTime() - 60 * 60 * 1000); // an end at 1am belongs to the previous day
+  const sameMonth = endDay.getMonth() === a.getMonth();
+  return `${a.toLocaleDateString("en-US", opts)} – ${endDay.toLocaleDateString("en-US", sameMonth ? { day: "numeric" } : opts)}`;
+};
 ---
 <Base title={page.title} description={page.metaDescription}>
   <div class="hero">
@@ -64,10 +77,12 @@ const events = upcomingEvents().slice(0, 3);
         <h2>What's happening next</h2>
         <div class="cards">
           {events.map((e: any) => (
-            <article class="card">
-              <p class="meta">{new Date(e.start).toLocaleDateString("en-US", { weekday: "short", month: "long", day: "numeric" })}</p>
+            <article class="card evt">
+              {e.image && <img src={e.image} alt="" loading="lazy" width="480" height="270" />}
+              <p class="meta">{fmtRange(e)}</p>
               <h3>{e.title}</h3>
-              {e.location && <p>{e.location}</p>}
+              {e.description && <p>{e.description}</p>}
+              {e.location && <p class="where">{e.location}</p>}
               {e.url && <a href={e.url}>More details</a>}
             </article>
           ))}

@@ -156,3 +156,11 @@ a:hover{color:var(--brand-hover)}
 .bridge g{stroke:var(--brand);fill:none;stroke-width:1;opacity:.55;vector-effect:non-scaling-stroke}
 .bridge g.deck{stroke:var(--ink-soft);stroke-width:1.6;opacity:.8}
 .cap{font-size:.78rem;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-faint);font-weight:600;text-align:center}
+
+/* event cards that carry a picture */
+.card.evt{padding:0;overflow:hidden}
+.card.evt img{width:100%;aspect-ratio:16/9;object-fit:cover;background:var(--surface-alt)}
+.card.evt > :not(img){padding-left:1.2rem;padding-right:1.2rem}
+.card.evt > .meta{padding-top:1rem}
+.card.evt > :last-child{padding-bottom:1.15rem}
+.card.evt .where{font-size:.9rem;color:var(--ink-faint)}

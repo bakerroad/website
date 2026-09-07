@@ -1,0 +1,16 @@
+{
+  "note": "Rules for what reaches the website from Planning Center. The 'Website' tag in Planning Center decides what appears; these rules are a second safety net that runs even if something is tagged by mistake.",
+
+  "excludeNames": [
+    "Active Stars Karate",
+    "Active Stars Cheerleading"
+  ],
+  "excludeNote": "Outside groups that rent the building. They are not church events and must never appear on the church's website.",
+
+  "excludePatterns": [
+    "wedding", "memorial", "funeral", "graveside", "visitation",
+    "personnel", "committee", "council", "business meeting", "deacon",
+    "staff meeting", "counseling", "counselling", "benevolence", "birthday"
+  ],
+  "excludePatternsNote": "Matched case-insensitively against the event name. These are private, pastoral or internal by nature. Even a correctly-tagged event whose name matches one of these is refused."
+}

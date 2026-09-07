@@ -160,6 +160,7 @@ export default defineConfig({
           { type: "string", name: "location", label: "Location" },
           textarea("description", "Description"),
           { type: "string", name: "url", label: "Sign-up or info link" },
+          { type: "image", name: "image", label: "Picture" },
           { type: "boolean", name: "featured", label: "Show on the homepage" },
         ],
       },

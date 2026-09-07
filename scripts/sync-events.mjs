@@ -36,6 +36,21 @@ if (!PCO_APP_ID || !PCO_SECRET) {
   process.exit(1);
 }
 mkdirSync(OUT, { recursive: true });
+
+const RULES = existsSync("content/event-rules.json")
+  ? JSON.parse(readFileSync("content/event-rules.json", "utf8")) : {};
+const EXCLUDE_NAMES = new Set((RULES.excludeNames || []).map((n) => n.trim().toLowerCase()));
+const EXCLUDE_RE = (RULES.excludePatterns || []).length
+  ? new RegExp((RULES.excludePatterns || []).join("|"), "i") : null;
+
+/** Refuse an event regardless of tagging. The tag is the gate; this is the lock. */
+function refuse(name) {
+  const n = (name || "").trim().toLowerCase();
+  if (EXCLUDE_NAMES.has(n)) return "outside group, not a church event";
+  if (EXCLUDE_RE && EXCLUDE_RE.test(n)) return "private, pastoral or internal by name";
+  return null;
+}
+
 const AUTH = "Basic " + Buffer.from(`${PCO_APP_ID}:${PCO_SECRET}`).toString("base64");
 
 async function pco(path, params = {}) {
@@ -80,6 +95,18 @@ schedule; Sunday and Wednesday times are already on every page of the site.
 Never tag weddings, memorial services, or committee meetings.
 `;
 
+function reportFactory(refused, staples) {
+  return () => {
+    if (staples.size) {
+      console.log(`\nheld back as weekly staples (already shown as the schedule): ${[...staples].join(", ")}`);
+    }
+    if (refused.length) {
+      console.log("\nrefused by content/event-rules.json even though tagged:");
+      refused.forEach((r) => console.log("  ✗ " + r));
+    }
+  };
+}
+
 async function main() {
   if (DRY) console.log("CHECK MODE — reading Planning Center, writing nothing.\n");
 
@@ -107,6 +134,9 @@ async function main() {
   let created = 0, updated = 0, preserved = 0, skipped = 0;
   const written = new Set();
   const perEvent = new Map();
+  const refused = [];
+  const staples = new Set();
+  const report = reportFactory(refused, staples);
 
   for (const inst of instances) {
     const evId = inst.relationships?.event?.data?.id;
@@ -127,6 +157,13 @@ async function main() {
 
     const title = (a.name || "").trim();
     if (!title) continue;
+    const why = refuse(title);
+    if (why) { refused.push(`${title} — ${why}`); continue; }
+
+    // A recurring staple is the weekly rhythm, not an event. The Sunday and
+    // Wednesday times already appear on every page of the site.
+    const rec = (inst.attributes?.recurrence || "").trim();
+    if (rec && rec.toLowerCase() !== "none") { staples.add(title); continue; }
     const day = start.slice(0, 10);
     const file = join(OUT, `${day}-${slugify(title) || inst.id}.json`);
     written.add(file);
@@ -161,17 +198,24 @@ async function main() {
 
   if (DRY) {
     console.log(`\nWould publish ${created}. Skipped ${skipped} untagged instance(s).`);
+    report();
     console.log("Credentials work. Re-run without --check to write the files.");
     return;
   }
 
-  let removed = 0;
+  let removed = 0, kept = 0;
   for (const f of readdirSync(OUT).filter((f) => f.endsWith(".json"))) {
     const full = join(OUT, f);
-    if (!written.has(full)) { unlinkSync(full); removed++; }
+    if (written.has(full)) continue;
+    // Events added by hand in Tina are not ours to delete.
+    let manual = false;
+    try { manual = JSON.parse(readFileSync(full, "utf8"))._manual === true; } catch {}
+    if (manual) { kept++; continue; }
+    unlinkSync(full); removed++;
   }
-  console.log(`new ${created} · updated ${updated} · left alone ${preserved} · removed ${removed}`);
+  console.log(`new ${created} · updated ${updated} · left alone ${preserved} · removed ${removed} · manual kept ${kept}`);
   console.log(`skipped ${skipped} instance(s) not tagged "${TAG_NAME}"`);
+  report();
 }
 
 main().catch((e) => { console.error(e.message); process.exit(1); });
