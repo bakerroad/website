@@ -14,8 +14,10 @@ const [why, ...rest] = page.sections ?? [];
     </div>
   </div>
 
-  <!-- order the church asked for: why we give, then the form, then the other ways -->
-  <Sections sections={why ? [why] : []} />
+  <!-- order the church asked for: the form first, so someone who came here to
+       give can give without scrolling past an argument for it. The theology
+       and the other ways to give sit underneath. -->
   <div id="give-online"><GivingEmbed /></div>
+  <Sections sections={why ? [why] : []} />
   <Sections sections={rest} />
 </Base>
