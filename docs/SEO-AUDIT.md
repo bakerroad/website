@@ -24,21 +24,30 @@ that moves the needle.
 | **Generic Google Maps search link.** | Now the church's real **Google Place ID** (`ChIJdZCijh5cP4YRD2idB3WaxMU`), plus a one-click review link stored in Church Info. |
 | **No map on the Contact page.** | Embedded Google Map + "Open in Google Maps." |
 | **No caching or security headers.** | `_headers`: one-year immutable cache on build assets, a week on images, HSTS, nosniff, frame and referrer policies. |
-| **`www.brbcbaytown.org` served a duplicate of the site** with no redirect. | `_redirects`: www → apex, 301. |
 | Geo meta tags | `geo.region`, `geo.placename`, `geo.position`, `ICBM` on every page. |
 
 ---
 
 ## Needs a human — in priority order
 
-### 1. Cloudflare: turn on "Always Use HTTPS"  *(2 minutes, do first)*
-`http://brbcbaytown.org` currently **serves the site over plain HTTP** with no
-redirect. That is a duplicate-content problem for Google and a trust problem
-for visitors. It cannot be fixed in code.
+### 1. Cloudflare: two dashboard settings  *(5 minutes, do first)*
+Neither of these can be fixed in code.
 
-Cloudflare dashboard → the `brbcbaytown.org` zone → **SSL/TLS → Edge
-Certificates → Always Use HTTPS → On.** While there, set **Minimum TLS 1.2**
-and turn on **HSTS** (the site already sends the header; this enforces it).
+**a) Always Use HTTPS.** `http://brbcbaytown.org` currently **serves the site
+over plain HTTP** with no redirect — a duplicate-content problem for Google and
+a trust problem for visitors. Cloudflare → `brbcbaytown.org` zone → **SSL/TLS →
+Edge Certificates → Always Use HTTPS → On.** While there: Minimum TLS 1.2, and
+turn on HSTS (the site already sends the header; this enforces it).
+
+**b) www → apex redirect.** `https://www.brbcbaytown.org` serves a full
+duplicate of the site. I tried to fix this in the `_redirects` file, but
+Cloudflare Workers static assets **do not support domain-level redirects**
+there — only same-host paths. So: Cloudflare → **Rules → Redirect Rules →
+Create rule**: *when* Hostname equals `www.brbcbaytown.org` → *then* Dynamic
+redirect, expression `concat("https://brbcbaytown.org", http.request.uri.path)`,
+status 301, preserve query string. Canonical tags already point every www page
+at the apex, so Google is unlikely to be confused in the meantime — but the
+redirect is the proper fix.
 
 ### 2. Google Business Profile  *(the single highest-value item on this list)*
 The church has a Google Maps listing — the Place ID above proves it — but

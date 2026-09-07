@@ -52,6 +52,9 @@
 /outreach             /ministries 301
 /serve                /ministries 301
 
-# One canonical host. www and the bare domain must not both serve the site.
-https://www.brbcbaytown.org/*  https://brbcbaytown.org/:splat  301
-http://www.brbcbaytown.org/*   https://brbcbaytown.org/:splat  301
+# NOTE: www -> apex cannot be done here. Cloudflare Workers static assets do not
+# support domain-level redirects in _redirects (only same-host paths). It is a
+# Cloudflare dashboard Redirect Rule instead: Rules -> Redirect Rules ->
+#   when hostname equals www.brbcbaytown.org
+#   -> dynamic redirect concat("https://brbcbaytown.org", http.request.uri.path), 301
+# Until that exists, www serves a duplicate of the site (canonical tags mitigate).
