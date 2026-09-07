@@ -1,6 +1,6 @@
 {
   "title": "Ministries — Baker Road Baptist Church",
-  "metaDescription": "Student ministry, children's ministry, men's Crosswalk, women's ministry, adult Bible study and the Care Team at Baker Road Baptist Church in Baytown.",
+  "metaDescription": "Children's and student ministry, adult Bible study, men's and women's ministry, the Care Ministry and the Pumpkin Patch at Baker Road Baptist Church in Baytown.",
   "eyebrow": "Ministries",
   "headline": "Places to belong.",
   "intro": "Every one of these will make room for one more. If you are not sure where you fit, call the office and ask.",
@@ -13,52 +13,75 @@
       "note": "",
       "items": [
         {
-          "title": "ONE Student Ministry",
-          "meta": "Grades 6–12",
-          "when": "Wednesdays 6:00 PM · Sundays 9:00 AM",
-          "body": "Teaching, games, and adults who know their names.",
-          "linkText": "Ask about student ministry",
-          "linkUrl": "@mailto"
-        },
-        {
           "title": "Children's Ministry",
           "meta": "Birth–5th grade",
           "when": "Sundays 9:00 AM · Wednesdays 6:00 PM",
           "body": "A safe place to learn how much God loves them, and real confidence for parents about who is watching their children.",
-          "linkText": "Ask about children's ministry",
-          "linkUrl": "@mailto"
+          "linkText": "I'm interested",
+          "linkUrl": "@connectionCardUrl",
+          "link2Text": "Join the serve team",
+          "link2Url": "@serveFormUrl"
         },
         {
-          "title": "Crosswalk",
-          "meta": "Men",
-          "when": "Call for the next gathering",
-          "body": "Breakfast, service projects, and the plain work of sharpening one another.",
-          "linkText": "Call the office",
-          "linkUrl": "@tel"
-        },
-        {
-          "title": "Ladies Bible Fellowship",
-          "meta": "Women",
-          "when": "Sundays 9:00 AM",
-          "body": "Open to women of every age and stage, with fellowship and service events through the year.",
-          "linkText": "Ask about women's ministry",
-          "linkUrl": "@mailto"
+          "title": "Student Ministry",
+          "meta": "Grades 6–12",
+          "when": "Wednesdays 6:00 PM · Sundays 9:00 AM",
+          "body": "Teaching, games, and adults who know their names.",
+          "linkText": "I'm interested",
+          "linkUrl": "@connectionCardUrl",
+          "link2Text": "Join the serve team",
+          "link2Url": "@serveFormUrl"
         },
         {
           "title": "Adult Bible Study",
           "meta": "Adults",
           "when": "Sundays 9:00 AM · Wednesdays 6:00 PM",
           "body": "Rooted and Grounded on Sunday mornings. Wednesday nights go deeper.",
-          "linkText": "Ask about Bible study",
-          "linkUrl": "@mailto"
+          "linkText": "I'm interested",
+          "linkUrl": "@connectionCardUrl",
+          "link2Text": "Join the serve team",
+          "link2Url": "@serveFormUrl"
         },
         {
-          "title": "Care Team",
-          "meta": "When life is hard",
-          "when": "Any time",
-          "body": "Hospital visits, meals, rides, and prayer when someone is grieving or quietly struggling.",
-          "linkText": "Call the office",
-          "linkUrl": "@tel"
+          "title": "Men's Ministry",
+          "meta": "Men",
+          "when": "Call for the next gathering",
+          "body": "Breakfast, service projects, and the plain work of sharpening one another.",
+          "linkText": "I'm interested",
+          "linkUrl": "@connectionCardUrl",
+          "link2Text": "Join the serve team",
+          "link2Url": "@serveFormUrl"
+        },
+        {
+          "title": "Women's Ministry",
+          "meta": "Women",
+          "when": "Sundays 9:00 AM",
+          "body": "The Ladies Bible Fellowship class, open to women of every age and stage, with fellowship and service events through the year.",
+          "linkText": "I'm interested",
+          "linkUrl": "@connectionCardUrl",
+          "link2Text": "Join the serve team",
+          "link2Url": "@serveFormUrl"
+        },
+        {
+          "title": "Care Ministry",
+          "meta": "Practical help",
+          "when": "Any time — call the office",
+          "body": "This is the one to call when you need something. Rides to church for anyone without a way to get here. Hospital and hospice visits. Meals for a family in a hard week. Prayer when someone is grieving or quietly struggling. And help for neighbors in Baytown who are up against it, whether or not they attend here.",
+          "linkText": "I'm interested",
+          "linkUrl": "@connectionCardUrl",
+          "link2Text": "Join the serve team",
+          "link2Url": "@serveFormUrl"
+        },
+        {
+          "title": "The Pumpkin Patch",
+          "meta": "Every October",
+          "when": "See the events page for this year's dates",
+          "body": "For a few weeks every fall the church lot becomes a pumpkin patch, open to all of Baytown. Come pick out a pumpkin. That is the whole invitation — no service, no sign-up, nobody to talk to.",
+          "image": "/images/pumpkin-patch.jpg",
+          "linkText": "I'm interested",
+          "linkUrl": "@connectionCardUrl",
+          "link2Text": "Join the serve team",
+          "link2Url": "@serveFormUrl"
         }
       ]
     }

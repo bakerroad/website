@@ -79,6 +79,8 @@ export default defineConfig({
           { type: "string", name: "youtubeUrl", label: "YouTube channel link" },
           { type: "string", name: "givingUrl", label: "Online giving link", description: "The Subsplash giving page. Do not change unless Subsplash gives you a new address." },
           { type: "string", name: "appUrl", label: "Church app link" },
+          { type: "string", name: "connectionCardUrl", label: "Connection Card form link", description: "The Planning Center form behind every \"I'm interested\" button." },
+          { type: "string", name: "serveFormUrl", label: "Join the Team form link", description: "The Planning Center form behind every \"Join the serve team\" button." },
         ],
       },
 

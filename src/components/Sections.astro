@@ -1,7 +1,7 @@
 ---
 /** Renders the `sections` array from any page JSON. Chooses a card grid or a
  *  labelled row list depending on whether the items carry a time/detail. */
-interface Item { title?: string; meta?: string; when?: string; body?: string; linkText?: string; linkUrl?: string; image?: string; }
+interface Item { title?: string; meta?: string; when?: string; body?: string; linkText?: string; linkUrl?: string; link2Text?: string; link2Url?: string; image?: string; }
 interface Section { eyebrow?: string; heading?: string; body?: string; note?: string; items?: Item[]; linkText?: string; linkUrl?: string; image?: string; imageAlt?: string; }
 import { site, telHref } from "../lib/site";
 import { imageSize } from "../lib/imagesize";
@@ -67,7 +67,16 @@ const isRowList = (s: Section) =>
                   </div>
                   {i.body && <p>{i.body}</p>}
                   {i.when && <p class="when">{i.when}</p>}
-                  {resolve(i.linkUrl) && i.linkText && <a href={resolve(i.linkUrl)}>{i.linkText}</a>}
+                  {(resolve(i.linkUrl) && i.linkText) || (resolve(i.link2Url) && i.link2Text) ? (
+                    <div class="acts">
+                      {resolve(i.linkUrl) && i.linkText && (
+                        <a class="act act-1" href={resolve(i.linkUrl)}>{i.linkText}</a>
+                      )}
+                      {resolve(i.link2Url) && i.link2Text && (
+                        <a class="act act-2" href={resolve(i.link2Url)}>{i.link2Text}</a>
+                      )}
+                    </div>
+                  ) : null}
                 </div>
               </article>
             ))}

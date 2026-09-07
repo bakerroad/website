@@ -45,5 +45,9 @@
 # Retired: these pages were empty or stale on the old site
 /events               /           301
 /newsletter           /           301
-/blog                 /outreach   301
-/blog/*               /outreach   301
+/blog                 /            301
+/blog/*               /            301
+
+# Retired during the 2026 rebuild
+/outreach             /ministries 301
+/serve                /ministries 301
