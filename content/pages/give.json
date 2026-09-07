@@ -6,17 +6,33 @@
   "intro": "If you are visiting, please skip this page. Giving is for people who call Baker Road home.",
   "sections": [
     {
-      "eyebrow": "",
-      "heading": "Why we give at all",
-      "body": "God is generous, and he calls us to be generous too. What we do with what we have been given says a great deal about the condition of our hearts. Every dollar given here funds the work of this church: the teaching, the children's ministry, the care of members in hard seasons, the missionaries we support, and the building on Baker Road that this congregation has paid for since 1978.",
-      "note": "",
-      "items": []
+      "eyebrow": "Why we give",
+      "heading": "Generosity answers generosity",
+      "body": "God gave first, and gave everything. What we do with what we have been given says a great deal about the condition of our hearts. So giving here is not the price of admission and it is not the church's fundraising. It is a response.\n\nWhat it pays for is not abstract. Everything below is funded by people who call Baker Road home, giving on ordinary Sundays.",
+      "note": "“For where your treasure is, there your heart will be also.” — Matthew 6:21",
+      "items": [
+        {
+          "title": "The work here",
+          "meta": "This church",
+          "body": "The teaching, the children's ministry, the care of members in hard seasons, and the building on Baker Road that this congregation has paid for since 1978."
+        },
+        {
+          "title": "Baytown, outside our doors",
+          "meta": "Our first mission field",
+          "body": "The Pumpkin Patch every October, rides to church for anyone without a way to get here, meals and hospital visits through the Care Ministry, and direct help for neighbors who are up against it — whether or not they attend here."
+        },
+        {
+          "title": "Around the world",
+          "meta": "Missionaries",
+          "body": "Missionaries in the field, supported through the cooperative work of Southern Baptist churches, as this church has done since the beginning."
+        }
+      ]
     },
     {
       "eyebrow": "Other ways",
       "heading": "In person, or by mail",
       "body": "",
-      "note": "“For where your treasure is, there your heart will be also.” — Matthew 6:21",
+      "note": "",
       "items": [
         {
           "title": "On Sunday morning",
