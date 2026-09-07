@@ -25,6 +25,9 @@ that moves the needle.
 | **No map on the Contact page.** | Embedded Google Map + "Open in Google Maps." |
 | **No caching or security headers.** | `_headers`: one-year immutable cache on build assets, a week on images, HSTS, nosniff, frame and referrer policies. |
 | Geo meta tags | `geo.region`, `geo.placename`, `geo.position`, `ICBM` on every page. |
+| **Canonical tags pointed at a redirect.** Cloudflare serves `/about/` and 307-redirects `/about` to it, but every canonical, `og:url`, nav link and legacy redirect target used the slash-less form. Google had the slashed URLs indexed, so the canonicals disagreed with the index and the 42 old-URL redirects were a two-hop chain. | Astro `trailingSlash: "always"`; canonical + `og:url` now use the slashed form; nav and hard-coded links end in `/`; the 29 non-root redirect targets end in `/`. Zero redirect hops on internal links. (2026-09-07) |
+| Event and section images had empty `alt`. | Event image alt = event title; ministry/section image alt = item title. |
+| Event rich result flagged a missing `offers` field (non-critical). | Free `Offer` (price 0, USD, InStock) added to every Event, since the events are free. |
 
 ---
 
@@ -127,10 +130,17 @@ this list improves the site more.
 - **A "Churches near me in Baytown" page is not worth writing.** That's the
   SEO-agency move. The Business Profile does that job better, and a thin
   location page reads as spam.
-- **Watch Google Search Console.** Add the property at
-  `search.google.com/search-console` (verify via the Cloudflare DNS TXT record),
-  submit `https://brbcbaytown.org/sitemap-index.xml`, and check it monthly for
-  coverage errors. This is how you find out what's actually working.
+- **Google Search Console is set up (2026-09-07).** Domain property
+  `brbcbaytown.org`, owned by the Workspace admin `matt.rose@brbcbaytown.org`;
+  ownership auto-verified through the Workspace DNS record. Sitemap
+  `https://brbcbaytown.org/sitemap-index.xml` submitted and read successfully;
+  indexing requested for Home, Visit, About, Ministries, Watch, Give, Contact.
+  Home, Visit, Ministries and Contact were already indexed; About, Watch and
+  Give were "Discovered, not indexed" and are now in the priority crawl queue.
+  Check the **Pages** report monthly for coverage errors, and **Performance**
+  after ~2 weeks for the search terms Baytown people actually use. Add Sarah
+  Rose as a user under Settings → Users and permissions when she has a
+  Workspace login.
 
 ---
 
