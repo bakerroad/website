@@ -10,21 +10,27 @@
       "heading": "Let us pray for you",
       "body": "Tell us as much or as little as you want, and say whether you would like someone to follow up.",
       "note": "Requests go to the pastor and the prayer team.",
-      "items": []
+      "items": [],
+      "linkText": "Email a prayer request",
+      "linkUrl": "@mailto"
     },
     {
       "eyebrow": "Anything else",
       "heading": "Send us a note",
       "body": "Questions about visiting, membership, baptism, weddings, or getting your family plugged in. Call the office and we will help.",
       "note": "",
-      "items": []
+      "items": [],
+      "linkText": "Email us",
+      "linkUrl": "@mailto"
     },
     {
       "eyebrow": "Next steps",
       "heading": "Baptism and membership",
       "body": "If you have put your faith in Jesus and have never been baptized, we would count it an honor. If Baker Road is becoming your church home, membership is how you say so out loud. Either one starts with a conversation. Call the office and ask for Pastor Marvin.",
       "note": "",
-      "items": []
+      "items": [],
+      "linkText": "Call the office",
+      "linkUrl": "@tel"
     }
   ]
 }

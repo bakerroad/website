@@ -1,0 +1,68 @@
+---
+/**
+ * Tactful giving. The Give page opens with "if you are visiting, please skip
+ * this page" — so a payment form must not be the first thing anyone sees.
+ *
+ * The Subsplash iframe is NOT in the page on load. Its src is set only when
+ * someone deliberately opens the panel. That keeps Stripe, Google Pay and
+ * Subsplash's analytics out of the page for everyone just having a look, and
+ * keeps the page fast. Subsplash sends `frame-ancestors *`, so framing is
+ * permitted; if it ever stops being, the "open in a new tab" link still works.
+ */
+import { site } from "../lib/site";
+const url = site.givingUrl || "";
+---
+{url && (
+  <>
+    <div class="give-cta">
+      <button type="button" id="give-open" class="btn btn-p">Give online</button>
+      <a class="give-alt" href={url} target="_blank" rel="noopener">or open the giving page in a new tab</a>
+    </div>
+
+    <div class="give-modal" id="give-modal" hidden>
+      <div class="give-backdrop" data-give-close></div>
+      <div class="give-panel" role="dialog" aria-modal="true" aria-labelledby="give-title">
+        <div class="give-head">
+          <h2 id="give-title">Give to Baker Road</h2>
+          <button type="button" class="give-x" data-give-close aria-label="Close">&times;</button>
+        </div>
+        <p class="give-secure">Handled by Subsplash, the church's own giving provider. Baker Road's website never sees your card details.</p>
+        <iframe id="give-frame" title="Subsplash giving" data-src={url} loading="lazy"
+                allow="payment *" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <p class="give-fallback">Trouble with the form? <a href={url} target="_blank" rel="noopener">Open it in a new tab instead</a>.</p>
+      </div>
+    </div>
+
+    <script is:inline>
+      (function () {
+        var openBtn = document.getElementById("give-open");
+        var modal = document.getElementById("give-modal");
+        var frame = document.getElementById("give-frame");
+        if (!openBtn || !modal || !frame) return;
+        var lastFocus = null;
+
+        function open() {
+          lastFocus = document.activeElement;
+          // load the payment iframe only now, never on page view
+          if (!frame.getAttribute("src")) frame.setAttribute("src", frame.dataset.src);
+          modal.hidden = false;
+          document.body.style.overflow = "hidden";
+          var x = modal.querySelector(".give-x");
+          if (x) x.focus();
+        }
+        function close() {
+          modal.hidden = true;
+          document.body.style.overflow = "";
+          if (lastFocus && lastFocus.focus) lastFocus.focus();
+        }
+        openBtn.addEventListener("click", open);
+        modal.querySelectorAll("[data-give-close]").forEach(function (el) {
+          el.addEventListener("click", close);
+        });
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape" && !modal.hidden) close();
+        });
+      })();
+    </script>
+  </>
+)}

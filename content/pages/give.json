@@ -12,13 +12,6 @@
       "note": "“For where your treasure is, there your heart will be also.” — Matthew 6:21",
       "items": [
         {
-          "title": "Give from your phone",
-          "meta": "Online",
-          "body": "A one-time gift or a recurring one, by card or bank draft.",
-          "linkText": "Give online",
-          "linkUrl": "@givingUrl"
-        },
-        {
           "title": "On Sunday morning",
           "meta": "In person",
           "body": "Envelopes are available for cash or checks."

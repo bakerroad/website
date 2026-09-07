@@ -17,7 +17,6 @@ const CHANNEL_ID = process.env.YOUTUBE_CHANNEL_ID || "UCIMoHSQCKy3dtYCG1Wj607A";
 const OUT = "content/sermons";
 const SERIES_FILE = "content/sermon-series.json";
 
-if (!API_KEY) { console.error("Missing YOUTUBE_API_KEY"); process.exit(1); }
 mkdirSync(OUT, { recursive: true });
 
 const known = existsSync(SERIES_FILE) ? (JSON.parse(readFileSync(SERIES_FILE, "utf8")).series || []) : [];
@@ -29,6 +28,34 @@ const api = async (path, params) => {
   if (!r.ok) throw new Error(`YouTube ${path} ${r.status}: ${(await r.text()).slice(0, 300)}`);
   return r.json();
 };
+
+/**
+ * The channel's public RSS feed. Needs no API key, but only ever returns the
+ * most recent 15 uploads. Used so the Watch page has real sermons on it before
+ * anyone has set up a Google Cloud project; the API path below replaces this
+ * and reaches the whole archive.
+ */
+async function fetchFromRss() {
+  const r = await fetch(`https://www.youtube.com/feeds/videos.xml?channel_id=${CHANNEL_ID}`);
+  if (!r.ok) throw new Error(`YouTube RSS ${r.status}`);
+  const xml = await r.text();
+  const unesc = (t) => t.replace(/&amp;/g, "&").replace(/&#39;/g, "'").replace(/&quot;/g, '"')
+                        .replace(/&lt;/g, "<").replace(/&gt;/g, ">");
+  return [...xml.matchAll(/<entry>([\s\S]*?)<\/entry>/g)].map((m) => {
+    const e = m[1];
+    const pick = (re) => (e.match(re) || [, ""])[1];
+    const id = pick(/<yt:videoId>(.*?)<\/yt:videoId>/);
+    return {
+      contentDetails: { videoId: id },
+      snippet: {
+        title: unesc(pick(/<title>([\s\S]*?)<\/title>/).trim()),
+        publishedAt: pick(/<published>(.*?)<\/published>/),
+        description: unesc(pick(/<media:description>([\s\S]*?)<\/media:description>/)),
+        thumbnails: { high: { url: id ? `https://i.ytimg.com/vi/${id}/hqdefault.jpg` : "" } },
+      },
+    };
+  }).filter((v) => v.contentDetails.videoId);
+}
 
 async function fetchAll() {
   const ch = await api("channels", { part: "contentDetails", id: CHANNEL_ID });
@@ -45,7 +72,9 @@ async function fetchAll() {
 }
 
 async function main() {
-  const items = (await fetchAll()).filter((it) => {
+  const source = API_KEY ? "YouTube Data API" : "public RSS feed (latest 15 only — set YOUTUBE_API_KEY for the full archive)";
+  console.log(`Source: ${source}`);
+  const items = (API_KEY ? await fetchAll() : await fetchFromRss()).filter((it) => {
     const ps = it.status?.privacyStatus;
     return !ps || ps === "public"; // never publish an unlisted or private video
   });
@@ -95,11 +124,15 @@ async function main() {
     writeFileSync(file, JSON.stringify(next, null, 2) + "\n"); created++;
   }
 
-  // Remove sermons whose video was deleted or made private.
+  // Remove sermons whose video was deleted or made private. Only safe with the
+  // API, which returns the whole channel; RSS only shows the latest 15, so
+  // pruning against it would delete the entire back catalogue.
   let removed = 0;
-  for (const f of readdirSync(OUT).filter((f) => f.endsWith(".json"))) {
-    const full = join(OUT, f);
-    if (!written.has(full)) { unlinkSync(full); removed++; }
+  if (API_KEY) {
+    for (const f of readdirSync(OUT).filter((f) => f.endsWith(".json"))) {
+      const full = join(OUT, f);
+      if (!written.has(full)) { unlinkSync(full); removed++; }
+    }
   }
 
   const noSeries = items.length - [...written].length;

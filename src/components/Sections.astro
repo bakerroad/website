@@ -1,16 +1,19 @@
 ---
 /** Renders the `sections` array from any page JSON. Chooses a card grid or a
  *  labelled row list depending on whether the items carry a time/detail. */
-interface Item { title?: string; meta?: string; body?: string; linkText?: string; linkUrl?: string; }
-interface Section { eyebrow?: string; heading?: string; body?: string; note?: string; items?: Item[]; }
-import { site } from "../lib/site";
+interface Item { title?: string; meta?: string; body?: string; linkText?: string; linkUrl?: string; image?: string; }
+interface Section { eyebrow?: string; heading?: string; body?: string; note?: string; items?: Item[]; linkText?: string; linkUrl?: string; image?: string; imageAlt?: string; }
+import { site, telHref } from "../lib/site";
 const { sections = [] } = Astro.props as { sections: Section[] };
 
 /** A link written as "@givingUrl" is filled in from Church Info, so the office
  *  updates one field in one place instead of hunting through pages. */
+/** "@mailto" -> the church email, "@tel" -> a tap-to-call link, "@givingUrl"
+ *  etc. -> the matching field in Church Info. One place to change an address. */
 const resolve = (url?: string) => {
   if (!url?.startsWith("@")) return url || "";
   if (url === "@mailto") return site.email ? `mailto:${site.email}` : "";
+  if (url === "@tel") return telHref(site.phone);
   return (site as any)[url.slice(1)] || "";
 };
 
@@ -23,6 +26,12 @@ const isRowList = (s: Section) =>
       {s.eyebrow && <p class="eyebrow">{s.eyebrow}</p>}
       {s.heading && <h2>{s.heading}</h2>}
       {s.body && <div class="body">{s.body.split(/\n{2,}/).map((para) => <p style="margin-bottom:.85rem">{para}</p>)}</div>}
+
+      {s.image && (
+        <figure class="secfig">
+          <img src={s.image} alt={s.imageAlt ?? ""} loading="lazy" />
+        </figure>
+      )}
 
       {(s.items ?? []).length > 0 && (
         isRowList(s) ? (
@@ -40,7 +49,8 @@ const isRowList = (s: Section) =>
         ) : (
           <div class="cards">
             {s.items!.map((i) => (
-              <article class="card">
+              <article class={i.image ? "card haspic" : "card"}>
+                {i.image && <img src={i.image} alt="" loading="lazy" />}
                 {i.meta && <p class="meta">{i.meta}</p>}
                 {i.title && <h3>{i.title}</h3>}
                 {i.body && <p>{i.body}</p>}
@@ -49,6 +59,10 @@ const isRowList = (s: Section) =>
             ))}
           </div>
         )
+      )}
+
+      {s.linkText && resolve(s.linkUrl) && (
+        <p class="seclink"><a href={resolve(s.linkUrl)}>{s.linkText}</a></p>
       )}
 
       {s.note && <p class="note">{s.note}</p>}

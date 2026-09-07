@@ -14,17 +14,23 @@
         {
           "title": "The Pumpkin Patch",
           "meta": "October 4–31",
-          "body": "For two weeks every fall we turn the church lot into a pumpkin patch and open it to all of Baytown. Food trucks, face painting, a bounce house, and pumpkins large and small for one and for all. It is the easiest possible way to meet this church. You do not have to come to a service, believe anything in particular, or talk to anybody. Just come pick out a pumpkin."
+          "body": "For two weeks every fall we turn the church lot into a pumpkin patch and open it to all of Baytown. Food trucks, face painting, a bounce house, and pumpkins large and small for one and for all. It is the easiest possible way to meet this church. You do not have to come to a service, believe anything in particular, or talk to anybody. Just come pick out a pumpkin.",
+          "linkText": "Get directions",
+          "linkUrl": "@mapUrl",
+          "image": "/images/pumpkin-patch.jpg"
         },
         {
           "title": "The SONrise service",
           "meta": "Easter morning",
-          "body": "Easter starts outside on the patio before the sun is fully up, with acoustic worship, the Lord's Supper, and Scripture read by members of this church. Free breakfast in the Fellowship Hall afterward, then the regular service at 10:15. It is our favorite morning of the year, and the one we most want you to come to."
+          "body": "Easter starts outside on the patio before the sun is fully up, with acoustic worship, the Lord's Supper, and Scripture read by members of this church. Free breakfast in the Fellowship Hall afterward, then the regular service at 10:15. It is our favorite morning of the year, and the one we most want you to come to.",
+          "image": "/images/easter-cross.jpg"
         },
         {
           "title": "We will come get you",
           "meta": "Call the office by Friday",
-          "body": "If you want to be at church and do not have a way to get here, call the office by Friday and we will do our best to arrange a ride for Sunday."
+          "body": "If you want to be at church and do not have a way to get here, call the office by Friday and we will do our best to arrange a ride for Sunday.",
+          "linkText": "Call the office",
+          "linkUrl": "@tel"
         },
         {
           "title": "Around the world",
@@ -39,7 +45,9 @@
         {
           "title": "Neighbors in need",
           "meta": "Call the office",
-          "body": "When someone in this community is up against it, the church responds directly rather than through a program. If you need help, or you know someone who does, call and ask."
+          "body": "When someone in this community is up against it, the church responds directly rather than through a program. If you need help, or you know someone who does, call and ask.",
+          "linkText": "Call the office",
+          "linkUrl": "@tel"
         },
         {
           "title": "Want to help with any of it?",

@@ -104,13 +104,15 @@ a:hover{color:var(--brand-hover)}
 .phead{background:var(--surface-alt);border-bottom:1px solid var(--border);padding:2.6rem 0 2.2rem}
 
 /* ── sections ───────────────────────────────────────── */
-.sec{padding:2.9rem 0;border-bottom:1px solid var(--border)}
-.sec:last-of-type{border-bottom:0}
+/* No rule under every section. A line between each block turned the page into
+   a stack of boxes; whitespace separates them more quietly. */
+.sec{padding:3.4rem 0}
+.sec + .sec{padding-top:0}
 .sec > .wrap > h2{margin-bottom:.2rem}
 .sec .body{color:var(--ink-soft);max-width:var(--measure);margin-top:.75rem}
-.sec .note{margin-top:1.4rem;color:var(--ink-faint);font-size:.96rem;max-width:var(--measure);border-left:3px solid var(--border-strong);padding-left:.9rem}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(258px,1fr));gap:1rem;margin-top:1.7rem}
-.card{background:var(--surface-card);border:1px solid var(--border);border-radius:var(--r-lg);padding:1.15rem 1.2rem;display:flex;flex-direction:column;gap:.45rem}
+.sec .note{margin-top:1.6rem;color:var(--ink-faint);font-size:.96rem;max-width:var(--measure);border-left:3px solid var(--border-strong);padding-left:.9rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(258px,1fr));gap:1.1rem;margin-top:1.8rem}
+.card{background:var(--surface-card);border:1px solid var(--border);border-radius:var(--r-lg);padding:1.25rem 1.3rem;display:flex;flex-direction:column;gap:.5rem}
 .card .meta{font-size:.74rem;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--brand)}
 .card p{color:var(--ink-soft);font-size:.99rem}
 .card a{font-weight:700;text-decoration:none;margin-top:auto;padding-top:.3rem}
@@ -164,3 +166,57 @@ a:hover{color:var(--brand-hover)}
 .card.evt > .meta{padding-top:1rem}
 .card.evt > :last-child{padding-bottom:1.15rem}
 .card.evt .where{font-size:.9rem;color:var(--ink-faint)}
+.seclink{margin-top:1.15rem}
+.seclink a{font-weight:700;text-decoration:none}
+.seclink a::after{content:" →"}
+
+/* ── giving ─────────────────────────────────────────── */
+.give-cta{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem 1rem;margin-top:1.6rem}
+.give-cta .btn{font-size:1.02rem;padding:.72rem 1.4rem;cursor:pointer;font-family:inherit}
+.give-alt{font-size:.94rem;color:var(--ink-faint)}
+/* a class selector beats the [hidden] UA rule, so say it explicitly */
+.give-modal[hidden]{display:none}
+.give-modal{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:1rem}
+.give-backdrop{position:absolute;inset:0;background:rgba(23,33,58,.62)}
+.give-panel{position:relative;background:var(--surface-card);border-radius:var(--r-lg);box-shadow:0 24px 60px -12px rgba(23,33,58,.5);width:100%;max-width:520px;max-height:92vh;display:flex;flex-direction:column;padding:1.1rem 1.2rem 1rem}
+.give-head{display:flex;align-items:center;gap:1rem}
+.give-head h2{flex:1;font-size:1.35rem}
+.give-x{font-size:1.6rem;line-height:1;background:transparent;border:0;color:var(--ink-faint);cursor:pointer;padding:0 .2rem}
+.give-x:hover{color:var(--ink)}
+.give-secure{font-size:.88rem;color:var(--ink-faint);margin:.45rem 0 .8rem}
+.give-panel iframe{flex:1;min-height:min(560px,60vh);width:100%;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface-alt)}
+.give-fallback{font-size:.86rem;color:var(--ink-faint);margin-top:.7rem}
+
+/* pictures inside sections and cards */
+.secfig{margin:1.6rem 0 0;overflow:hidden;border-radius:var(--r-lg)}
+.secfig img{width:100%;height:auto;display:block}
+.card.haspic{padding:0;overflow:hidden}
+.card.haspic img{width:100%;aspect-ratio:4/5;object-fit:cover;background:var(--surface-alt)}
+.card.haspic > :not(img){padding-left:1.2rem;padding-right:1.2rem}
+.card.haspic > .meta{padding-top:1rem}
+.card.haspic > :last-child{padding-bottom:1.15rem}
+
+/* ── watch ──────────────────────────────────────────── */
+.latest{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:0;margin-top:1.5rem;
+  background:var(--surface-card);border:1px solid var(--border);border-radius:var(--r-lg);
+  overflow:hidden;text-decoration:none;color:inherit}
+.latest:hover{border-color:var(--border-strong)}
+.latest img{width:100%;height:100%;min-height:210px;object-fit:cover;background:var(--surface-alt)}
+.latest-b{padding:1.4rem 1.5rem;display:flex;flex-direction:column;gap:.4rem;justify-content:center}
+.latest-b .s{font-size:.72rem;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--brand)}
+.latest-b h2{font-size:1.5rem}
+.latest-b .when{font-size:.92rem;color:var(--ink-faint)}
+.latest-b .play{margin-top:.5rem;font-weight:700;color:var(--brand)}
+.latest-b .play::after{content:" →"}
+@media (max-width:760px){.latest{grid-template-columns:1fr}.latest img{min-height:0;aspect-ratio:16/9}}
+
+.earlier{margin-top:2.4rem;font-family:var(--f-body);font-size:.74rem;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint)}
+.slist{list-style:none;margin:.7rem 0 0;padding:0;border-top:1px solid var(--border)}
+.slist li{display:flex;align-items:baseline;gap:1rem;padding:.72rem 0;border-bottom:1px solid var(--border)}
+.slist a{flex:1;text-decoration:none;display:flex;flex-direction:column;gap:.1rem;min-width:0}
+.slist .t{font-weight:600;color:var(--ink)}
+.slist a:hover .t{color:var(--brand)}
+.slist .sr{font-size:.78rem;color:var(--ink-faint)}
+.slist time{font-size:.87rem;color:var(--ink-faint);white-space:nowrap;font-variant-numeric:tabular-nums}
+@media (max-width:560px){.slist li{flex-direction:column;gap:.15rem}}

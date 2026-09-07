@@ -24,7 +24,9 @@
         {
           "title": "Crosswalk",
           "meta": "Contact the office for the next gathering",
-          "body": "The men of Baker Road, gathering for breakfast, service projects, and the plain work of sharpening one another. “Iron sharpens iron, and one person sharpens another.” Proverbs 27:17"
+          "body": "The men of Baker Road, gathering for breakfast, service projects, and the plain work of sharpening one another. “Iron sharpens iron, and one person sharpens another.” Proverbs 27:17",
+          "linkText": "Call the office",
+          "linkUrl": "@tel"
         },
         {
           "title": "Women's Ministry",
@@ -39,12 +41,16 @@
         {
           "title": "Care Team",
           "meta": "Need care, or want to help? Call the office",
-          "body": "When someone in this church is in the hospital, grieving, or just quietly struggling, the Care Team is who shows up. Meals, visits, rides, and prayer."
+          "body": "When someone in this church is in the hospital, grieving, or just quietly struggling, the Care Team is who shows up. Meals, visits, rides, and prayer.",
+          "linkText": "Call the office",
+          "linkUrl": "@tel"
         },
         {
           "title": "Find your place",
           "meta": "Tell us what you are good at",
-          "body": "Worship team, media and sound, transportation, hospitality, childcare, Sunday School teaching. If you can do it, we can use it."
+          "body": "Worship team, media and sound, transportation, hospitality, childcare, Sunday School teaching. If you can do it, we can use it.",
+          "linkText": "Email us",
+          "linkUrl": "@mailto"
         }
       ]
     }

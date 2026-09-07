@@ -1,31 +1,68 @@
 ---
-import InnerPage from "../layouts/InnerPage.astro";
+import Base from "../layouts/Base.astro";
+import Sections from "../components/Sections.astro";
 import page from "../../content/pages/watch.json";
-import { allSermons } from "../lib/site";
-const sermons = allSermons().slice(0, 12);
-const fmt = (d: string) => new Date(d + "T12:00:00").toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+import { site, allSermons } from "../lib/site";
+const sermons = allSermons();
+const [latest, ...rest] = sermons;
+const recent = rest.slice(0, 8);
+const fmt = (d: string) =>
+  new Date(d + "T12:00:00").toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+const watchUrl = (s: any) => `https://www.youtube.com/watch?v=${s.youtubeId}`;
 ---
-<InnerPage page={page}>
-  {sermons.length > 0 && (
+<Base title={page.title} description={page.metaDescription}>
+  <div class="phead">
+    <div class="wrap">
+      {page.eyebrow && <p class="eyebrow">{page.eyebrow}</p>}
+      <h1>{page.headline}</h1>
+      {page.intro && <p class="lede">{page.intro}</p>}
+    </div>
+  </div>
+
+  {latest && (
     <section class="sec">
       <div class="wrap">
-        <p class="eyebrow">Recent messages</p>
-        <h2>The last few Sundays</h2>
-        <p class="body">This list updates itself from our YouTube channel. Nobody has to add anything to it.</p>
-        <div class="sermons">
-          {sermons.map((s: any) => (
-            <article class="sermon">
-              {s.thumbnail && <img src={s.thumbnail} alt="" loading="lazy" width="480" height="270" />}
-              <div class="b">
-                {s.series && <p class="s">{s.series}</p>}
-                <h3>{s.title}</h3>
-                <time datetime={s.date}>{fmt(s.date)}</time>
-                <a class="play" href={`https://www.youtube.com/watch?v=${s.youtubeId}`} rel="noopener">Watch this message</a>
-              </div>
-            </article>
-          ))}
-        </div>
+        <p class="eyebrow">Most recent message</p>
+
+        <a class="latest" href={watchUrl(latest)} rel="noopener">
+          {latest.thumbnail && (
+            <img src={latest.thumbnail} alt="" loading="lazy" width="640" height="360" />
+          )}
+          <div class="latest-b">
+            {latest.series && <p class="s">{latest.series}</p>}
+            <h2>{latest.title}</h2>
+            <p class="when">
+              <time datetime={latest.date}>{fmt(latest.date)}</time>
+              {latest.speaker && <> · {latest.speaker}</>}
+            </p>
+            <span class="play">Watch on YouTube</span>
+          </div>
+        </a>
+
+        {recent.length > 0 && (
+          <>
+            <h3 class="earlier">Earlier messages</h3>
+            <ul class="slist">
+              {recent.map((s: any) => (
+                <li>
+                  <a href={watchUrl(s)} rel="noopener">
+                    <span class="t">{s.title}</span>
+                    {s.series && <span class="sr">{s.series}</span>}
+                  </a>
+                  <time datetime={s.date}>{fmt(s.date)}</time>
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
+
+        {site.youtubeUrl && (
+          <p class="seclink"><a href={site.youtubeUrl} rel="noopener">Every message on our YouTube channel</a></p>
+        )}
       </div>
     </section>
   )}
-</InnerPage>
+
+  <!-- the ways to follow along come after the messages themselves -->
+  <Sections sections={page.sections ?? []} />
+</Base>

@@ -54,43 +54,9 @@
           "meta": "Wednesday, 5:30 PM",
           "body": "Dinner in the Fellowship Hall first, then everybody scatters: adults to Bible study, students to ONE, kids to Children's Group. It is the easiest night of the week to visit if a Sunday morning feels like a lot."
         }
-      ]
-    },
-    {
-      "eyebrow": "Wherever you are",
-      "heading": "What would you like to do next?",
-      "body": "",
-      "note": "",
-      "items": [
-        {
-          "title": "I am thinking about visiting",
-          "meta": "",
-          "body": "",
-          "linkText": "Plan a visit",
-          "linkUrl": "/visit"
-        },
-        {
-          "title": "I would like prayer",
-          "meta": "",
-          "body": "",
-          "linkText": "Send a request",
-          "linkUrl": "/contact"
-        },
-        {
-          "title": "I want to get involved",
-          "meta": "",
-          "body": "",
-          "linkText": "See our ministries",
-          "linkUrl": "/ministries"
-        },
-        {
-          "title": "I want to give",
-          "meta": "",
-          "body": "",
-          "linkText": "Ways to give",
-          "linkUrl": "/give"
-        }
-      ]
+      ],
+      "image": "/images/worship.jpg",
+      "imageAlt": "The worship team leading a Sunday service at Baker Road, with the words of a hymn on the screen behind them"
     }
   ]
 }

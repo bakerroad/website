@@ -10,7 +10,11 @@
       "heading": "900 W. Baker Rd",
       "body": "Park anywhere in the lot off Baker Road. Come in through the main doors under the portico. There is no wrong door and no reserved parking.",
       "note": "",
-      "items": []
+      "items": [],
+      "linkText": "Get directions",
+      "linkUrl": "@mapUrl",
+      "image": "/images/church-exterior.jpg",
+      "imageAlt": "The front of Baker Road Baptist Church from the parking lot, with the covered entrance on the right"
     },
     {
       "eyebrow": "When to arrive",

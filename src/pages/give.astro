@@ -1,5 +1,15 @@
 ---
 import InnerPage from "../layouts/InnerPage.astro";
+import GivingModal from "../components/GivingModal.astro";
 import page from "../../content/pages/give.json";
 ---
-<InnerPage page={page} />
+<InnerPage page={page}>
+  <section class="sec">
+    <div class="wrap">
+      <p class="eyebrow">Online</p>
+      <h2>Give from your phone</h2>
+      <p class="body">A one-time gift or a recurring one, by card or bank draft.</p>
+      <GivingModal />
+    </div>
+  </section>
+</InnerPage>
