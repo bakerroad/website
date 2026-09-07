@@ -42,31 +42,35 @@ Left off on purpose: Cloudflare's own **HSTS** toggle. The site already sends
 the HSTS header from `_headers`; turning on Cloudflare's version too is harmless
 but adds nothing.
 
-### 2. Google Business Profile  *(the single highest-value item on this list)*
-**Correction, 7 Sep evening:** on opening the claim flow the listing turned out
-to have **12 Google reviews at 5.0** — my earlier "no reviews" finding was wrong;
-directory searches simply didn't surface them. Good news. It also revealed an
-error on Google's own listing: the address reads **"900 W Baker Rd #2340"**, the
-ZIP+4 suffix (77521-2340) mistaken for a unit number. Fix that first thing after
-claiming. The listing is **unclaimed** (Google offered "Manage now" directly
-rather than "request access"), and it is being claimed by `matt.rose@brbcbaytown.org`.
+### 2. Google Business Profile  ✅ DONE 7 Sep 2026
+Claimed and **auto-verified** the same evening from `matt.rose@brbcbaytown.org`
+(Google matched the account's domain to the listing's website — no postcard).
+Manage it at business.google.com signed in as that account.
 
-Go to `business.google.com`, search "Baker Road Baptist Church Baytown," and
-claim it with the church Google account. Then, in this order:
+What was set, all pending Google's routine review (usually under an hour):
+- **Hours:** Sun 9:00–12:00 · Mon closed · Tue/Thu/Fri 9:00–2:00 ·
+  Wed 12:30–7:30 · Sat closed. Sunday and Wednesday evening were the
+  additions — Google shows these in the search panel, which is where most
+  people check when a church meets.
+- **Description:** 750 characters, drawn only from copy already on the site.
+- **Address:** the erroneous `#2340` removed; Google's own suggestion
+  "900 W Baker Rd, Baytown, TX 77521" selected so it validates.
+- **Categories:** Baptist church (primary) + Church (secondary).
+- **Website:** `http://www.brbcbaytown.org/` → `https://brbcbaytown.org`.
+- **Photos:** six uploaded — church exterior, the Pumpkin Patch display,
+  worship on stage, the Easter cross, the 1980 building, Pastor Marvin.
+- **Skipped on purpose:** the $500 Google Ads credit (requires opening an
+  Ads account and spending; Ad Grants via Google for Nonprofits is the
+  better path) and marketing-email opt-in.
 
-- **Category:** Baptist church (primary), Church (secondary).
-- **Hours:** enter the office hours **and** add "Sunday: 9:00 AM – 12:00 PM,
-  Wednesday: 5:30 – 7:30 PM" as service times — Google shows these in the panel,
-  and that panel is where more people get your service time than the website.
-- **Website:** `https://brbcbaytown.org`  **Phone:** (281) 427-0506.
-- **Photos:** upload the Pumpkin Patch, the worship photo, the Easter cross,
-  the building exterior, the logo. Profiles with photos get dramatically more
-  clicks. Add one new photo a month.
-- **Description:** paste the homepage intro.
-- **Reviews:** already 12 at 5.0 — better than most Baytown churches. The
-  one-click review link is in Church Info; ask ten more members this month.
-  Reply to every existing review once the profile is claimed; Google rewards it.
-- **Posts:** post the Pumpkin Patch as a Google event post in late September.
+**Already had 12 reviews at 5.0** — my earlier "zero reviews" was wrong.
+
+Still to do on the profile:
+- **Logo** and a cover photo (Photos → Logo / Cover).
+- **Add Sarah Rose as a manager** so the church isn't one login from losing it.
+- **Reply to the 12 existing reviews.** Google rewards it, and it's free.
+- Ask ten more members for a review this month; the link is in Church Info.
+- In late September, post the Pumpkin Patch as a Google **event post**.
 
 ### 3. Fix the name and email in the directories  *(NAP consistency)*
 Google cross-checks Name / Address / Phone across the web. Right now:
