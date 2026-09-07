@@ -98,3 +98,67 @@ church needs to confirm it has permission to publish it. Photos that members or
 visitors posted and tagged were **not** collected: they belong to whoever took
 them, and consent to a Facebook tag is not consent to appear on a church's
 website. If you want those, ask the people who posted them.
+
+---
+
+# Claims to confirm before launch
+
+The site makes specific promises about what a visitor will experience. Specific
+beats vague — it is why this copy works — but every one of these is a promise
+the church has to actually keep. They came from the old website and from an
+account of a service, not from anyone at Baker Road confirming them.
+
+**Read this list to Pastor Marvin or the office and get a yes or no on each.**
+Any "no" is a two-minute edit in Tina. A "no" discovered by a visitor is worse.
+
+### Already removed, because they cannot ship unverified
+
+These were in the draft and have been **taken out**. Put each one back only if
+the church confirms it is true — the wording to restore is in brackets.
+
+- **Childcare screening.** *["Our childcare workers are trained and screened",
+  "trained, screened childcare"]* — a safety claim about children. If Baker Road
+  does run background checks, say so plainly and prominently: parents look for
+  exactly this. If it does not, the claim must stay off the site.
+- **Giving receipts.** *["You will get an emailed receipt for your records every
+  time"]* — depends on how Subsplash is configured, and people rely on it at tax
+  time. Confirm in Subsplash, then restore.
+- **Prayer request confidentiality.** *["They are never read aloud or posted
+  anywhere without your permission"]* — many churches read requests aloud in a
+  prayer meeting or print them in a bulletin. If Baker Road does that, this
+  sentence was a broken promise about sensitive personal information. Confirm
+  what actually happens to a request, then describe *that*.
+- **Rides to church.** Softened to "we will do our best to arrange a ride."
+  Confirm a transportation team actually exists and still drives.
+- **"Someone will get back to you" / "we will answer".** Removed, because there
+  is no monitored email address yet and no working form. Restore once there is.
+
+### Still on the site, unverified — confirm or correct
+
+**What a first-timer is told will happen**
+- "We will not ask you to stand, introduce yourself, fill out a card, or give
+  anything." Plenty of Baptist churches *do* ask visitors for a card.
+- "Ask at the front doors and someone will walk you to the right room." Needs
+  greeters at the doors at 9:00.
+- The service runs "about 90 minutes", and the 10:15 → 11:40 minute-by-minute
+  running order on Plan a Visit.
+- "Call the church office during the week and a real person will answer."
+- "Pastor Marvin is glad to meet with anyone who wants to talk before they ever
+  set foot in a service."
+
+**The building**
+- Park anywhere in the lot; main doors under the portico; no reserved parking.
+- "There are Bibles in the pews."
+- "Offering boxes sit near the exits, envelopes are in the pews, and no plate is
+  passed down your row." This one is stated three times across two pages, so if
+  a plate *is* passed, it is wrong three times.
+
+**Ministries**
+- Adult Bible Study is "free to attend, no prior knowledge assumed, and nobody
+  will ask you to read aloud."
+
+**Events** — these describe a Pumpkin Patch and an Easter service from previous
+years, and are written as though they happen the same way every time.
+- Pumpkin Patch: food trucks, face painting, a bounce house.
+- SONrise: 6:00 AM on the patio, acoustic worship, the Lord's Supper, readings
+  by members, free breakfast in the Fellowship Hall afterward.

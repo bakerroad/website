@@ -14,7 +14,7 @@
         {
           "title": "Give from your phone",
           "meta": "Online",
-          "body": "A one-time gift or a recurring one, by card or bank draft. You will get an emailed receipt for your records every time.",
+          "body": "A one-time gift or a recurring one, by card or bank draft.",
           "linkText": "Give online",
           "linkUrl": "@givingUrl"
         },
@@ -33,7 +33,7 @@
     {
       "eyebrow": "",
       "heading": "Why we give at all",
-      "body": "God is generous, and he calls us to be generous too. What we do with what we have been given says a great deal about the condition of our hearts. Every dollar given here funds the work of this church: the teaching, the children's ministry, the care of members in hard seasons, the missionaries we support, and the building on Baker Road that forty-eight years of this congregation paid for.",
+      "body": "God is generous, and he calls us to be generous too. What we do with what we have been given says a great deal about the condition of our hearts. Every dollar given here funds the work of this church: the teaching, the children's ministry, the care of members in hard seasons, the missionaries we support, and the building on Baker Road that this congregation has paid for since 1978.",
       "note": "",
       "items": []
     }
