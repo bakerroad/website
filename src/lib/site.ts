@@ -9,12 +9,7 @@ export const TZ = "America/Chicago";
 
 export const NAV = [
   { href: "/", label: "Home" },
-  { href: "/visit", label: "Plan a Visit", children: [
-    { href: "/visit#900-w-baker-rd", label: "Getting here" },
-    { href: "/visit#aim-for-10-05", label: "When to arrive" },
-    { href: "/visit#where-the-kids-go", label: "Where the kids go" },
-    { href: "/visit#a-typical-sunday", label: "A typical Sunday" },
-  ]},
+  { href: "/visit", label: "Plan a Visit" },
   { href: "/about", label: "About", children: [
     { href: "/about#make-disciples", label: "Our mission" },
     { href: "/about#our-core-convictions", label: "What we believe" },
@@ -44,22 +39,9 @@ export const NAV = [
     { href: "/outreach#neighbors-in-need", label: "Neighbors in need" },
     { href: "/outreach#missionaries", label: "Missionaries" },
   ]},
-  { href: "/watch", label: "Watch", children: [
-    { href: "/watch#recent-messages", label: "Recent messages" },
-    { href: "/watch#our-sermon-channel", label: "YouTube channel" },
-    { href: "/watch#day-to-day-news", label: "Facebook" },
-  ]},
-  { href: "/give", label: "Give", children: [
-    { href: "/give#give-online", label: "Give online" },
-    { href: "/give#on-sunday-morning", label: "On Sunday morning" },
-    { href: "/give#send-a-check", label: "By mail" },
-    { href: "/give#why-we-give-at-all", label: "Why we give" },
-  ]},
-  { href: "/contact", label: "Contact", children: [
-    { href: "/contact#let-us-pray-for-you", label: "Prayer request" },
-    { href: "/contact#send-us-a-note", label: "Send us a note" },
-    { href: "/contact#baptism-and-membership", label: "Baptism & membership" },
-  ]},
+  { href: "/watch", label: "Watch" },
+  { href: "/give", label: "Give" },
+  { href: "/contact", label: "Contact" },
 ];
 
 /** "(281) 427-0506" -> "+12814270506" so phones can dial it. */
