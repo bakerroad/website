@@ -388,7 +388,8 @@ a:hover{color:var(--brand-hover)}
 .ftr-map a[aria-current="page"]{color:var(--ink-on-deep);font-weight:600}
 
 /* ── /sop — the unlisted operations manual ──────────── */
-.doc{max-width:76ch}
+.doc{max-width:none}
+.doc p,.doc ul,.doc ol,.doc h3,.doc .callout,.doc .toc{max-width:76ch}
 .doc h3{margin:1.7rem 0 .5rem;font-family:var(--f-display);font-size:1.28rem;font-weight:500}
 .doc p,.doc li{color:var(--ink-soft)}
 .doc p{margin:0 0 .8rem}
@@ -398,7 +399,9 @@ a:hover{color:var(--brand-hover)}
 .doc pre{background:var(--surface-deep);color:var(--ink-on-deep);padding:.9rem 1.05rem;border-radius:var(--r-lg);overflow-x:auto;font-size:.88rem;line-height:1.55;margin:.6rem 0 1rem}
 .doc pre code{background:none;color:inherit;padding:0}
 .doc .tblwrap{overflow-x:auto;margin:.8rem 0 1.3rem;border:1px solid var(--border);border-radius:var(--r-lg)}
-.doc table{width:100%;border-collapse:collapse;font-size:.94rem;min-width:560px}
+.doc table{width:100%;border-collapse:collapse;font-size:.94rem;min-width:820px}
+.doc td:first-child,.doc th:first-child{white-space:nowrap}
+.doc td code,.doc th code{white-space:nowrap;word-break:normal}
 .doc th,.doc td{text-align:left;vertical-align:top;padding:.6rem .8rem;border-bottom:1px solid var(--border)}
 .doc tbody tr:last-child td{border-bottom:0}
 .doc thead th{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);background:var(--surface-alt)}
