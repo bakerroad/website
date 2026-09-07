@@ -1,0 +1,16 @@
+{
+  // Cloudflare created this project as a Worker with static assets (its current
+  // default for a Git-connected site), not a classic Pages project. Its deploy
+  // step runs `npx wrangler deploy`, which needs this file to know what to ship.
+  //
+  // There is no Worker script — the site is static. `assets.directory` alone is
+  // a valid assets-only deployment.
+  "name": "website",
+  "compatibility_date": "2026-09-07",
+  "assets": {
+    "directory": "./dist",
+    // serve /about for /about/ and vice versa, and use the built 404
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page"
+  }
+}

@@ -1,0 +1,46 @@
+---
+import Base from "../layouts/Base.astro";
+import { site, telHref } from "../lib/site";
+const tel = telHref(site.phone);
+---
+<Base title="Page not found — Baker Road Baptist Church"
+      description="That page has moved. Here is where to find what you were looking for.">
+  <div class="phead">
+    <div class="wrap">
+      <p class="eyebrow">Page not found</p>
+      <h1>That page has moved.</h1>
+      <p class="lede">
+        We rebuilt this website in 2026 and a few addresses changed. Everything that
+        was here is still here, just somewhere tidier.
+      </p>
+    </div>
+  </div>
+
+  <section class="sec">
+    <div class="wrap">
+      <h2>Where you were probably going</h2>
+      <div class="cards">
+        <article class="card">
+          <p class="meta">Sundays</p><h3>Plan a visit</h3>
+          <p>What happens on a Sunday morning, where to park, and where the kids go.</p>
+          <a href="/visit">Plan a visit</a>
+        </article>
+        <article class="card">
+          <p class="meta">Who we are</p><h3>About</h3>
+          <p>Our mission, what we believe, and forty-odd years on Baker Road.</p>
+          <a href="/about">About us</a>
+        </article>
+        <article class="card">
+          <p class="meta">Get involved</p><h3>Ministries</h3>
+          <p>Children, students, Bible study, men, women, and the Care Ministry.</p>
+          <a href="/ministries">See ministries</a>
+        </article>
+        <article class="card">
+          <p class="meta">Still stuck</p><h3>Just call us</h3>
+          <p>The office will point you at whatever you were looking for.</p>
+          {tel && <a href={tel}>{site.phone}</a>}
+        </article>
+      </div>
+    </div>
+  </section>
+</Base>
