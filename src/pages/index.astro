@@ -1,6 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import Sections from "../components/Sections.astro";
+import Bridge from "../components/Bridge.astro";
 import page from "../../content/pages/home.json";
 import { site, telHref, upcomingEvents } from "../lib/site";
 const tel = telHref(site.phone);
@@ -51,6 +52,8 @@ const events = upcomingEvents().slice(0, 3);
       </div>
     </div>
   </div>
+
+  <Bridge />
 
   <Sections sections={page.sections ?? []} />
 

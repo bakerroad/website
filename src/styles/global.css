@@ -148,3 +148,11 @@ a:hover{color:var(--brand-hover)}
 
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 @media print{.hdr,.ftr,.cta{display:none}}
+
+/* ── Fred Hartman Bridge band ───────────────────────── */
+.bridge{border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--surface-alt)}
+.bridge-in{padding:1.6rem 0 1.2rem;display:flex;flex-direction:column;gap:.5rem;align-items:center}
+.bridge svg{width:100%;max-width:620px;height:auto;display:block}
+.bridge g{stroke:var(--brand);fill:none;stroke-width:1;opacity:.55;vector-effect:non-scaling-stroke}
+.bridge g.deck{stroke:var(--ink-soft);stroke-width:1.6;opacity:.8}
+.cap{font-size:.78rem;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-faint);font-weight:600;text-align:center}
