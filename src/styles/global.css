@@ -64,6 +64,9 @@ a:hover{color:var(--brand-hover)}
 .hero-grid{
   display:grid;grid-template-columns:1.15fr .85fr;gap:0 2.4rem;align-items:start;
   grid-template-areas:"copy times" "actions times";
+  /* the times card is taller than the copy, so let row 2 absorb the slack
+     instead of it opening a gap between the headline and the paragraph */
+  grid-template-rows:auto 1fr;
 }
 .hero-copy{grid-area:copy}
 .hero-actions{grid-area:actions}
