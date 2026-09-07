@@ -3,22 +3,21 @@ import Base from "../layouts/Base.astro";
 import Sections from "../components/Sections.astro";
 import Bridge from "../components/Bridge.astro";
 import page from "../../content/pages/home.json";
-import { site, telHref, upcomingEvents } from "../lib/site";
+import { site, telHref, upcomingEvents, TZ } from "../lib/site";
 const tel = telHref(site.phone);
 const events = upcomingEvents().slice(0, 3);
 
 /** "October 4 – 31" for a run of days; a single date otherwise. */
+const dayKey = (d: Date) => d.toLocaleDateString("en-CA", { timeZone: TZ }); // YYYY-MM-DD
+const fmt = (d: Date, o: any) => d.toLocaleDateString("en-US", { timeZone: TZ, ...o });
 const fmtRange = (e: any) => {
-  const opts: any = { month: "long", day: "numeric" };
   const a = new Date(e.start);
   const b = e.end ? new Date(e.end) : null;
-  if (!b || b.toDateString() === a.toDateString()) {
-    return a.toLocaleDateString("en-US", { weekday: "short", ...opts });
-  }
-  const endDay = new Date(b.getTime() - 60 * 60 * 1000); // an end at 1am belongs to the previous day
-  const sameMonth = endDay.getMonth() === a.getMonth();
-  return `${a.toLocaleDateString("en-US", opts)} – ${endDay.toLocaleDateString("en-US", sameMonth ? { day: "numeric" } : opts)}`;
+  if (!b || dayKey(b) === dayKey(a)) return fmt(a, { weekday: "short", month: "long", day: "numeric" });
+  const sameMonth = fmt(a, { month: "long" }) === fmt(b, { month: "long" });
+  return `${fmt(a, { month: "long", day: "numeric" })} – ${fmt(b, sameMonth ? { day: "numeric" } : { month: "long", day: "numeric" })}`;
 };
+
 ---
 <Base title={page.title} description={page.metaDescription}>
   <div class="hero">

@@ -2,6 +2,11 @@ import settings from "../../content/settings.json";
 
 export const site = settings;
 
+/** Planning Center stores an all-day event as an instant (midnight Central as
+ *  UTC). Formatting that in the build machine's timezone slides the date by a
+ *  day, so every date on this site is rendered in the church's own timezone. */
+export const TZ = "America/Chicago";
+
 export const NAV = [
   { href: "/",            label: "Home" },
   { href: "/visit",       label: "Plan a Visit" },

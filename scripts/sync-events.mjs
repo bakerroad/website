@@ -181,7 +181,10 @@ async function main() {
 
     if (existsSync(file)) {
       const prev = JSON.parse(readFileSync(file, "utf8"));
-      const merged = { ...next, featured: prev.featured ?? false }; // human decision, never reset
+      // `featured` and `image` are human decisions. Planning Center's own
+      // image_url is a signed link that expires, so a locally-hosted picture
+      // always wins over re-syncing that URL.
+      const merged = { ...next, featured: prev.featured ?? false, ...(prev.image ? { image: prev.image } : {}) };
       if (JSON.stringify(merged) !== JSON.stringify(prev)) { writeFileSync(file, JSON.stringify(merged, null, 2) + "\n"); updated++; }
       else preserved++;
       continue;
