@@ -34,13 +34,15 @@ a:hover{color:var(--brand-hover)}
 
 /* ── header ─────────────────────────────────────────── */
 .hdr{background:var(--surface-card);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50}
-.hdr-in{display:flex;align-items:center;gap:1rem;min-height:64px}
-.brand{display:flex;align-items:center;gap:.6rem;text-decoration:none;color:var(--ink);font-weight:700;font-size:1.02rem;line-height:1.15}
-.brand img{width:44px;height:44px;object-fit:contain;flex:none}
-.brand span small{display:block;font-weight:400;font-size:.76rem;color:var(--ink-faint);letter-spacing:.02em}
-.nav{margin-left:auto;display:flex;gap:.05rem;flex-wrap:wrap;align-items:center}
+/* the header runs wider than the text columns so the nav has room to breathe */
+.hdr .wrap{max-width:1280px}
+.hdr-in{display:flex;align-items:center;gap:1.25rem;min-height:78px}
+.brand{display:flex;align-items:center;gap:.75rem;text-decoration:none;color:var(--ink);font-weight:700;font-size:1.16rem;line-height:1.15}
+.brand img{width:58px;height:58px;object-fit:contain;flex:none}
+.brand span small{display:block;font-weight:400;font-size:.83rem;color:var(--ink-faint);letter-spacing:.02em;margin-top:.1rem}
+.nav{margin-left:auto;display:flex;gap:.1rem;flex-wrap:wrap;align-items:center}
 .navitem{position:relative;display:flex;align-items:center}
-.nav a{padding:.45rem .58rem;border-radius:var(--r-sm);text-decoration:none;color:var(--ink-soft);font-weight:600;font-size:.93rem;white-space:nowrap}
+.nav a{padding:.55rem .72rem;border-radius:var(--r-sm);text-decoration:none;color:var(--ink-soft);font-weight:600;font-size:1.04rem;white-space:nowrap}
 .nav a:hover{background:var(--surface-alt);color:var(--brand)}
 .nav a[aria-current="page"]{color:var(--brand);background:var(--brand-tint)}
 .subtoggle{display:none;font:inherit;cursor:pointer;background:transparent;border:0;color:var(--ink-faint);padding:.3rem .4rem;line-height:1}
@@ -63,6 +65,9 @@ a:hover{color:var(--brand-hover)}
 @media (prefers-reduced-motion:reduce){.sub{transition:none}}
 .navtoggle{margin-left:auto;display:none;font:inherit;font-weight:600;cursor:pointer;background:transparent;border:1px solid var(--border-strong);border-radius:var(--r-sm);padding:.42rem .7rem;color:var(--ink)}
 @media (max-width:860px){
+  .hdr-in{min-height:68px}
+  .brand{font-size:1.06rem}
+  .brand img{width:48px;height:48px}
   .navtoggle{display:block}
   .nav{display:none;order:3;width:100%;flex-direction:column;padding-bottom:.7rem;margin-left:0;align-items:stretch}
   .nav.open{display:flex}
