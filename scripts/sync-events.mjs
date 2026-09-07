@@ -1,31 +1,41 @@
 #!/usr/bin/env node
 /**
- * Pull upcoming events from Planning Center Calendar into content/events/*.json
- *   PCO_APP_ID=xxx PCO_SECRET=yyy node scripts/sync-events.mjs
+ * Pull events from Planning Center Calendar into content/events/*.json
+ *   PCO_APP_ID=xxx PCO_SECRET=yyy node scripts/sync-events.mjs [--check]
  *
- * SAFETY RULE, and it is the important part of this file:
- * a church calendar holds counselling appointments, staff meetings, benevolence
- * visits and funerals. Only events the church has explicitly marked visible in
- * Church Center are ever written to the public website. Everything else is
- * skipped, and the run prints how many it skipped so the omission is visible.
+ * ─────────────────────────────────────────────────────────────────────────
+ * WHY THIS IS OPT-IN BY TAG, AND MUST STAY THAT WAY
+ *
+ * The obvious filter is `visible_in_church_center`. On this church's calendar
+ * that flag is set on 123 of 136 events — it is effectively always on. Among
+ * the events it marks "visible" are two named couples' weddings, a named
+ * memorial service, and the Personnel Committee. Publishing on that flag would
+ * put a grieving family's funeral and an HR meeting on the public internet.
+ *
+ * So an event reaches the website only if someone has deliberately tagged it.
+ * If the tag does not exist, this script publishes NOTHING and says why.
+ * Fail closed. Never widen this filter to "everything public" for convenience.
+ * ─────────────────────────────────────────────────────────────────────────
  */
 import { writeFileSync, mkdirSync, readdirSync, unlinkSync, readFileSync, existsSync } from "node:fs";
 import { join } from "node:path";
 import { slugify } from "./lib/parse-title.mjs";
 
 const { PCO_APP_ID, PCO_SECRET } = process.env;
+const TAG_NAME = process.env.PCO_WEBSITE_TAG || "Website";
 const OUT = "content/events";
 const MONTHS_AHEAD = Number(process.env.EVENT_MONTHS_AHEAD || 6);
+const MAX_INSTANCES = Number(process.env.EVENT_MAX_INSTANCES || 12);
+const DRY = process.argv.includes("--check");
 
 if (!PCO_APP_ID || !PCO_SECRET) {
   console.error("Missing PCO_APP_ID / PCO_SECRET.");
-  console.error("Planning Center Personal Access Tokens are a PAIR: an Application ID");
-  console.error("and a Secret, sent as HTTP Basic auth. A secret beginning pco_pat_ is");
-  console.error("only half of it — find the Application ID beside it in Planning Center.");
+  console.error("A Planning Center Personal Access Token is a PAIR: an Application ID");
+  console.error("and a Secret, sent as HTTP Basic auth. A value beginning pco_pat_ is");
+  console.error("only the secret half.");
   process.exit(1);
 }
 mkdirSync(OUT, { recursive: true });
-
 const AUTH = "Basic " + Buffer.from(`${PCO_APP_ID}:${PCO_SECRET}`).toString("base64");
 
 async function pco(path, params = {}) {
@@ -42,68 +52,87 @@ async function pco(path, params = {}) {
   return r.json();
 }
 
-async function fetchInstances() {
-  const cutoff = new Date(); cutoff.setMonth(cutoff.getMonth() + MONTHS_AHEAD);
-  const rows = [], included = new Map();
+async function pageAll(path, params = {}) {
+  const out = [], included = new Map();
   let offset = 0;
   for (;;) {
-    // `filter=future` is the documented, supported way to get upcoming
-    // instances. Range operators on where[starts_at] are NOT reliably
-    // supported, so the far end of the window is trimmed in code below.
-    const p = await pco("event_instances", {
-      filter: "future", include: "event", order: "starts_at", per_page: 100, offset,
-    });
+    const p = await pco(path, { ...params, per_page: 100, offset });
     (p.included || []).forEach((i) => included.set(`${i.type}:${i.id}`, i));
-    const batch = p.data || [];
-    rows.push(...batch);
-    // Results are ordered by start, so once we pass the cutoff we can stop.
-    const last = batch[batch.length - 1]?.attributes?.starts_at;
-    if (last && new Date(last) > cutoff) break;
+    out.push(...(p.data || []));
     const next = p.meta?.next?.offset;
-    if (next == null || batch.length === 0) break;
+    if (next == null || !(p.data || []).length) break;
     offset = next;
+    if (offset > 2000) break;
   }
-  return {
-    rows: rows.filter((r) => {
-      const t = r.attributes?.starts_at;
-      return t && new Date(t) <= cutoff;
-    }),
-    included,
-  };
+  return { rows: out, included };
 }
 
-const DRY = process.argv.includes("--check");
+const HOWTO = `
+Nothing was published, on purpose.
+
+To choose what appears on the website, in Planning Center:
+  Calendar -> Tags -> create a tag group with a tag named "${TAG_NAME}"
+  then open each event that belongs on the website and apply that tag.
+
+Tag only genuine, public, occasional events — the Pumpkin Patch, a
+Thanksgiving Banquet, a Community Worship Night. Do NOT tag the weekly
+schedule; Sunday and Wednesday times are already on every page of the site.
+Never tag weddings, memorial services, or committee meetings.
+`;
 
 async function main() {
   if (DRY) console.log("CHECK MODE — reading Planning Center, writing nothing.\n");
-  const { rows, included } = await fetchInstances();
-  console.log(`Planning Center returned ${rows.length} event instances in the next ${MONTHS_AHEAD} months.`);
 
-  let skippedPrivate = 0, created = 0, updated = 0, preserved = 0;
+  // 1. find the opt-in tag
+  const { rows: tags } = await pageAll("tags");
+  const tag = tags.find((t) => (t.attributes?.name || "").trim().toLowerCase() === TAG_NAME.toLowerCase());
+  if (!tag) {
+    console.log(`No Calendar tag called "${TAG_NAME}" exists yet.`);
+    console.log(HOWTO);
+    return;
+  }
+
+  // 2. which events carry it
+  const { rows: tagged } = await pageAll(`tags/${tag.id}/events`);
+  const allowed = new Set(tagged.map((e) => e.id));
+  console.log(`Tag "${TAG_NAME}" is on ${allowed.size} event(s).`);
+  if (!allowed.size) { console.log(HOWTO); return; }
+
+  // 3. upcoming instances of those events
+  const cutoff = new Date(); cutoff.setMonth(cutoff.getMonth() + MONTHS_AHEAD);
+  const { rows: instances, included } = await pageAll("event_instances", {
+    filter: "future", include: "event", order: "starts_at",
+  });
+
+  let created = 0, updated = 0, preserved = 0, skipped = 0;
   const written = new Set();
+  const perEvent = new Map();
 
-  for (const inst of rows) {
+  for (const inst of instances) {
     const evId = inst.relationships?.event?.data?.id;
-    const ev = evId ? included.get(`Event:${evId}`) : null;
+    if (!allowed.has(evId)) { skipped++; continue; }
+
+    const ev = included.get(`Event:${evId}`);
     const a = ev?.attributes || {};
-
-    // ── the safety gate ──────────────────────────────────────────────
-    if (!a.visible_in_church_center) { skippedPrivate++; continue; }
-
-    const title = (a.name || "").trim();
-    if (!title) { skippedPrivate++; continue; }
+    // belt and braces: the tag is the gate, but honour the flag too
+    if (!a.visible_in_church_center) { skipped++; continue; }
 
     const start = inst.attributes?.starts_at;
-    const end = inst.attributes?.ends_at;
-    if (!start) continue;
+    if (!start || new Date(start) > cutoff) continue;
 
+    // a weekly regular that got tagged by mistake would flood the page
+    const n = (perEvent.get(evId) || 0) + 1;
+    perEvent.set(evId, n);
+    if (n > MAX_INSTANCES) continue;
+
+    const title = (a.name || "").trim();
+    if (!title) continue;
     const day = start.slice(0, 10);
     const file = join(OUT, `${day}-${slugify(title) || inst.id}.json`);
     written.add(file);
 
     const next = {
-      title,
-      start, end: end || "",
+      title, start, end: inst.attributes?.ends_at || "",
       location: (inst.attributes?.location || a.location || "").trim(),
       description: (a.summary || a.description || "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim().slice(0, 500),
       url: a.registration_url || inst.attributes?.church_center_url || "",
@@ -112,10 +141,10 @@ async function main() {
     };
 
     if (DRY) { console.log(`  would publish: ${day}  ${title}`); created++; continue; }
+
     if (existsSync(file)) {
       const prev = JSON.parse(readFileSync(file, "utf8"));
-      // `featured` is a human decision — never let the sync reset it.
-      const merged = { ...next, featured: prev.featured ?? false };
+      const merged = { ...next, featured: prev.featured ?? false }; // human decision, never reset
       if (JSON.stringify(merged) !== JSON.stringify(prev)) { writeFileSync(file, JSON.stringify(merged, null, 2) + "\n"); updated++; }
       else preserved++;
       continue;
@@ -123,25 +152,26 @@ async function main() {
     writeFileSync(file, JSON.stringify(next, null, 2) + "\n"); created++;
   }
 
-  // Drop events that were cancelled, moved out of range, or made private.
-  let removed = 0;
+  for (const [evId, n] of perEvent) {
+    if (n > MAX_INSTANCES) {
+      const nm = included.get(`Event:${evId}`)?.attributes?.name || evId;
+      console.log(`  ! "${nm}" recurs ${n}+ times — capped at ${MAX_INSTANCES}. If it is a weekly regular, untag it.`);
+    }
+  }
+
   if (DRY) {
-    console.log(`\nWould publish ${created} event(s).`);
-    console.log(`Would skip ${skippedPrivate} not marked visible in Church Center.`);
-    console.log("\nCredentials work. Re-run without --check to write the files.");
+    console.log(`\nWould publish ${created}. Skipped ${skipped} untagged instance(s).`);
+    console.log("Credentials work. Re-run without --check to write the files.");
     return;
   }
+
+  let removed = 0;
   for (const f of readdirSync(OUT).filter((f) => f.endsWith(".json"))) {
     const full = join(OUT, f);
     if (!written.has(full)) { unlinkSync(full); removed++; }
   }
-
   console.log(`new ${created} · updated ${updated} · left alone ${preserved} · removed ${removed}`);
-  console.log(`skipped ${skippedPrivate} events not marked visible in Church Center (private by design)`);
-  if (created + updated + preserved === 0) {
-    console.log("\nNothing was published. If that is a surprise, the events in Planning Center are");
-    console.log("probably not ticked 'Visible in Church Center'. That tick is the on-switch.");
-  }
+  console.log(`skipped ${skipped} instance(s) not tagged "${TAG_NAME}"`);
 }
 
 main().catch((e) => { console.error(e.message); process.exit(1); });

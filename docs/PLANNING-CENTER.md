@@ -36,16 +36,54 @@ a chat thread, or an email you keep.
 
 ## What has to be true inside Planning Center
 
-**Calendar has to be turned on**, and events have to actually be on it.
+**The connection is live and tested.** What follows is what we found when we
+looked at the actual calendar, and why the design changed because of it.
 
-**Each event you want on the website must be ticked "Visible in Church Center."**
-This is the on-switch, and it is deliberate. Your church calendar also holds
-counselling appointments, funerals, staff meetings and benevolence visits.
-Nothing without that tick will ever reach the public website.
+### "Visible in Church Center" is not a usable filter here
 
-So the workflow for the office becomes: *put it on the Planning Center calendar,
-tick "Visible in Church Center," and it appears on the website overnight.*
-Nothing else to do.
+I originally built the sync around that flag. On Baker Road's calendar it is set
+on **123 of 136 events** — it is effectively always on. Among the events it
+marks visible:
+
+- **Jack Connor Memorial Service**
+- **Kristen and Geramy Wedding**
+- **Jessica Reyes and Mark Wright Jr. Wedding**
+- **Personnel Committee Meeting**
+- every Church Council, Deacons and Business Meeting
+
+Publishing on that flag would have put a grieving family's funeral, two named
+couples' weddings, and an HR meeting on the public internet. So the flag alone
+is not the gate.
+
+### The sync is now opt-in by tag, and fails closed
+
+An event reaches the website **only if someone deliberately tags it**. No tag,
+nothing published — the script says so and stops.
+
+**To turn it on:** in Planning Center, **Calendar → Tags** → create a tag group
+containing a tag named **`Website`**. Then open each event that belongs on the
+site and apply that tag.
+
+Tag genuine, public, occasional events: the Pumpkin Patch, the Thanksgiving
+Banquet, a Community Worship Night, Hymn Sunday. **Do not tag the weekly
+schedule** — Sunday and Wednesday times already appear on every page. **Never
+tag a wedding, a memorial service, or a committee meeting.**
+
+There is a second guard: if a tagged event turns out to recur more than twelve
+times in the window, the sync caps it and warns you, so a mistagged weekly
+regular cannot flood the page.
+
+### What is on the calendar right now
+
+Almost nothing but the weekly rhythm. In the next six months the calendar holds
+about 900 instances, and **all of them are recurring regulars** — Sunday
+Worship, the Bible studies, Worship Band Rehearsal, and two outside groups
+(Active Stars Karate and Cheerleading) that appear to rent the building.
+
+**This year's Pumpkin Patch is not on the Planning Center calendar at all.**
+You told me it runs 4–31 October. It needs to be added and tagged, or the
+website's events section will simply stay empty through the church's biggest
+outreach of the year.
 
 ---
 
