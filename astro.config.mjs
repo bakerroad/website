@@ -6,7 +6,7 @@ import { tinaAdminDevRedirect } from "@tinacms/astro/vite";
 export default defineConfig({
   site: process.env.SITE_URL || "https://brbcbaytown.org",
   output: "static",
-  integrations: [sitemap(), tina()],
+  integrations: [sitemap({ filter: (page) => !page.includes("/sop") }), tina()],
   build: { inlineStylesheets: "always" },
   vite: {
     plugins: [tinaAdminDevRedirect()],

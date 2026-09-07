@@ -1,0 +1,308 @@
+---
+import Base from "../layouts/Base.astro";
+import { site } from "../lib/site";
+---
+<Base title="How this website works" description="Operations manual for brbcbaytown.org" noindex={true}>
+  <div class="phead">
+    <div class="wrap">
+      <p class="eyebrow">Internal · unlisted</p>
+      <h1>How this website works.</h1>
+      <p class="lede">
+        Everything a person who knows nothing about this site needs in order to run it,
+        fix it, or hand it to someone else. Written 7 September 2026, the day it went live.
+      </p>
+    </div>
+  </div>
+
+  <section class="sec"><div class="wrap doc">
+    <div class="callout warn">
+      <p><strong>This page is unlisted, not private.</strong> It is not linked from the menu,
+      the footer, or the sitemap, and search engines are told not to index it. But anyone
+      who has the address can read it. So it names every account and says where the keys
+      are kept — <strong>it never contains a password, token, or key itself.</strong> Do not add one.</p>
+    </div>
+
+    <h3>On this page</h3>
+    <ol class="toc">
+      <li><a href="#version">The one-minute version</a></li>
+      <li><a href="#map">Every system, and who owns it</a></li>
+      <li><a href="#accounts">The two email accounts</a></li>
+      <li><a href="#flow">How a change gets onto the site</a></li>
+      <li><a href="#tina">Editing the site with Tina, step by step</a></li>
+      <li><a href="#events">Adding an event (this is Planning Center, not Tina)</a></li>
+      <li><a href="#sermons">Sermons are automatic</a></li>
+      <li><a href="#broken">When something breaks</a></li>
+      <li><a href="#calendar">The yearly calendar</a></li>
+      <li><a href="#rules">Rules that keep it from rotting</a></li>
+      <li><a href="#docs">The written documents</a></li>
+      <li><a href="#open">Still open</a></li>
+    </ol>
+  </div></section>
+
+  <section class="sec" id="version"><div class="wrap doc">
+    <h2>1. The one-minute version</h2>
+    <p><strong>brbcbaytown.org</strong> is a nine-page website. Its words live as plain text
+    files in a code repository on GitHub. When somebody edits a word through the editor at
+    <code>brbcbaytown.org/admin</code>, that saves a change to GitHub, GitHub tells Cloudflare,
+    Cloudflare rebuilds the site in about two minutes, and the change is live. Nobody presses
+    "publish". There is no database and no server to log into.</p>
+    <p>Two things update themselves: <strong>sermons</strong> arrive from the church's YouTube
+    channel every Monday, and <strong>events</strong> arrive from Planning Center every night —
+    but only events someone has tagged <code>Website</code>. Giving runs through Subsplash. The
+    two forms — "I'm interested" and "Join the serve team" — are Planning Center forms.</p>
+    <p>It costs nothing to run. The only paid thing is the domain name, renewed every few years.</p>
+  </div></section>
+
+  <section class="sec" id="map"><div class="wrap doc">
+    <h2>2. Every system, and who owns it</h2>
+    <p>Ten pieces. If you can find all ten, you have the whole site.</p>
+    <div class="tblwrap"><table>
+      <thead><tr><th>Piece</th><th>What it does</th><th>Where</th><th>Which account</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Domain name</strong></td><td>Owns <code>brbcbaytown.org</code>. Expires <strong>5 Feb 2028</strong>. Its nameservers point at Cloudflare.</td><td>Network Solutions</td><td>The church's registrar login</td></tr>
+        <tr><td><strong>DNS + hosting</strong></td><td>Answers the domain and serves the site. Set up as a Worker named <code>website</code> with static assets. Rebuilds on every GitHub push.</td><td>dash.cloudflare.com</td><td>bakerroadbaptist@gmail.com</td></tr>
+        <tr><td><strong>The code</strong></td><td>Every page, photo, and setting. Branch <code>main</code> is what is live. Public repository.</td><td>github.com/bakerroad/website</td><td>bakerroadbaptist@gmail.com</td></tr>
+        <tr><td><strong>The editor</strong></td><td>TinaCloud. The thing behind <code>/admin</code>. Free plan — <strong>exactly two editor seats.</strong></td><td>app.tina.io · project "website"</td><td>bakerroadbaptist@gmail.com</td></tr>
+        <tr><td><strong>Sermons</strong></td><td>YouTube channel <code>@BRBCBaytown</code>. A weekly job copies new videos onto the Watch page.</td><td>youtube.com/@BRBCBaytown</td><td>The church's YouTube</td></tr>
+        <tr><td><strong>Events</strong></td><td>Planning Center Calendar. Only events tagged <code>Website</code> reach the site.</td><td>calendar.planningcenteronline.com</td><td>The church's Planning Center</td></tr>
+        <tr><td><strong>Forms</strong></td><td>Two Planning Center forms: <em>Connection Card</em> (1314833) and <em>Join the Team</em> (1314832). Submissions land in Planning Center People.</td><td>people.planningcenteronline.com → Forms</td><td>The church's Planning Center</td></tr>
+        <tr><td><strong>Giving</strong></td><td>Subsplash. Embedded on the Give page. The website never touches payment details.</td><td>subsplash.com</td><td>The church's Subsplash</td></tr>
+        <tr><td><strong>Automation keys</strong></td><td>Three secrets the robots need (YouTube key, Planning Center ID + secret). Stored as encrypted GitHub Actions secrets.</td><td>GitHub → repo → Settings → Secrets</td><td>bakerroadbaptist@gmail.com</td></tr>
+        <tr><td><strong>Church email</strong></td><td>Where every "Email us" button on the site goes. Also Sarah Rose's login for the editor.</td><td>Gmail</td><td>bakerroadbc@gmail.com</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout">
+      <p><strong>Where the actual passwords and keys are.</strong> Not here. They are on Matt Rose's
+      Mac in a locked folder beside the project (<code>Baker Road Baptist/STORED ACCOUNTS/</code>),
+      and the automation keys are in GitHub Secrets and Cloudflare's build variables, which cannot
+      be read back once saved. The right long-term home is a shared password manager. If you are
+      taking this over and cannot reach Matt, every one of these services has a normal
+      "forgot password" flow on the account email above.</p>
+    </div>
+  </div></section>
+
+  <section class="sec" id="accounts"><div class="wrap doc">
+    <h2>3. The two email accounts</h2>
+    <p>Two Gmail addresses, two jobs. Confusing them is the most common way to get locked out.</p>
+    <div class="tblwrap"><table>
+      <thead><tr><th>Address</th><th>Job</th><th>Owns</th></tr></thead>
+      <tbody>
+        <tr><td><code>bakerroadbaptist@gmail.com</code></td><td><strong>Build account.</strong> The infrastructure. Created for this project.</td><td>GitHub, Cloudflare, TinaCloud project, Google Cloud (YouTube API key)</td></tr>
+        <tr><td><code>bakerroadbc@gmail.com</code></td><td><strong>The church's account.</strong> Public-facing.</td><td>Receives every "Email us" on the site. Sarah Rose's editor login.</td></tr>
+      </tbody>
+    </table></div>
+    <p><strong>Turn on two-factor authentication on both</strong>, and write the recovery codes
+    down on paper somewhere in the church office. The realistic disaster is not a hacker; it is
+    one person losing a phone and the church losing access to its own website.</p>
+    <p>Add a second person as an admin on GitHub and Cloudflare. A church should never be one
+    login away from losing its site.</p>
+  </div></section>
+
+  <section class="sec" id="flow"><div class="wrap doc">
+    <h2>4. How a change gets onto the site</h2>
+    <ol>
+      <li>Someone edits a page at <code>brbcbaytown.org/admin</code> and clicks <strong>Save</strong>.</li>
+      <li>Tina writes that change into the code repository on GitHub as a commit.</li>
+      <li>GitHub tells Cloudflare a change landed.</li>
+      <li>Cloudflare rebuilds the whole site from scratch. Takes about two minutes.</li>
+      <li>The new version goes live. Your browser may still show the old one for a minute — hard-refresh
+        (<code>Cmd+Shift+R</code> on a Mac) or open a private window.</li>
+    </ol>
+    <p>You can watch step 4 happen at Cloudflare → Workers &amp; Pages → website → Deployments.
+    A green check means it worked. A red X means the build failed and the site is still showing
+    the previous version — see <a href="#broken">when something breaks</a>.</p>
+    <div class="callout"><p><strong>There is no "publish" button, on purpose.</strong> Save is publish.
+    If you save something by mistake, saving it back is the undo. Every version ever saved is kept in
+    GitHub's history, so nothing is ever truly lost.</p></div>
+  </div></section>
+
+  <section class="sec" id="tina"><div class="wrap doc">
+    <h2>5. Editing the site with Tina, step by step</h2>
+    <p>Written for whoever ends up doing this. You do not need to know anything about computers
+    beyond filling in a form.</p>
+
+    <h3>Getting in</h3>
+    <ol>
+      <li>Go to <strong>brbcbaytown.org/admin</strong>.</li>
+      <li>Click <strong>Log in with TinaCloud</strong>. Use the email address that was invited as an
+        editor. If you have not been invited, whoever runs <code>bakerroadbaptist@gmail.com</code> adds
+        you at app.tina.io → project → Collaborators. <strong>There are only two seats</strong> on the
+        free plan; a third costs money. Share a seat rather than buy one.</li>
+      <li>You land on "Welcome to Tina!" with a menu on the left. That menu is the entire website.</li>
+    </ol>
+
+    <h3>The four things in the left menu</h3>
+    <div class="tblwrap"><table>
+      <thead><tr><th>Menu item</th><th>What is in it</th><th>Edit it?</th></tr></thead>
+      <tbody>
+        <tr><td><strong>1. Church Info</strong></td><td>Address, phone, office hours, the Sunday and Wednesday schedules, links to Facebook, YouTube, giving, the app, and the two forms. <strong>Change a time here and it changes everywhere on the site at once.</strong> This is the one you will use most.</td><td>Yes</td></tr>
+        <tr><td><strong>2. Pages</strong></td><td>One entry per page: home, visit, about, ministries, watch, give, contact, privacy-policy. Every box is plain text.</td><td>Yes</td></tr>
+        <tr><td><strong>3. Sermons</strong></td><td>One entry per sermon, written automatically from YouTube every Monday.</td><td>Only to fix a title or series. Do not add or delete.</td></tr>
+        <tr><td><strong>4. Events</strong></td><td>Written automatically from Planning Center every night.</td><td>Only to tick "show on homepage" or add a picture. Do not add or delete — see <a href="#events">§6</a>.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>To change a service time</h3>
+    <ol>
+      <li>Left menu → <strong>1. Church Info</strong> → click the single entry.</li>
+      <li>Scroll to <strong>Sunday schedule</strong> or <strong>Wednesday schedule</strong>. Each row has
+        <em>What it is</em>, <em>Small note underneath</em>, and <em>Time</em>.</li>
+      <li>Change the text. Click <strong>Save</strong> (top right). Wait two minutes. Hard-refresh the site.</li>
+    </ol>
+
+    <h3>To change the words on a page</h3>
+    <ol>
+      <li>Left menu → <strong>2. Pages</strong> → click the page.</li>
+      <li>Each page has a <em>Headline</em>, an <em>Opening paragraph</em>, and a list of <em>Sections</em>.
+        Click a section to open it. Inside a section are a heading, a paragraph, and sometimes a list of
+        <em>items</em> — the cards you see on the site. Each card has a title, a small label, a description,
+        a "when it meets" line, and up to two buttons.</li>
+      <li>Type in the box like an email. Click <strong>Save</strong>.</li>
+    </ol>
+
+    <h3>The two buttons on every ministry card</h3>
+    <p>They are not typed in by hand. Each button's link is written as <code>@connectionCardUrl</code>
+    or <code>@serveFormUrl</code>, which means "look this up in Church Info". So if Planning Center ever
+    gives you a new form address, change it <strong>once</strong> in Church Info and all fourteen buttons
+    follow. Other lookups that work the same way: <code>@mailto</code> (the church email),
+    <code>@tel</code> (the phone), <code>@givingUrl</code>, <code>@facebookUrl</code>, <code>@youtubeUrl</code>,
+    <code>@appUrl</code>, <code>@mapUrl</code>.</p>
+
+    <h3>To add a picture</h3>
+    <p>Only a few places take a picture: a card on a page, or an event. Open it, click the
+    <em>Picture</em> field, upload. Landscape photos work best. <strong>Do not put a photo of a
+    child on the site without a parent's permission</strong>, and do not use a photo somebody else
+    took without asking them. As of launch, only the Pumpkin Patch has a real photo; the other
+    ministries are waiting for someone to take one on a Sunday.</p>
+
+    <h3>To fix a sermon that came across wrong</h3>
+    <p>Left menu → <strong>3. Sermons</strong> → find it → fix the title or the series → Save.
+    Your fix survives every future Monday sync; the robot notices a human changed it and leaves it
+    alone. If a whole series is being missed, add its name to <code>content/sermon-series.json</code>
+    in GitHub (that file is a list of known series names and their misspellings).</p>
+
+    <h3>If a save does not appear</h3>
+    <ol>
+      <li>Wait the full two minutes. Then hard-refresh.</li>
+      <li>Cloudflare → website → Deployments. Is the top build green? If red, see <a href="#broken">§8</a>.</li>
+      <li>GitHub → the repo → is your change the newest commit? If not, the save did not reach GitHub — log out of Tina and back in.</li>
+    </ol>
+
+    <h3>What not to do in Tina</h3>
+    <ul>
+      <li>Do not add or delete Sermons or Events by hand. The robots own those lists and will fight you.</li>
+      <li>Do not change anything under <strong>Church Info</strong> that ends in <code>Url</code> unless the
+        service itself gave you a new address.</li>
+      <li>Do not go looking for a page builder or a layout tool. There is not one. Every field is a plain
+        text box, deliberately, so that a form-filler can run this site.</li>
+    </ul>
+  </div></section>
+
+  <section class="sec" id="events"><div class="wrap doc">
+    <h2>6. Adding an event — this is Planning Center, not Tina</h2>
+    <p>Events on the website come <strong>from Planning Center</strong>. You never type an event
+    into Tina.</p>
+    <ol>
+      <li>In Planning Center Calendar, create the event as normal (name, dates, description).</li>
+      <li>Under Settings → Church Center, set <strong>Visibility: Published</strong> and add a picture if
+        you want one on the site.</li>
+      <li>At the top of the event, <strong>Add tag → Website</strong>. <strong>This tag is the on-switch.</strong>
+        No tag, no website.</li>
+      <li>It appears on the site the next morning (the sync runs nightly, about 5–6 am).</li>
+    </ol>
+    <div class="callout"><p><strong>Why the tag.</strong> When the site was built, Planning Center's
+    "visible in Church Center" box was ticked on 123 of 136 events — including two weddings, a
+    memorial service, and the Personnel Committee. So the website ignores that box and publishes only
+    what is deliberately tagged. It also refuses, by name, the outside groups that rent the building
+    and anything that reads as a wedding, funeral, or committee. Weekly things — Sunday School, Bible
+    study — are held back as "the schedule", which is already on every page.</p></div>
+    <p><strong>Every September</strong>, someone adds this year's Pumpkin Patch to Planning Center and
+    tags it. That is the whole yearly event workload.</p>
+  </div></section>
+
+  <section class="sec" id="sermons"><div class="wrap doc">
+    <h2>7. Sermons are automatic</h2>
+    <p>Every Monday around midday, a robot on GitHub reads the church's YouTube channel and writes any
+    new video onto the Watch page. It reads the date out of the title in whatever format it was typed,
+    de-shouts ALL-CAPS titles, and sorts videos into series using the list in
+    <code>content/sermon-series.json</code>. Only <strong>public</strong> videos are used — unlisted and
+    private ones are skipped.</p>
+    <p>Nothing to do week to week. If a title comes across wrong, fix it in Tina (§5). If the whole
+    thing stops, see §8.</p>
+  </div></section>
+
+  <section class="sec" id="broken"><div class="wrap doc">
+    <h2>8. When something breaks</h2>
+    <div class="tblwrap"><table>
+      <thead><tr><th>Symptom</th><th>Most likely cause</th><th>Fix</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Site is down / error page</strong></td><td>Domain expired, or Cloudflare custom domain removed.</td><td>Check the domain at Network Solutions (renews Feb 2028). Then Cloudflare → website → Domains: both <code>brbcbaytown.org</code> and <code>www</code> should be listed.</td></tr>
+        <tr><td><strong>Site is fine but shows old content after a save</strong></td><td>Build failed, or your browser is caching.</td><td>Hard-refresh. Then Cloudflare → Deployments: if the top build is red, click <em>View build</em> and read the last lines of the log.</td></tr>
+        <tr><td><strong>Build is red: "Missing clientId, token"</strong></td><td>Cloudflare's build variables were wiped or changed.</td><td>Cloudflare → website → Settings → Builds → Variables must have <code>PUBLIC_TINA_CLIENT_ID</code>, <code>TINA_TOKEN</code> (secret), <code>NODE_VERSION</code> = 22. Retry build.</td></tr>
+        <tr><td><strong>Build is red for any other reason</strong></td><td>Something in the code.</td><td>Emergency valve: change the build command from <code>npm run build</code> to <code>npm run build:site</code>. That deploys the site without the editor, so the website is up while <code>/admin</code> is fixed. Then get help.</td></tr>
+        <tr><td><strong>/admin shows "Unexpected error validating your schema" or "Branch 'main' not found"</strong></td><td>TinaCloud lost its index of the code. Usually because <code>tina/tina-lock.json</code> was deleted, or someone clicked "Change Repo" in TinaCloud.</td><td>Make sure <code>tina/tina-lock.json</code> exists in the repo. In app.tina.io → Configuration → Refresh Branches; <code>main</code> should show a green check. <strong>Never click "Change Repo"</strong> — it replaces the whole project and invalidates every token.</td></tr>
+        <tr><td><strong>/admin login refused</strong></td><td>Not invited, or the two seats are full.</td><td>app.tina.io → Collaborators.</td></tr>
+        <tr><td><strong>New sermons stopped appearing</strong></td><td>The YouTube API key expired, or the weekly job failed.</td><td>GitHub → repo → Actions tab → "Sync sermons from YouTube". Red? Read the log. Usually the fix is a new key from Google Cloud pasted into Settings → Secrets → <code>YOUTUBE_API_KEY</code>. You can also run the job by hand from that tab.</td></tr>
+        <tr><td><strong>Events page empty, or an event missing</strong></td><td>Not tagged <code>Website</code>, or the Planning Center token was revoked.</td><td>Check the tag first — it is almost always the tag. Otherwise Actions → "Sync events from Planning Center" and read the log. A new Personal Access Token from Planning Center goes into Secrets as <code>PCO_APP_ID</code> and <code>PCO_SECRET</code>.</td></tr>
+        <tr><td><strong>A form button goes to a dead page</strong></td><td>Planning Center form deleted or renamed.</td><td>Get the new form address from Planning Center → Forms → View on Church Center. Paste it into Tina → Church Info → the matching <em>form link</em> field. All buttons update.</td></tr>
+        <tr><td><strong>Giving panel blank</strong></td><td>Subsplash changed the embed address.</td><td>Subsplash → Giving → embed → new address into Tina → Church Info → Online giving link.</td></tr>
+      </tbody>
+    </table></div>
+    <p>Rolling back a bad change: GitHub → the repo → Commits → find the last good one → the ⋯ menu on
+    any commit lets you revert it. Cloudflare rebuilds automatically.</p>
+  </div></section>
+
+  <section class="sec" id="calendar"><div class="wrap doc">
+    <h2>9. The yearly calendar</h2>
+    <p>This is the entire recurring workload. Put these on a real calendar.</p>
+    <ul>
+      <li><strong>Every September</strong> — add this year's Pumpkin Patch to Planning Center and tag it <code>Website</code>.</li>
+      <li><strong>Every January</strong> — read the whole site once, out loud. Check every time, name, and role is still true. Pastor's bio, staff, deacons, class names.</li>
+      <li><strong>Before 5 February 2028</strong> — renew the domain at Network Solutions. Set the reminder now. If it lapses, the whole site vanishes.</li>
+      <li><strong>Whenever staff change</strong> — update Tina editors (two seats), GitHub and Cloudflare admins, and rotate the Planning Center token if the person who created it leaves.</li>
+    </ul>
+  </div></section>
+
+  <section class="sec" id="rules"><div class="wrap doc">
+    <h2>10. Rules that keep it from rotting</h2>
+    <ul>
+      <li><strong>If a page will be wrong in six months unless somebody remembers to update it, it does not go on the website.</strong> It goes on Facebook or in the app. This rule is why the site went from 26 pages to 9 and why it will still be accurate in two years.</li>
+      <li><strong>One name owns the site.</strong> Not a committee. Today that is Sarah Rose. Write the successor's name on paper when it changes.</li>
+      <li><strong>Two Tina seats.</strong> Share one rather than pay for a third.</li>
+      <li><strong>Never click "Change Repo" in TinaCloud.</strong> It does not refresh; it replaces.</li>
+      <li><strong>Leave <code>--skip-cloud-checks</code> in the build command.</strong> It is what keeps the website deploying when the editor is misconfigured. A broken editor is a nuisance; a broken website is not.</li>
+      <li><strong>The <code>STORED ACCOUNTS</code> folder never goes in the repository.</strong> It lives one folder above it for exactly that reason. Do not move it.</li>
+      <li><strong>No passwords on this page.</strong> Ever.</li>
+    </ul>
+  </div></section>
+
+  <section class="sec" id="docs"><div class="wrap doc">
+    <h2>11. The written documents</h2>
+    <p>All in the repository under <code>docs/</code>. Public, so these links work for anyone.</p>
+    <div class="tblwrap"><table>
+      <thead><tr><th>Document</th><th>What it is for</th></tr></thead>
+      <tbody>
+        <tr><td><a href="https://github.com/bakerroad/website/blob/main/docs/EDITING.md">EDITING.md</a></td><td>The short editor's guide for the church — the plain-English version of §5.</td></tr>
+        <tr><td><a href="https://github.com/bakerroad/website/blob/main/docs/GO-LIVE.md">GO-LIVE.md</a></td><td>How every account was set up, in order, with the traps that were hit. Read this if you ever have to rebuild from nothing.</td></tr>
+        <tr><td><a href="https://github.com/bakerroad/website/blob/main/docs/SETUP.md">SETUP.md</a></td><td>Earlier, shorter version of the above.</td></tr>
+        <tr><td><a href="https://github.com/bakerroad/website/blob/main/docs/PLANNING-CENTER.md">PLANNING-CENTER.md</a></td><td>How the events sync works, why it is opt-in by tag, and what was found in the church's calendar.</td></tr>
+        <tr><td><a href="https://github.com/bakerroad/website/blob/main/docs/OPEN-QUESTIONS.md">OPEN-QUESTIONS.md</a></td><td>Every fact on the site that only the church can confirm, and which ones are still unconfirmed.</td></tr>
+        <tr><td><a href="https://github.com/bakerroad/website/blob/main/docs/PHOTOS.md">PHOTOS.md</a></td><td>All 64 photos from the old site, sorted: use, maybe, do not use, and why. Plus the shot list for the photos the site still needs.</td></tr>
+        <tr><td><a href="https://github.com/bakerroad/website/blob/main/docs/PRIVACY-POLICY-DRAFT.md">PRIVACY-POLICY-DRAFT.md</a></td><td>A replacement privacy policy built on an audit of what the site actually does. Awaiting church approval; the live page still shows the old text.</td></tr>
+        <tr><td><a href="https://github.com/bakerroad/website/blob/main/README.md">README.md</a></td><td>The technical overview for a developer.</td></tr>
+        <tr><td><a href="https://github.com/bakerroad/website/blob/main/src/pages/sop.astro">sop.astro</a></td><td>This page. Edit it there.</td></tr>
+      </tbody>
+    </table></div>
+  </div></section>
+
+  <section class="sec" id="open"><div class="wrap doc">
+    <h2>12. Still open, as of launch</h2>
+    <ul>
+      <li>The <strong>privacy policy</strong> on the live site is the old one and is now wrong about the host. A replacement is drafted and waits on church approval.</li>
+      <li>Several <strong>claims on the site are unconfirmed</strong> — Bibles in the pews, the 10:15–11:40 running order, food trucks at the Pumpkin Patch. One conversation with Pastor Marvin clears them. Listed in OPEN-QUESTIONS.md.</li>
+      <li><strong>Six of seven ministries have no photo.</strong> Fifteen minutes on a Sunday with a phone fixes it. Shot list in PHOTOS.md.</li>
+      <li>Planning Center calls the student ministry <strong>CONCORD</strong>; the website says Student Ministry. Confirm which is current.</li>
+    </ul>
+    <p style="margin-top:1.5rem;color:var(--ink-faint);font-size:.92rem">Questions about this page: the church office, {site.phone}.</p>
+  </div></section>
+</Base>

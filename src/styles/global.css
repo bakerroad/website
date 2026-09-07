@@ -386,3 +386,25 @@ a:hover{color:var(--brand-hover)}
 .ftr-map a{font-size:.96rem;text-decoration:none}
 .ftr-map a:hover{text-decoration:underline}
 .ftr-map a[aria-current="page"]{color:var(--ink-on-deep);font-weight:600}
+
+/* ── /sop — the unlisted operations manual ──────────── */
+.doc{max-width:76ch}
+.doc h3{margin:1.7rem 0 .5rem;font-family:var(--f-display);font-size:1.28rem;font-weight:500}
+.doc p,.doc li{color:var(--ink-soft)}
+.doc p{margin:0 0 .8rem}
+.doc ul,.doc ol{margin:.4rem 0 1rem 1.3rem;padding:0;display:flex;flex-direction:column;gap:.4rem}
+.doc li strong{color:var(--ink)}
+.doc code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;background:var(--surface-alt);padding:.1em .4em;border-radius:3px;color:var(--ink);word-break:break-word}
+.doc pre{background:var(--surface-deep);color:var(--ink-on-deep);padding:.9rem 1.05rem;border-radius:var(--r-lg);overflow-x:auto;font-size:.88rem;line-height:1.55;margin:.6rem 0 1rem}
+.doc pre code{background:none;color:inherit;padding:0}
+.doc .tblwrap{overflow-x:auto;margin:.8rem 0 1.3rem;border:1px solid var(--border);border-radius:var(--r-lg)}
+.doc table{width:100%;border-collapse:collapse;font-size:.94rem;min-width:560px}
+.doc th,.doc td{text-align:left;vertical-align:top;padding:.6rem .8rem;border-bottom:1px solid var(--border)}
+.doc tbody tr:last-child td{border-bottom:0}
+.doc thead th{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);background:var(--surface-alt)}
+.doc .callout{border-left:3px solid var(--brand);background:var(--brand-tint);padding:.85rem 1.05rem;border-radius:0 var(--r-lg) var(--r-lg) 0;margin:1rem 0 1.2rem}
+.doc .callout p:last-child{margin:0}
+.doc .warn{border-left-color:#8A5A12;background:#FDF3E3}
+.doc .toc{columns:2;column-gap:2rem;font-size:.95rem}
+.doc .toc a{text-decoration:none}
+@media (max-width:640px){.doc .toc{columns:1}}

@@ -4,6 +4,7 @@ Astro + TinaCMS, hosted free on Cloudflare Pages. Sermons sync from YouTube and
 events from Planning Center via GitHub Actions, so the site keeps itself current
 without anybody tending it.
 
+- **The full SOP, everything in one place:** brbcbaytown.org/sop (unlisted, no secrets) — source in `src/pages/sop.astro`
 - **Editing guide (for the church):** [docs/EDITING.md](docs/EDITING.md)
 - **Setting up the accounts:** [docs/SETUP.md](docs/SETUP.md)
 - **Things only the church can answer:** [docs/OPEN-QUESTIONS.md](docs/OPEN-QUESTIONS.md)
