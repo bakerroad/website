@@ -43,14 +43,13 @@ you to create GitHub, Tina, Cloudflare and Google Cloud under
 
 ### Still open
 
-- **#10 — the privacy policy.** You said you did not know what this is, so:
-  every site that collects anything — a form, an email address, analytics —
-  normally publishes a page saying what it collects and what it does with it.
-  Baker Road already has one, written for the old SnapPages site, and the new
-  site carries it over word for word. It is now partly untrue: different host,
-  different cookies, different forms. It is a legal document, so I have not
-  rewritten it. Once the Planning Center forms exist I can draft a replacement
-  that matches what the site actually does, for someone at the church to approve.
+- **#10 — the privacy policy. DRAFT WRITTEN, awaiting approval.** See
+  `PRIVACY-POLICY-DRAFT.md`. It is built on an audit of the live site (no
+  analytics, no cookies of its own, no forms hosted on the site; five named
+  third parties). Two ⚠️ items need the church: the effective date, and whether
+  prayer requests are ever read aloud or printed — that promise stays out until
+  confirmed. The live page still carries the old, now-wrong SnapPages text until
+  this is approved.
 - **Pumpkin Patch hours.** The 2023 poster in the photo set says Mon–Fri
   12:30–8:30, Sat 10:00–8:30, Sun 12:00–8:30, plus live music, a "Bootiful Baby
   Contest" and *Oliver the Watusi*. Are those still right for this year?
