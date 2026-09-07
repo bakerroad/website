@@ -378,3 +378,11 @@ a:hover{color:var(--brand-hover)}
 .acts .act-1:hover{background:var(--brand-hover);border-color:var(--brand-hover);color:#fff}
 .acts .act-2{background:transparent;color:var(--brand)}
 .acts .act-2:hover{background:var(--brand-tint)}
+
+/* ── footer sitemap ─────────────────────────────────── */
+.ftr-map{margin-top:2rem;padding-top:1.4rem;border-top:1px solid var(--border-on-deep)}
+.ftr-map h2{margin-bottom:.75rem}
+.ftr-map ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:.4rem 1.6rem;flex-direction:row}
+.ftr-map a{font-size:.96rem;text-decoration:none}
+.ftr-map a:hover{text-decoration:underline}
+.ftr-map a[aria-current="page"]{color:var(--ink-on-deep);font-weight:600}
