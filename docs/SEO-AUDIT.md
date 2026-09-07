@@ -43,9 +43,13 @@ the HSTS header from `_headers`; turning on Cloudflare's version too is harmless
 but adds nothing.
 
 ### 2. Google Business Profile  *(the single highest-value item on this list)*
-The church has a Google Maps listing — the Place ID above proves it — but
-nothing I could find suggests it is **claimed and verified**, and directory
-searches turned up **no Google reviews**.
+**Correction, 7 Sep evening:** on opening the claim flow the listing turned out
+to have **12 Google reviews at 5.0** — my earlier "no reviews" finding was wrong;
+directory searches simply didn't surface them. Good news. It also revealed an
+error on Google's own listing: the address reads **"900 W Baker Rd #2340"**, the
+ZIP+4 suffix (77521-2340) mistaken for a unit number. Fix that first thing after
+claiming. The listing is **unclaimed** (Google offered "Manage now" directly
+rather than "request access"), and it is being claimed by `matt.rose@brbcbaytown.org`.
 
 Go to `business.google.com`, search "Baker Road Baptist Church Baytown," and
 claim it with the church Google account. Then, in this order:
@@ -59,10 +63,9 @@ claim it with the church Google account. Then, in this order:
   the building exterior, the logo. Profiles with photos get dramatically more
   clicks. Add one new photo a month.
 - **Description:** paste the homepage intro.
-- **Reviews:** the one-click review link is in Church Info. Ask ten members
-  who love the church to leave one this month. Ten honest reviews with a 4.8
-  average will outrank every other Baptist church in Baytown that has none —
-  and most of them have none.
+- **Reviews:** already 12 at 5.0 — better than most Baytown churches. The
+  one-click review link is in Church Info; ask ten more members this month.
+  Reply to every existing review once the profile is claimed; Google rewards it.
 - **Posts:** post the Pumpkin Patch as a Google event post in late September.
 
 ### 3. Fix the name and email in the directories  *(NAP consistency)*
