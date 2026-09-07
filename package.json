@@ -3,10 +3,13 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "engines": { "node": ">=20" },
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "dev": "tinacms dev -c \"astro dev\"",
     "build": "tinacms build --skip-cloud-checks -c \"astro build\"",
+    "build:site": "astro build",
     "preview": "astro preview",
     "check": "astro check",
     "sync:sermons": "node scripts/sync-sermons.mjs",
