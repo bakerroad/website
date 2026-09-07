@@ -40,8 +40,21 @@ const tel = telHref(site.phone);
         </a>
         <button class="navtoggle" id="navtoggle" aria-expanded="false" aria-controls="nav">Menu</button>
         <nav class="nav" id="nav" aria-label="Main">
-          {NAV.map((n) => (
-            <a href={n.href} aria-current={n.href === path ? "page" : undefined}>{n.label}</a>
+          {NAV.map((n: any) => (
+            <div class={n.children ? "navitem has-sub" : "navitem"}>
+              <a href={n.href} aria-current={n.href === path ? "page" : undefined}>{n.label}</a>
+              {n.children && (
+                <>
+                  <button class="subtoggle" type="button" aria-expanded="false"
+                          aria-label={`Show ${n.label} pages`}>▾</button>
+                  <ul class="sub">
+                    {n.children.map((c: any) => (
+                      <li><a href={c.href}>{c.label}</a></li>
+                    ))}
+                  </ul>
+                </>
+              )}
+            </div>
           ))}
         </nav>
       </div>
@@ -93,6 +106,25 @@ const tel = telHref(site.phone);
         b.addEventListener("click", function () {
           var open = n.classList.toggle("open");
           b.setAttribute("aria-expanded", String(open));
+        });
+        // Sub-menu carets. On a phone there is no hover, so these are the control.
+        n.querySelectorAll(".subtoggle").forEach(function (t) {
+          t.addEventListener("click", function () {
+            var item = t.parentElement;
+            var open = item.classList.toggle("open");
+            t.setAttribute("aria-expanded", String(open));
+          });
+        });
+        // Escape closes any open dropdown and returns focus to the tab.
+        n.addEventListener("keydown", function (e) {
+          if (e.key !== "Escape") return;
+          var item = e.target.closest(".navitem");
+          if (!item) return;
+          item.classList.remove("open");
+          var t = item.querySelector(".subtoggle");
+          if (t) t.setAttribute("aria-expanded", "false");
+          var a = item.querySelector("a");
+          if (a) a.focus();
         });
       })();
     </script>

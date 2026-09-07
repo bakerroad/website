@@ -26,7 +26,7 @@ const isRowList = (s: Section) =>
   (s.items ?? []).length > 2 && (s.items ?? []).every((i) => i.meta && !i.linkUrl);
 ---
 {sections.map((s) => (
-  <section class="sec">
+  <section class="sec" id={anchor(s.heading || s.eyebrow)}>
     <div class="wrap">
       {s.eyebrow && <p class="eyebrow">{s.eyebrow}</p>}
       {s.heading && <h2>{s.heading}</h2>}

@@ -1,18 +1,21 @@
 ---
 /**
- * Subsplash giving, sitting in the page rather than in a box.
+ * Subsplash giving, in the page.
  *
- * `?embed=true` is the important bit: it strips Subsplash's own header bar, so
- * there is no foreign chrome to give the frame away. Measured content height is
- * 607-627px at 390px, 700px and 1100px wide, so a fixed 700px clears the first
- * step with no internal scrollbar at any width. The section is painted white to
- * match Subsplash's own background, which is what makes the seam disappear.
+ * `?embed=true` strips Subsplash's own header bar. What it will not do is give
+ * up its white background, and it centres its form inside whatever width you
+ * hand it. Pretending the frame is invisible therefore fails: a full-width
+ * white block ends in a hard seam against the page, with the form marooned in
+ * the middle of it.
  *
- * Deferred with the browser's own loading="lazy" rather than an
- * IntersectionObserver. An observer that fails to fire leaves the giving form
- * permanently blank, which is the worst bug this page could have; native lazy
- * loading defers where supported and simply loads where it is not. There is no
- * state in which the form does not appear.
+ * So it is a deliberate panel instead — white, rounded, sized close to the
+ * form's real width and sat on the left, with the reassuring copy beside it on
+ * desktop and underneath on a phone. Measured content height is 607-627px
+ * across 390px, 700px and 1100px wide, so 660px clears the first step with no
+ * internal scrollbar and no dead space.
+ *
+ * Deferred with native loading="lazy", not an IntersectionObserver: an observer
+ * that fails to fire leaves the giving form permanently blank.
  */
 import { site } from "../lib/site";
 const base = site.givingUrl || "";
@@ -23,21 +26,23 @@ const url = base ? base + (base.includes("?") ? "&" : "?") + "embed=true" : "";
     <div class="wrap">
       <p class="eyebrow">Online</p>
       <h2>Give online</h2>
-      <p class="body">A one-time gift or a recurring one, by card or bank draft.</p>
-    </div>
 
-    <div class="give-embed" id="give-embed">
-      <iframe id="give-frame" title="Give to Baker Road Baptist Church" src={url}
-              loading="lazy" scrolling="no" allow="payment *"
-              referrerpolicy="no-referrer-when-downgrade"></iframe>
-    </div>
+      <div class="give-grid">
+        <div class="give-panel">
+          <iframe id="give-frame" title="Give to Baker Road Baptist Church" src={url}
+                  loading="lazy" scrolling="no" allow="payment *"
+                  referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
 
-    <div class="wrap">
-      <p class="give-foot">
-        Handled by Subsplash, the church's own giving provider — Baker Road's website never sees
-        your card details. <a href={base} target="_blank" rel="noopener">Open the giving page on its own</a>.
-      </p>
+        <aside class="give-aside">
+          <p>A one-time gift or a recurring one, by card or bank draft.</p>
+          <p class="quiet">
+            Handled by Subsplash, the church's own giving provider. Baker Road's website
+            never sees your card details.
+          </p>
+          <p><a href={base} target="_blank" rel="noopener">Open the giving page on its own</a></p>
+        </aside>
+      </div>
     </div>
-
   </section>
 )}

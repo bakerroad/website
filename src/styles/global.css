@@ -38,17 +38,49 @@ a:hover{color:var(--brand-hover)}
 .brand{display:flex;align-items:center;gap:.6rem;text-decoration:none;color:var(--ink);font-weight:700;font-size:1.02rem;line-height:1.15}
 .brand img{width:44px;height:44px;object-fit:contain;flex:none}
 .brand span small{display:block;font-weight:400;font-size:.76rem;color:var(--ink-faint);letter-spacing:.02em}
-.nav{margin-left:auto;display:flex;gap:.15rem;flex-wrap:wrap}
-.nav a{padding:.45rem .68rem;border-radius:var(--r-sm);text-decoration:none;color:var(--ink-soft);font-weight:600;font-size:.95rem}
+.nav{margin-left:auto;display:flex;gap:.05rem;flex-wrap:wrap;align-items:center}
+.navitem{position:relative;display:flex;align-items:center}
+.nav a{padding:.45rem .58rem;border-radius:var(--r-sm);text-decoration:none;color:var(--ink-soft);font-weight:600;font-size:.93rem;white-space:nowrap}
 .nav a:hover{background:var(--surface-alt);color:var(--brand)}
 .nav a[aria-current="page"]{color:var(--brand);background:var(--brand-tint)}
+.subtoggle{display:none;font:inherit;cursor:pointer;background:transparent;border:0;color:var(--ink-faint);padding:.3rem .4rem;line-height:1}
+
+/* ── dropdowns ──────────────────────────────────────── */
+.sub{
+  position:absolute;top:100%;left:0;min-width:216px;margin:0;padding:.35rem;
+  list-style:none;display:flex;flex-direction:column;gap:1px;
+  background:var(--surface-card);border:1px solid var(--border);
+  border-radius:var(--r-lg);box-shadow:var(--shadow);z-index:60;
+  opacity:0;visibility:hidden;transform:translateY(-4px);
+  transition:opacity .12s ease,transform .12s ease,visibility .12s;
+}
+/* a small invisible bridge so the menu survives the gap under the tab */
+.sub::before{content:"";position:absolute;left:0;right:0;top:-8px;height:8px}
+.navitem.has-sub:hover > .sub,
+.navitem.has-sub:focus-within > .sub{opacity:1;visibility:visible;transform:none}
+.sub a{display:block;padding:.5rem .6rem;font-size:.9rem;font-weight:500;color:var(--ink-soft);white-space:nowrap}
+.sub a:hover{background:var(--brand-tint);color:var(--brand)}
+@media (prefers-reduced-motion:reduce){.sub{transition:none}}
 .navtoggle{margin-left:auto;display:none;font:inherit;font-weight:600;cursor:pointer;background:transparent;border:1px solid var(--border-strong);border-radius:var(--r-sm);padding:.42rem .7rem;color:var(--ink)}
 @media (max-width:860px){
   .navtoggle{display:block}
-  .nav{display:none;order:3;width:100%;flex-direction:column;padding-bottom:.7rem;margin-left:0}
+  .nav{display:none;order:3;width:100%;flex-direction:column;padding-bottom:.7rem;margin-left:0;align-items:stretch}
   .nav.open{display:flex}
   .hdr-in{flex-wrap:wrap}
-  .nav a{padding:.6rem .5rem;border-bottom:1px solid var(--border)}
+  .navitem{flex-wrap:wrap;border-bottom:1px solid var(--border)}
+  .navitem > a{flex:1;padding:.7rem .5rem}
+  /* on a phone, hover does not exist: the caret is the control */
+  .subtoggle{display:block;font-size:1.1rem;padding:.7rem .8rem;min-height:44px}
+  .subtoggle[aria-expanded="true"]{transform:rotate(180deg);color:var(--brand)}
+  .sub{
+    position:static;opacity:1;visibility:visible;transform:none;display:none;
+    width:100%;border:0;box-shadow:none;background:transparent;
+    padding:0 0 .5rem .8rem;border-left:2px solid var(--border-strong);margin:0 0 .5rem .5rem;
+  }
+  .navitem.open > .sub{display:flex}
+  .navitem.has-sub:hover > .sub{opacity:1;visibility:visible}
+  .navitem.has-sub:hover > .sub:not(.navitem.open > .sub){display:none}
+  .sub::before{display:none}
 }
 
 /* ── hero ───────────────────────────────────────────── */
@@ -111,7 +143,13 @@ a:hover{color:var(--brand-hover)}
 .sec .note{margin-top:1.6rem;color:var(--ink-faint);font-size:.96rem;max-width:var(--measure);border-left:3px solid var(--border-strong);padding-left:.9rem}
 .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(258px,1fr));gap:1.1rem;margin-top:1.8rem}
 .card{background:var(--surface-card);border:1px solid var(--border);border-radius:var(--r-lg);padding:1.25rem 1.3rem;display:flex;flex-direction:column;gap:.5rem}
-.card .meta{font-size:.74rem;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--brand)}
+/* cards built by Sections.astro wrap their text in .cbody, which owns the padding */
+.card:has(> .cbody){padding:0;overflow:hidden}
+.cbody{padding:1.25rem 1.3rem;display:flex;flex-direction:column;gap:.5rem;flex:1;min-width:0}
+.chead{display:flex;align-items:baseline;justify-content:space-between;gap:.9rem;flex-wrap:wrap}
+.chead h3{margin:0}
+.card .when{font-size:.9rem;color:var(--ink-faint);font-variant-numeric:tabular-nums}
+.card .meta{font-size:.72rem;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--brand);white-space:nowrap}
 .card p{color:var(--ink-soft);font-size:.99rem}
 .card a{font-weight:700;text-decoration:none;margin-top:auto;padding-top:.3rem}
 .card a::after{content:" →"}
@@ -169,24 +207,47 @@ a:hover{color:var(--brand-hover)}
 .seclink a::after{content:" →"}
 
 /* ── giving ─────────────────────────────────────────────
-   The section is painted the same white as Subsplash's own page so the iframe
-   has no visible edge. No border, no radius, no shadow, and scrolling="no" on
-   the frame: the page scrolls, the embed never does. */
-.give-sec{background:#fff;padding-top:2.6rem;padding-bottom:2.2rem}
-.give-embed{margin-top:1.2rem;width:100%}
-.give-embed iframe{width:100%;height:700px;border:0;display:block;background:#fff;
-  overflow:hidden;color-scheme:light}
-.give-foot{margin-top:.6rem;font-size:.9rem;color:var(--ink-faint);max-width:var(--measure)}
-@media (max-width:560px){.give-embed iframe{height:660px}}
+   Subsplash forces a white background and centres its own form, so the frame
+   cannot be made invisible. It is a deliberate panel instead: white, rounded,
+   about as wide as the form actually is, and left-aligned with the copy beside
+   it. scrolling="no" plus a measured height means the page scrolls and the
+   embed never does. */
+.give-sec{padding-top:3.2rem;padding-bottom:3.4rem}
+.give-grid{display:grid;grid-template-columns:minmax(0,460px) minmax(0,1fr);
+  gap:2rem 2.6rem;align-items:start;margin-top:1.6rem}
+.give-panel{background:#fff;border:1px solid var(--border);border-radius:var(--r-lg);
+  padding:.5rem;box-shadow:var(--shadow);overflow:hidden}
+.give-panel iframe{width:100%;height:660px;border:0;display:block;background:#fff;
+  border-radius:calc(var(--r-lg) - 2px);color-scheme:light}
+.give-aside{padding-top:.4rem;max-width:44ch}
+.give-aside p{margin-bottom:.9rem}
+.give-aside .quiet{color:var(--ink-faint);font-size:.95rem}
+.give-aside a{font-weight:600}
+@media (max-width:900px){
+  .give-grid{grid-template-columns:1fr;gap:1.4rem}
+  .give-aside{padding-top:0;max-width:none;order:-1}
+}
+@media (max-width:520px){
+  .give-panel{padding:.35rem}
+  .give-panel iframe{height:640px}
+}
 
 /* pictures inside sections and cards */
 .secfig{margin:1.6rem 0 0;overflow:hidden;border-radius:var(--r-lg)}
 .secfig img{width:100%;height:auto;display:block}
 .card.haspic{padding:0;overflow:hidden}
-.card.haspic > img{width:100%;aspect-ratio:4/5;object-fit:cover;background:var(--surface-alt)}
-.card.haspic > :not(img){padding-left:1.2rem;padding-right:1.2rem}
-.card.haspic > .meta{padding-top:1rem}
-.card.haspic > :last-child{padding-bottom:1.15rem}
+.card.haspic > img{width:100%;aspect-ratio:16/9;object-fit:cover;background:var(--surface-alt)}
+
+/* ── one card per row, picture beside the text ───────── */
+.cards.stack{grid-template-columns:1fr;gap:.9rem}
+.cards.stack .card{flex-direction:row;align-items:stretch}
+.cards.stack .card > img{width:32%;max-width:290px;aspect-ratio:4/3;flex:none;align-self:stretch;height:auto}
+@media (max-width:660px){
+  .cards.stack .card{flex-direction:column}
+  .cards.stack .card > img{width:100%;max-width:none;aspect-ratio:16/9}
+  .chead{flex-direction:column;gap:.1rem}
+  .chead .meta{align-self:flex-start}
+}
 
 /* ── watch ──────────────────────────────────────────── */
 .featured{display:block;margin-top:1.4rem;max-width:760px;text-decoration:none;color:inherit}

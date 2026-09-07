@@ -16,6 +16,6 @@ const [why, ...rest] = page.sections ?? [];
 
   <!-- order the church asked for: why we give, then the form, then the other ways -->
   <Sections sections={why ? [why] : []} />
-  <GivingEmbed />
+  <div id="give-online"><GivingEmbed /></div>
   <Sections sections={rest} />
 </Base>
