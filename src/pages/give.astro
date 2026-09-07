@@ -1,15 +1,21 @@
 ---
-import InnerPage from "../layouts/InnerPage.astro";
-import GivingModal from "../components/GivingModal.astro";
+import Base from "../layouts/Base.astro";
+import Sections from "../components/Sections.astro";
+import GivingEmbed from "../components/GivingEmbed.astro";
 import page from "../../content/pages/give.json";
+const [why, ...rest] = page.sections ?? [];
 ---
-<InnerPage page={page}>
-  <section class="sec">
+<Base title={page.title} description={page.metaDescription}>
+  <div class="phead">
     <div class="wrap">
-      <p class="eyebrow">Online</p>
-      <h2>Give from your phone</h2>
-      <p class="body">A one-time gift or a recurring one, by card or bank draft.</p>
-      <GivingModal />
+      {page.eyebrow && <p class="eyebrow">{page.eyebrow}</p>}
+      <h1>{page.headline}</h1>
+      {page.intro && <p class="lede">{page.intro}</p>}
     </div>
-  </section>
-</InnerPage>
+  </div>
+
+  <!-- order the church asked for: why we give, then the form, then the other ways -->
+  <Sections sections={why ? [why] : []} />
+  <GivingEmbed />
+  <Sections sections={rest} />
+</Base>

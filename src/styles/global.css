@@ -171,21 +171,11 @@ a:hover{color:var(--brand-hover)}
 .seclink a::after{content:" →"}
 
 /* ── giving ─────────────────────────────────────────── */
-.give-cta{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem 1rem;margin-top:1.6rem}
-.give-cta .btn{font-size:1.02rem;padding:.72rem 1.4rem;cursor:pointer;font-family:inherit}
-.give-alt{font-size:.94rem;color:var(--ink-faint)}
-/* a class selector beats the [hidden] UA rule, so say it explicitly */
-.give-modal[hidden]{display:none}
-.give-modal{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:1rem}
-.give-backdrop{position:absolute;inset:0;background:rgba(23,33,58,.62)}
-.give-panel{position:relative;background:var(--surface-card);border-radius:var(--r-lg);box-shadow:0 24px 60px -12px rgba(23,33,58,.5);width:100%;max-width:520px;max-height:92vh;display:flex;flex-direction:column;padding:1.1rem 1.2rem 1rem}
-.give-head{display:flex;align-items:center;gap:1rem}
-.give-head h2{flex:1;font-size:1.35rem}
-.give-x{font-size:1.6rem;line-height:1;background:transparent;border:0;color:var(--ink-faint);cursor:pointer;padding:0 .2rem}
-.give-x:hover{color:var(--ink)}
-.give-secure{font-size:.88rem;color:var(--ink-faint);margin:.45rem 0 .8rem}
-.give-panel iframe{flex:1;min-height:min(560px,60vh);width:100%;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface-alt)}
-.give-fallback{font-size:.86rem;color:var(--ink-faint);margin-top:.7rem}
+.give-embed{margin-top:1.5rem;max-width:560px}
+.give-secure{font-size:.88rem;color:var(--ink-faint);margin-bottom:.7rem}
+.give-embed iframe{width:100%;min-height:min(620px,78vh);border:1px solid var(--border);
+  border-radius:var(--r-lg);background:var(--surface-alt);display:block}
+.give-fallback{font-size:.88rem;color:var(--ink-faint);margin-top:.7rem}
 
 /* pictures inside sections and cards */
 .secfig{margin:1.6rem 0 0;overflow:hidden;border-radius:var(--r-lg)}

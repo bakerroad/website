@@ -1,0 +1,51 @@
+---
+/**
+ * The Subsplash giving form, on the page rather than behind a button.
+ *
+ * The iframe's src is still set lazily — only once the block scrolls into view.
+ * That keeps Stripe, Google Pay and Subsplash's analytics out of the page for
+ * anyone who reads the copy and leaves, which matters here because the page
+ * opens by telling visitors to skip it. Subsplash sends `frame-ancestors *`,
+ * so framing is permitted; the "open in a new tab" link covers it if that
+ * ever changes, or if a browser blocks third-party frames.
+ */
+import { site } from "../lib/site";
+const url = site.givingUrl || "";
+---
+{url && (
+  <section class="sec">
+    <div class="wrap">
+      <p class="eyebrow">Online</p>
+      <h2>Give from your phone</h2>
+      <p class="body">A one-time gift or a recurring one, by card or bank draft.</p>
+
+      <div class="give-embed" id="give-embed">
+        <p class="give-secure">
+          Handled by Subsplash, the church's own giving provider.
+          Baker Road's website never sees your card details.
+        </p>
+        <iframe id="give-frame" title="Give to Baker Road Baptist Church" data-src={url}
+                allow="payment *" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <p class="give-fallback">
+          Form not loading? <a href={url} target="_blank" rel="noopener">Open the giving page in a new tab</a>.
+        </p>
+      </div>
+    </div>
+
+    <script is:inline>
+      (function () {
+        var wrap = document.getElementById("give-embed");
+        var frame = document.getElementById("give-frame");
+        if (!wrap || !frame) return;
+        function load() {
+          if (!frame.getAttribute("src")) frame.setAttribute("src", frame.dataset.src);
+        }
+        if (!("IntersectionObserver" in window)) { load(); return; }
+        var io = new IntersectionObserver(function (entries) {
+          if (entries.some(function (e) { return e.isIntersecting; })) { load(); io.disconnect(); }
+        }, { rootMargin: "300px" });
+        io.observe(wrap);
+      })();
+    </script>
+  </section>
+)}
