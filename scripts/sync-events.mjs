@@ -17,7 +17,13 @@ const { PCO_APP_ID, PCO_SECRET } = process.env;
 const OUT = "content/events";
 const MONTHS_AHEAD = Number(process.env.EVENT_MONTHS_AHEAD || 6);
 
-if (!PCO_APP_ID || !PCO_SECRET) { console.error("Missing PCO_APP_ID / PCO_SECRET"); process.exit(1); }
+if (!PCO_APP_ID || !PCO_SECRET) {
+  console.error("Missing PCO_APP_ID / PCO_SECRET.");
+  console.error("Planning Center Personal Access Tokens are a PAIR: an Application ID");
+  console.error("and a Secret, sent as HTTP Basic auth. A secret beginning pco_pat_ is");
+  console.error("only half of it — find the Application ID beside it in Planning Center.");
+  process.exit(1);
+}
 mkdirSync(OUT, { recursive: true });
 
 const AUTH = "Basic " + Buffer.from(`${PCO_APP_ID}:${PCO_SECRET}`).toString("base64");
@@ -26,7 +32,12 @@ async function pco(path, params = {}) {
   const url = new URL(`https://api.planningcenteronline.com/calendar/v2/${path}`);
   Object.entries(params).forEach(([k, v]) => v != null && url.searchParams.set(k, v));
   const r = await fetch(url, { headers: { Authorization: AUTH, Accept: "application/json" } });
-  if (r.status === 401) throw new Error("Planning Center rejected the credentials (401). Check PCO_APP_ID / PCO_SECRET.");
+  if (r.status === 401) throw new Error(
+    "Planning Center rejected the credentials (401).\n" +
+    "  - A Personal Access Token is an Application ID AND a Secret, both required.\n" +
+    "  - Check the token still exists at api.planningcenteronline.com/oauth/applications.\n" +
+    "  - Check the user who created it still has Calendar access."
+  );
   if (!r.ok) throw new Error(`PCO ${path} ${r.status}: ${(await r.text()).slice(0, 300)}`);
   return r.json();
 }
