@@ -29,19 +29,51 @@ do not move it inside.
 
 ---
 
-## 2. Tina Cloud  ·  free, 2 editors  ·  10 min
+## 2. Tina Cloud  ·  free, 2 editors  ·  15 min
 
 **This must come before Cloudflare.** `npm run build` calls the Tina CLI, and the
 Tina CLI refuses to run without credentials. Deploy first and the build fails.
 
 1. Sign in at **app.tina.io** with the build account.
-2. New project → point it at `brbc-website`, branch `main`.
-3. Copy the **Client ID**. Generate a **Read-Only Token**.
-4. Invite the two editors — the free plan allows exactly two:
+2. New project → point it at `bakerroad/website`, branch `main`.
+3. Copy the **Client ID**.
+4. **Tokens → New Token → Content (Read-only)**, and set **Branches to `*`**.
+   A token scoped to a named branch that does not match exactly returns
+   `403 not authorized to read branch`.
+5. Invite the two editors — the free plan allows exactly two:
    - **Sarah Rose**, `bakerroadbc@gmail.com`
    - Matt
 
 Locally, `cp .env.example .env` and fill in `PUBLIC_TINA_CLIENT_ID` and `TINA_TOKEN`.
+
+### 6. Generate and commit `tina/tina-lock.json` — do not skip this
+
+TinaCloud **will not index a branch** without this file in the repo. Without it
+every symptom looks like something else: *"No branches found"*, *"Branches will
+not be indexed until your schema is configured"*, and `/admin` reporting
+*"Branch 'main' not found"* behind an "Unexpected error validating your schema"
+dialog. None of those messages mention the lock file.
+
+It is produced by **`tinacms dev`**, not by `tinacms build`:
+
+```bash
+npm run dev          # wait ~10 seconds, then Ctrl+C
+git add tina/tina-lock.json
+git commit -m "Add tina-lock.json" && git push
+```
+
+Then app.tina.io → project → Configuration → **Refresh Branches**. `main` should
+appear with a green check within a couple of minutes.
+
+### Two traps
+
+- **Never click "Change Repo" to refresh.** It replaces the project identity —
+  new Client ID, all tokens invalidated, checklist reset. If the repo is not
+  listed, it is a stale list: reload the page.
+- **Leave `--skip-cloud-checks` in the build command.** It lets the website deploy
+  even when Tina is misconfigured. A dead `/admin` is a nuisance; a dead
+  website is not. That flag is why `brbcbaytown.org` stayed live through all of
+  the above.
 
 ---
 
