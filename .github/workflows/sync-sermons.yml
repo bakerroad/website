@@ -20,7 +20,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
 
       - name: Pull new sermons  (RSS by default; the Data API only if YOUTUBE_API_KEY is set)
         env:
