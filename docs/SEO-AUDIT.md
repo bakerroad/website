@@ -65,9 +65,17 @@ What was set, all pending Google's routine review (usually under an hour):
 
 **Already had 12 reviews at 5.0** — my earlier "zero reviews" was wrong.
 
-Still to do on the profile:
-- **Logo** and a cover photo (Photos → Logo / Cover).
-- **Add Sarah Rose as a manager** so the church isn't one login from losing it.
+Also set: **opening date January 15, 1978**, and **YouTube** added to social
+profiles alongside Facebook.
+
+Still to do on the profile — needs a human, because Google's photo uploader
+opens a native file dialog that automation can't drive:
+- **Logo:** Photos → *Add a logo* → pick
+  `research/gbp/gbp-logo-720.png` (720×720, white plate — already made).
+- **Cover photo:** Photos → *Add a cover photo* → pick
+  `research/gbp/pumpkin-patch.jpg` (960×540, exact 16:9).
+- **Add Sarah Rose as a manager** (⋮ menu → Business Profile settings →
+  People and access) so the church isn't one login from losing it.
 - **Reply to the 12 existing reviews.** Google rewards it, and it's free.
 - Ask ten more members for a review this month; the link is in Church Info.
 - In late September, post the Pumpkin Patch as a Google **event post**.
