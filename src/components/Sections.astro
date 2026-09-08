@@ -24,6 +24,18 @@ const resolve = (url?: string) => {
 
 const isRowList = (s: Section) =>
   (s.items ?? []).length > 2 && (s.items ?? []).every((i) => i.meta && !i.linkUrl);
+
+/** Staff and deacons: every item is a person with a role under their name, and
+ *  at least one of them has a photograph. Rendered as portrait cards instead of
+ *  the labelled rows, which have nowhere to put a face. */
+const isPeople = (s: Section) =>
+  (s.items ?? []).length > 1 &&
+  (s.items ?? []).every((i) => i.meta && !i.linkUrl && !i.when) &&
+  (s.items ?? []).some((i) => i.image);
+
+/** Initials, so a person still gets a card while the office finds a photo. */
+const initials = (t?: string) =>
+  (t || "").split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0]).join("").toUpperCase();
 ---
 {sections.map((s) => (
   <section class="sec" id={anchor(s.heading || s.eyebrow)}>
@@ -40,7 +52,25 @@ const isRowList = (s: Section) =>
       )}
 
       {(s.items ?? []).length > 0 && (
-        isRowList(s) ? (
+        isPeople(s) ? (
+          <div class="people">
+            {s.items!.map((i) => (
+              <article class="person" id={anchor(i.title)}>
+                {i.image ? (
+                  <img class="pic" src={i.image} alt={i.title || ""} loading="lazy" decoding="async"
+                       width={imageSize(i.image)?.width} height={imageSize(i.image)?.height} />
+                ) : (
+                  <p class="pic nopic" aria-hidden="true">{initials(i.title)}</p>
+                )}
+                <div class="ptext">
+                  {i.title && <h3>{i.title}</h3>}
+                  {i.meta && <p class="meta">{i.meta}</p>}
+                  {i.body && <p>{i.body}</p>}
+                </div>
+              </article>
+            ))}
+          </div>
+        ) : isRowList(s) ? (
           <div class="rows">
             {s.items!.map((i) => (
               <div class="r">

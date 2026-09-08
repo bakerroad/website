@@ -117,22 +117,19 @@
           "title": "Marvin Rose",
           "meta": "Senior Pastor",
           "body": "Pastor Marvin has led Baker Road since January 1994. He holds a Master of Divinity from New Orleans Baptist Theological Seminary and served ten years on its Board of Trustees. Before Baytown he pastored First Baptist Church in Saluda, North Carolina. He preaches expository sermons. He and his wife Melinda are married.",
-          "image": "/images/pastor-marvin.jpg"
+          "image": "/images/leader-marvin-rose.jpg"
         },
         {
           "title": "Sarah Joy McClain",
           "meta": "Worship Leader",
-          "body": "Sarah Joy joined the church as Worship Leader in May 2020. She holds a music degree from East Texas Baptist University and has taught at Baytown Christian Academy and Lamar Elementary."
-        },
-        {
-          "title": "Maria Walden",
-          "meta": "Ministry Assistant",
-          "body": "Maria keeps the office running and is usually the voice on the other end of the phone during the week."
+          "body": "Sarah Joy joined the church as Worship Leader in May 2020. She holds a music degree from East Texas Baptist University and has taught at Baytown Christian Academy and Lamar Elementary.",
+          "image": "/images/leader-sarah-joy-mcclain.jpg"
         },
         {
           "title": "Viola Johnson",
           "meta": "Child Care Director",
-          "body": "Viola leads the Child Care ministry and serves in student ministry, holding the church to its standards of faith, safety, and professionalism."
+          "body": "Viola leads the Child Care ministry and serves in student ministry, holding the church to its standards of faith, safety, and professionalism.",
+          "image": "/images/leader-viola-johnson.jpg"
         }
       ]
     },
@@ -145,17 +142,20 @@
         {
           "title": "Alan Barber",
           "meta": "Chairman of the Deacons",
-          "body": "Formerly on staff as Youth Minister and Associate Pastor."
+          "body": "Formerly on staff as Youth Minister and Associate Pastor.",
+          "image": "/images/deacon-alan-barber.jpg"
         },
         {
           "title": "Gil Johnston",
           "meta": "Vice-Chair and Secretary",
-          "body": "Serves alongside his wife Vivian."
+          "body": "Serves alongside his wife Vivian.",
+          "image": "/images/deacon-gil-johnston.jpg"
         },
         {
           "title": "Layne Ramsey",
           "meta": "Deacon",
-          "body": "Serves with his wife Beverly."
+          "body": "Serves with his wife Beverly.",
+          "image": "/images/deacon-layne-ramsey.jpg"
         }
       ]
     }
