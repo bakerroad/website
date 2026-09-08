@@ -44,9 +44,9 @@ you to create GitHub, Tina, Cloudflare and Google Cloud under
 ### Still open
 
 - **#10 — the privacy policy. DRAFT WRITTEN, awaiting approval.** See
-  `PRIVACY-POLICY-DRAFT.md`. It is built on an audit of the live site (no
-  analytics, no cookies of its own, no forms hosted on the site; five named
-  third parties). Two ⚠️ items need the church: the effective date, and whether
+  `PRIVACY-POLICY-DRAFT.md`. It is built on an audit of the live site (Google Analytics 4 added 7 Sept —
+  the only cookies the site sets; no forms hosted on the site; six named third
+  parties). Two ⚠️ items need the church: the effective date, and whether
   prayer requests are ever read aloud or printed — that promise stays out until
   confirmed. The live page still carries the old, now-wrong SnapPages text until
   this is approved.
