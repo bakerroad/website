@@ -4,7 +4,7 @@ Do these in order. Each step needs the one before it.
 
 **Two accounts, two jobs.** `bakerroadbaptist@gmail.com` is the **build** account —
 GitHub, Tina, Cloudflare, Google Cloud all go here. `bakerroadbc@gmail.com` is the
-**church's** — it is the public contact address and Sarah Rose's editor login.
+**church's** — it is the public contact address. Sarah Rose's editor login is `sarah@brbcbaytown.org`.
 
 Turn on 2-factor on every account and write the recovery codes somewhere physical.
 The realistic disaster is not a break-in, it is one person losing a phone.
@@ -41,7 +41,7 @@ Tina CLI refuses to run without credentials. Deploy first and the build fails.
    A token scoped to a named branch that does not match exactly returns
    `403 not authorized to read branch`.
 5. Invite the two editors — the free plan allows exactly two:
-   - **Sarah Rose**, `bakerroadbc@gmail.com`
+   - **Sarah Rose**, `sarah@brbcbaytown.org`
    - Matt
 
 Locally, `cp .env.example .env` and fill in `PUBLIC_TINA_CLIENT_ID` and `TINA_TOKEN`.

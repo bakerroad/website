@@ -5,7 +5,7 @@
 | Address | What it is for |
 |---|---|
 | **`bakerroadbaptist@gmail.com`** | The **build** account. GitHub, Tina Cloud, Cloudflare, Google Cloud. Matt created it. |
-| **`bakerroadbc@gmail.com`** | The **church's** account. The public contact address on the site, and Sarah Rose's Tina login. |
+| **`bakerroadbc@gmail.com`** | The **church's** account. The public contact address on the site. |
 
 Everything below is created under the **build** account. Nothing here touches
 any other church's accounts.
@@ -42,7 +42,7 @@ from losing its website.
 2. Create a project, point it at the `brbc-website` repo, branch `main`.
 3. Copy the **Client ID** and generate a **Read-Only Token**.
 4. Invite the editors. **The free plan allows 2**, and both are spoken for:
-   - **Sarah Rose** — `bakerroadbc@gmail.com`
+   - **Sarah Rose** — `sarah@brbcbaytown.org` (her Google Workspace address)
    - **Matt** — whichever address you want to administer from
    A third person needs the $24/month plan, so route extra requests through
    Sarah instead.
