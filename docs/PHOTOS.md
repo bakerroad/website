@@ -40,11 +40,16 @@ are adults now. Worth a moment's thought before publishing.
 
 **`01-USE-people` — portraits (14)**
 Studio portraits on the same mottled gray backdrop — consistent, if dated.
-- One is almost certainly **Pastor Marvin Rose** (maroon blazer, gray beard).
-- One is likely **Sarah Joy McClain**. Both need confirming before captioning.
-- Note **#0 and #53 are the same man twice** — the site only needs one.
-- The rest are members and deacons. Since the ~70-name committee page is being
-  dropped, most of these have nowhere to go. Use the four staff, skip the rest.
+- **Everyone is now identified, and none of it is guesswork.** The old site's
+  own captions name them, and the hand-named copies turned out to be byte-for-
+  byte the same files. See **`docs/LEADERSHIP-PHOTOS.md`** for the full table,
+  including six more staff whose photos we only have asset IDs for.
+- Note **#0 and #53 are the same man twice** (Alan Barber) — the site needs one.
+- Six are on the About page, cut out and set on a flat grey disc. Four of those
+  six are photographs of a *couple*, because the church used couple photographs
+  as staff portraits. `scripts/make-portraits.py` rebuilds them.
+- The rest are members. Since the ~70-name committee page is being dropped,
+  those have nowhere to go.
 
 **`05-USE-logos` (9)**
 - **The church logo**, at 500x411 — higher resolution than the copy that was

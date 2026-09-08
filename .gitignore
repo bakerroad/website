@@ -1,5 +1,8 @@
 node_modules/
 dist/
+
+# scripts/make-portraits.py scratch output; the six it installs are committed
+portraits/
 .astro/
 .env
 .env.local
