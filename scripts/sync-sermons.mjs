@@ -77,6 +77,19 @@ async function fetchFromApi() {
     }
     pageToken = p.nextPageToken;
   } while (pageToken);
+
+  // A livestream's real service date is when it actually went live, NOT when the
+  // video row was published. Those differ whenever a stream is made public later,
+  // which is most of this back catalogue. Ask for it in batches of 50.
+  for (let i = 0; i < out.length; i += 50) {
+    const chunk = out.slice(i, i + 50);
+    const v = await api("videos", { part: "liveStreamingDetails", id: chunk.map((x) => x.videoId).join(",") });
+    const byId = new Map((v.items || []).map((it) => [it.id, it.liveStreamingDetails?.actualStartTime]));
+    for (const row of chunk) {
+      const t = byId.get(row.videoId);
+      if (t) row.actualStart = t;
+    }
+  }
   return out;
 }
 
@@ -90,7 +103,12 @@ async function main() {
 
   for (const v of videos) {
     const [dateFromTitle, stripped] = extractDate(v.title);
-    const date = dateFromTitle || v.publishedAt.slice(0, 10);
+    // Order matters: when the stream actually started beats a date typed in a
+    // title, which beats the upload timestamp. TZ is fixed at Central so a
+    // 10:15am service never lands on the day before.
+    const localDay = (iso) =>
+      new Date(iso).toLocaleDateString("en-CA", { timeZone: "America/Chicago" });
+    const date = (v.actualStart && localDay(v.actualStart)) || dateFromTitle || localDay(v.publishedAt);
     const m = matchSeries(tidy(stripped), known);
     const title = unshout(tidy(m.title)) || "Sunday Service";
     const file = join(OUT, `${date}-${slugify(title) || v.videoId}.json`);

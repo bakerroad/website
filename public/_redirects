@@ -58,3 +58,35 @@
 #   when hostname equals www.brbcbaytown.org
 #   -> dynamic redirect concat("https://brbcbaytown.org", http.request.uri.path), 301
 # Until that exists, www serves a duplicate of the site (canonical tags mitigate).
+
+# Sermon slugs that moved when dates were corrected from the actual
+# livestream start time (2026-09-09). Left column is the OLD address.
+
+/watch/2025-02-10-provoke-one-another-to-love-and-good-works-hebrews-10-24    /watch/2025-02-09-provoke-one-another-to-love-and-good-works-hebrews-10-24  301
+/watch/2025-02-17-does-god-still-see-me-casting-your-cares-on-him-1-peter-5-7 /watch/2025-02-16-does-god-still-see-me-casting-your-cares-on-him-1-peter-5-7  301
+/watch/2025-02-24-baker-road-worship-service                                  /watch/2025-02-23-baker-road-worship-service  301
+/watch/2025-03-03-a-living-sacrifice-holy-every-day-not-just-sunday-romans-12-/watch/2025-03-02-a-living-sacrifice-holy-every-day-not-just-sunday-romans-12-  301
+/watch/2025-03-17-when-sin-separates-us-from-god-isaiah-59                    /watch/2025-03-16-when-sin-separates-us-from-god-isaiah-59  301
+/watch/2025-04-07-worship                                                     /watch/2025-04-06-worship  301
+/watch/2025-04-14-the-passion-the-price-and-the-promise-mark-15-palm-sunday   /watch/2025-04-13-the-passion-the-price-and-the-promise-mark-15-palm-sunday  301
+/watch/2025-05-05-when-the-culture-says-compromise-daniel-1                   /watch/2025-05-04-when-the-culture-says-compromise-daniel-1  301
+/watch/2025-08-24-sunday-service                                              /watch/2025-08-31-sunday-service  301
+/watch/2025-09-08-beginnings-one-church-many-parts                            /watch/2025-09-07-beginnings-one-church-many-parts  301
+/watch/2025-09-08-finishing-with-faithfulness                                 /watch/2025-08-31-finishing-with-faithfulness  301
+/watch/2025-09-08-prayer-witness-and-wisdom                                   /watch/2025-08-24-prayer-witness-and-wisdom  301
+/watch/2026-02-16-the-depths-of-mercy-and-grace                               /watch/2026-02-15-the-depths-of-mercy-and-grace  301
+/watch/2026-03-01-the-blood-on-the-door-the-savior-on-the-cross               /watch/2026-03-08-the-blood-on-the-door-the-savior-on-the-cross  301
+/watch/2026-06-14-a-father-at-the-feet-of-jesus-when-jesus-has-the-final-word /watch/2026-06-21-a-father-at-the-feet-of-jesus-when-jesus-has-the-final-word  301
+/watch/2026-09-08-8-9-service                                                 /watch/2026-08-09-8-9-service  301
+/watch/2026-09-08-anchors-for-life-s-storms-acts-27                           /watch/2025-06-29-anchors-for-life-s-storms-acts-27  301
+/watch/2026-09-08-chosen-holy-and-dearly-loved-colossians-3-12-17             /watch/2025-08-17-chosen-holy-and-dearly-loved-colossians-3-12-17  301
+/watch/2026-09-08-don-t-be-taken-captive-spotting-spiritual-deception-colossia/watch/2025-08-03-don-t-be-taken-captive-spotting-spiritual-deception-colossia  301
+/watch/2026-09-08-even-if-he-does-not-the-fiery-furnace-daniel-3              /watch/2025-05-11-even-if-he-does-not-the-fiery-furnace-daniel-3  301
+/watch/2026-09-08-glad-to-go-to-the-house-of-the-lord-psalm-122-1             /watch/2025-12-21-glad-to-go-to-the-house-of-the-lord-psalm-122-1  301
+/watch/2026-09-08-go-quickly-and-tell-the-easter-message-matthew-28-7         /watch/2025-04-20-go-quickly-and-tell-the-easter-message-matthew-28-7  301
+/watch/2026-09-08-one-decision-can-change-everything                          /watch/2026-09-07-one-decision-can-change-everything  301
+/watch/2026-09-08-slow-to-anger-abounding-in-love-psalm-103-8-12              /watch/2025-03-30-slow-to-anger-abounding-in-love-psalm-103-8-12  301
+/watch/2026-09-08-the-widow-s-offering-what-really-moves-god-mark-12-41-44    /watch/2025-11-16-the-widow-s-offering-what-really-moves-god-mark-12-41-44  301
+/watch/2026-09-08-when-god-seems-absent                                       /watch/2026-08-02-when-god-seems-absent  301
+/watch/2026-09-08-when-light-steps-into-our-darkness                          /watch/2025-12-14-when-light-steps-into-our-darkness  301
+/watch/2026-09-08-worship                                                     /watch/2025-03-23-worship  301
