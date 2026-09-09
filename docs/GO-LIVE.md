@@ -70,10 +70,16 @@ appear with a green check within a couple of minutes.
 - **Never click "Change Repo" to refresh.** It replaces the project identity —
   new Client ID, all tokens invalidated, checklist reset. If the repo is not
   listed, it is a stale list: reload the page.
-- **Leave `--skip-cloud-checks` in the build command.** It lets the website deploy
-  even when Tina is misconfigured. A dead `/admin` is a nuisance; a dead
-  website is not. That flag is why `brbcbaytown.org` stayed live through all of
-  the above.
+- **Leave `npm run build` pointed at `scripts/build.mjs`.** A dead `/admin` is a
+  nuisance; a dead website is not, so the build ships the site with or without
+  the editor and only goes red if `astro build` itself fails.
+
+  `--skip-cloud-checks` alone was never enough for this. It skips the schema
+  check against TinaCloud, but the Tina CLI still throws
+  `Missing clientId, token` and fails the whole build when the credentials are
+  absent — which on 9 Sep 2026 stopped the website from publishing because of
+  one mistyped Cloudflare variable. `scripts/build.mjs` is what actually
+  enforces the rule now.
 
 ---
 
