@@ -49,14 +49,21 @@ for vid in ids:
     w = times.get(vid)
     if not w: print(f"{vid}  no window"); continue
     s, e, d = w["sermonStart"], w["sermonEnd"], w["duration"]
-    if s < 70 or (d - e) < 15:
-        print(f"{vid}  skip: needs 3 chapters, gaps too small"); skipped += 1; continue
+    if s < 70:
+        print(f"{vid}  skip: sermon starts too early to mark"); skipped += 1; continue
     cur = api("videos", {"part": "snippet", "id": vid})
     if not cur.get("items"): print(f"{vid}  not found"); continue
     sn = cur["items"][0]["snippet"]
     title = sn.get("title", "")
     short = title.split("|")[0].strip()[:70]
-    block = (f"{MARK}\n0:00 Welcome and worship\n{stamp(s)} Sermon — {short}\n{stamp(e)} Closing")
+    # YouTube needs three chapters to draw segment markers. Where the sermon
+    # runs to the end of the upload there is no third segment, so fall back to
+    # a single timestamp line — still clickable, and it does not invent a
+    # "Closing" section that is not there.
+    if (d - e) >= 30:
+        block = (f"{MARK}\n0:00 Welcome and worship\n{stamp(s)} Sermon — {short}\n{stamp(e)} Closing")
+    else:
+        block = f"{MARK}\nSermon begins at {stamp(s)}"
     base = sn.get("description", "")
     if MARK in base: base = base.split(MARK)[0].rstrip()
     newdesc = (base + "\n\n" + block).strip()
