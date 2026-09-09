@@ -58,56 +58,6 @@
       ]
     },
     {
-      "eyebrow": "Our story",
-      "heading": "On Baker Road since 1978",
-      "body": "We started as a mission of Memorial Baptist Church with thirteen families meeting in an elementary school cafeteria. The building came later.",
-      "note": "",
-      "items": [
-        {
-          "title": "The land",
-          "meta": "1966",
-          "body": "Memorial Baptist Church, under Rev. A. L. Jordan, buys land on Baker Road in Baytown."
-        },
-        {
-          "title": "Thirteen charter families",
-          "meta": "Jan 15, 1978",
-          "body": "The new mission launches. The first service meets at Pumphrey Elementary School, with Memorial's pastor Dr. Ed Thiele preaching and charter member Woody Harrison leading the music."
-        },
-        {
-          "title": "Rev. David B. Davis, first pastor",
-          "meta": "1978–1979",
-          "body": "The mission takes the name Baker Road Baptist Mission and starts a bus ministry that brings sixty children and adults to Sunday School, plus a radio ministry on KBUK."
-        },
-        {
-          "title": "Dr. Burt Purvis, second pastor",
-          "meta": "1979–1984",
-          "body": "Baker Road becomes the fastest growing Southern Baptist church in Texas in 1980 and 1981. Members lay the sanctuary carpet overnight so the new building can open on schedule."
-        },
-        {
-          "title": "The first service at 900 West Baker Road",
-          "meta": "Oct 19, 1980",
-          "body": "Built together with Memorial Baptist members in a “Let's Build It Now” effort. An education building follows in 1982."
-        },
-        {
-          "title": "Constituted as a church",
-          "meta": "May 31, 1981",
-          "body": "No longer Baker Road Mission. From here on, Baker Road Baptist Church."
-        },
-        {
-          "title": "Dr. Pete Freeman, third pastor",
-          "meta": "1985–1989",
-          "body": "A graduate of East Texas Baptist College and Southwestern Baptist Theological Seminary."
-        },
-        {
-          "title": "Pastor Marvin Rose",
-          "meta": "1994–today",
-          "body": "Called on January 2, 1994, and still preaching here today."
-        }
-      ],
-      "image": "/images/history-building.jpg",
-      "imageAlt": "The Baker Road Baptist Church building not long after it opened, in black and white, with cars from the period parked outside"
-    },
-    {
       "eyebrow": "Leadership",
       "heading": "The people who serve here",
       "body": "",
@@ -156,6 +106,56 @@
           "meta": "Deacon",
           "body": "Serves with his wife Beverly.",
           "image": "/images/deacon-layne-ramsey.jpg"
+        }
+      ]
+    },
+    {
+      "eyebrow": "Our story",
+      "heading": "On Baker Road since 1978",
+      "body": "We started as a mission of Memorial Baptist Church with thirteen families meeting in an elementary school cafeteria. The building came later.",
+      "image": "/images/history-building.jpg",
+      "imageAlt": "The Baker Road Baptist Church building not long after it opened, in black and white, with cars from the period parked outside",
+      "note": "",
+      "items": [
+        {
+          "title": "The land",
+          "meta": "1966",
+          "body": "Memorial Baptist Church, under Rev. A. L. Jordan, buys land on Baker Road in Baytown."
+        },
+        {
+          "title": "Thirteen charter families",
+          "meta": "Jan 15, 1978",
+          "body": "The new mission launches. The first service meets at Pumphrey Elementary School, with Memorial's pastor Dr. Ed Thiele preaching and charter member Woody Harrison leading the music."
+        },
+        {
+          "title": "Rev. David B. Davis, first pastor",
+          "meta": "1978–1979",
+          "body": "The mission takes the name Baker Road Baptist Mission and starts a bus ministry that brings sixty children and adults to Sunday School, plus a radio ministry on KBUK."
+        },
+        {
+          "title": "Dr. Burt Purvis, second pastor",
+          "meta": "1979–1984",
+          "body": "Baker Road becomes the fastest growing Southern Baptist church in Texas in 1980 and 1981. Members lay the sanctuary carpet overnight so the new building can open on schedule."
+        },
+        {
+          "title": "The first service at 900 West Baker Road",
+          "meta": "Oct 19, 1980",
+          "body": "Built together with Memorial Baptist members in a “Let's Build It Now” effort. An education building follows in 1982."
+        },
+        {
+          "title": "Constituted as a church",
+          "meta": "May 31, 1981",
+          "body": "No longer Baker Road Mission. From here on, Baker Road Baptist Church."
+        },
+        {
+          "title": "Dr. Pete Freeman, third pastor",
+          "meta": "1985–1989",
+          "body": "A graduate of East Texas Baptist College and Southwestern Baptist Theological Seminary."
+        },
+        {
+          "title": "Pastor Marvin Rose",
+          "meta": "1994–today",
+          "body": "Called on January 2, 1994, and still preaching here today."
         }
       ]
     }
