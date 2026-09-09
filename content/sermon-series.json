@@ -20,7 +20,11 @@
     {
       "name": "Follow Me",
       "subtitle": "Encounters with Jesus That Changed Everything",
-      "aliases": []
+      "aliases": [
+        "Encounters with Jesus That Changed Everything",
+        "FOLLOW JESUS: Encounters With Jesus That Changed Everything",
+        "FOLLOW ME: ENCOUNTERS WITH JESUS THAT CHANGES EVERYTHING"
+      ]
     },
     {
       "name": "Sacred",
@@ -28,6 +32,28 @@
     },
     {
       "name": "Blessed to Be a Blessing",
+      "aliases": []
+    },
+    {
+      "name": "Faith Under Fire",
+      "aliases": []
+    },
+    {
+      "name": "Christ Over Everything",
+      "aliases": [
+        "Jesus Over Everything"
+      ]
+    },
+    {
+      "name": "From Ashes to New Life",
+      "aliases": []
+    },
+    {
+      "name": "Sacred Seasons",
+      "aliases": []
+    },
+    {
+      "name": "Esther",
       "aliases": []
     }
   ],

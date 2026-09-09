@@ -110,6 +110,18 @@ async function main() {
       new Date(iso).toLocaleDateString("en-CA", { timeZone: "America/Chicago" });
     const date = (v.actualStart && localDay(v.actualStart)) || dateFromTitle || localDay(v.publishedAt);
     const m = matchSeries(tidy(stripped), known);
+    // A description that names the series outright beats guessing from the
+    // title. Once a title is cleaned up it no longer repeats the strap-line,
+    // so title matching alone loses the series it used to find.
+    const declared = (v.description || "").match(/^\s*Series:\s*([^.\n|]{3,60})/mi);
+    if (declared) {
+      // Descriptions are typed by hand and shout. Map what was written onto the
+      // canonical name in sermon-series.json so one series does not appear
+      // three times under three spellings.
+      const raw = declared[1].trim();
+      const canon = matchSeries(raw, known).series;
+      m.series = canon || unshout(tidy(raw));
+    }
     const title = unshout(tidy(m.title)) || "Sunday Service";
     const file = join(OUT, `${date}-${slugify(title) || v.videoId}.json`);
     written.add(file);
@@ -124,7 +136,9 @@ async function main() {
     if (existsSync(file)) {
       const prev = JSON.parse(readFileSync(file, "utf8"));
       const merged = prev._sourceTitle === v.title
-        ? { ...next, title: prev.title || next.title, series: prev.series ?? next.series, speaker: prev.speaker || next.speaker, description: prev.description ?? next.description }
+        // An empty series is the old default, not a human decision, so treat
+        // blank as absent and let a newly declared series fill it in.
+        ? { ...next, title: prev.title || next.title, series: prev.series || next.series, speaker: prev.speaker || next.speaker, description: prev.description ?? next.description }
         : next;
       if (JSON.stringify(merged) !== JSON.stringify(prev)) { if (!DRY) writeFileSync(file, JSON.stringify(merged, null, 2) + "\n"); updated++; }
       else preserved++;

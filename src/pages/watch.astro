@@ -7,6 +7,26 @@ import { allSermons, sermonSlug, TZ } from "../lib/site";
 
 const CHANNEL_ID = "UCIMoHSQCKy3dtYCG1Wj607A";
 const all = allSermons();
+// The archive was one flat list of seventy identical rows. Group it: each
+// series in the order it was last preached, then the standalone messages by
+// year. Uses the .serieslist/.sgroup pattern already in global.css.
+const bySeries = new Map();
+const standalone = [];
+for (const s of all) {
+  if (s.series) {
+    if (!bySeries.has(s.series)) bySeries.set(s.series, []);
+    bySeries.get(s.series).push(s);
+  } else standalone.push(s);
+}
+const seriesGroups = [...bySeries.entries()].map(([name, items]) => ({ name, items }));
+const byYear = new Map();
+for (const s of standalone) {
+  const y = String(s.date).slice(0, 4);
+  if (!byYear.has(y)) byYear.set(y, []);
+  byYear.get(y).push(s);
+}
+const yearGroups = [...byYear.entries()].sort((a, b) => b[0].localeCompare(a[0]))
+  .map(([name, items]) => ({ name, items }));
 const [latest, ...rest] = all;
 const short = (d) =>
   new Date(String(d) + "T12:00:00").toLocaleDateString("en-US", { timeZone: TZ, month: "short", day: "numeric", year: "numeric" });
@@ -24,21 +44,41 @@ const short = (d) =>
     <LiveOrLatest sermon={latest} slug={sermonSlug(latest)} channelId={CHANNEL_ID} />
   )}
 
-  {rest.length > 0 && (
+  {(seriesGroups.length > 0 || yearGroups.length > 0) && (
     <section class="sec">
       <div class="wrap">
         <p class="eyebrow">Archive</p>
         <h2>Earlier messages</h2>
-        <ul class="slist">
-          {rest.map((s) => (
-            <li>
-              <a href={`/watch/${sermonSlug(s)}`}>
-                <span class="t">{s.title}{s.series ? ` (${s.series})` : ""}</span>
-              </a>
-              <time datetime={s.date}>{short(s.date)}</time>
-            </li>
+
+        <div class="serieslist">
+          {seriesGroups.map((g) => (
+            <div class="sgroup">
+              <h3>{g.name} <span class="count">{g.items.length} message{g.items.length > 1 ? "s" : ""}</span></h3>
+              <ul class="slist">
+                {g.items.map((s) => (
+                  <li>
+                    <a href={`/watch/${sermonSlug(s)}`}><span class="t">{s.title}</span></a>
+                    <time datetime={s.date}>{short(s.date)}</time>
+                  </li>
+                ))}
+              </ul>
+            </div>
           ))}
-        </ul>
+
+          {yearGroups.map((g) => (
+            <div class="sgroup">
+              <h3>{g.name} <span class="count">{g.items.length} message{g.items.length > 1 ? "s" : ""}</span></h3>
+              <ul class="slist">
+                {g.items.map((s) => (
+                  <li>
+                    <a href={`/watch/${sermonSlug(s)}`}><span class="t">{s.title}</span></a>
+                    <time datetime={s.date}>{short(s.date)}</time>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   )}
