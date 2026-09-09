@@ -1,10 +1,11 @@
 ---
 import Base from "../layouts/Base.astro";
 import Sections from "../components/Sections.astro";
-import SermonCover from "../components/SermonCover.astro";
+import LiveOrLatest from "../components/LiveOrLatest.astro";
 import page from "../../content/pages/watch.json";
 import { allSermons, sermonSlug, TZ } from "../lib/site";
 
+const CHANNEL_ID = "UCIMoHSQCKy3dtYCG1Wj607A";
 const all = allSermons();
 const [latest, ...rest] = all;
 const short = (d) =>
@@ -20,15 +21,7 @@ const short = (d) =>
   </div>
 
   {latest && (
-    <section class="sec" id="recent-messages">
-      <div class="wrap">
-        <p class="eyebrow">Most recent message</p>
-        <a class="featured" href={`/watch/${sermonSlug(latest)}`}>
-          <SermonCover sermon={latest} />
-          <span class="play">Listen to this message</span>
-        </a>
-      </div>
-    </section>
+    <LiveOrLatest sermon={latest} slug={sermonSlug(latest)} channelId={CHANNEL_ID} />
   )}
 
   {rest.length > 0 && (

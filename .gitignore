@@ -16,3 +16,6 @@ tina/__generated__/types.js
 tina/__generated__/*.gql
 tina/__generated__/static-media.json
 # NOTE: tina/tina-lock.json MUST be committed — TinaCloud needs it to index content
+
+# OAuth token cache for scripts/retitle-youtube.py — never commit
+.youtube-token.json
