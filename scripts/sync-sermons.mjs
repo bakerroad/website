@@ -122,6 +122,16 @@ async function main() {
       const canon = matchSeries(raw, known).series;
       m.series = canon || unshout(tidy(raw));
     }
+    // A title inside a series group should not repeat the series name, and the
+    // strap-line stripping can leave a stranded colon behind.
+    if (m.series) {
+      const esc = m.series.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      m.title = m.title
+        .replace(new RegExp("^\\s*" + esc + "\\s*[:\\-\u2013\u2014]+\\s*", "i"), "")
+        .replace(/^[\s:\-\u2013\u2014]+/, "")
+        .replace(/\s*:\s*:\s*/g, ": ")
+        .trim() || m.title;
+    }
     const title = unshout(tidy(m.title)) || "Sunday Service";
     const file = join(OUT, `${date}-${slugify(title) || v.videoId}.json`);
     written.add(file);
