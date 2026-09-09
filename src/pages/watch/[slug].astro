@@ -1,6 +1,7 @@
 ---
 import Base from "../../layouts/Base.astro";
 import { allSermons, sermonSlug } from "../../lib/site";
+import times from "../../../content/sermon-times.json";
 
 export function getStaticPaths() {
   const all = allSermons();
@@ -16,6 +17,17 @@ export function getStaticPaths() {
 }
 
 const { sermon, newer, older, inSeries } = Astro.props;
+// Most of these uploads are the whole service: worship, giving, announcements,
+// then the message. The page defaults to the message and keeps the full
+// service one click away. Offsets come from content/sermon-times.json, derived
+// from the auto-caption transcript. No offset means the upload is already just
+// the sermon, so it plays from the top.
+const t = (times as Record<string, { sermonStart: number; sermonEnd: number; duration: number }>)[sermon.youtubeId];
+const startAt = t?.sermonStart ?? 0;
+const human = (n: number) => {
+  const h = Math.floor(n / 3600), m = Math.round((n % 3600) / 60);
+  return h ? `${h} hour${h > 1 ? "s" : ""}${m ? ` ${m} minutes` : ""}` : `${m} minutes`;
+};
 const fmt = (d) =>
   new Date(d + "T12:00:00").toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
 const title = `${sermon.title}${sermon.series ? ` — ${sermon.series}` : ""} | Baker Road Baptist Church`;
@@ -50,7 +62,7 @@ const videoSchema = {
 
       <div class="player">
         <iframe
-          src={`https://www.youtube-nocookie.com/embed/${sermon.youtubeId}?rel=0`}
+          src={`https://www.youtube-nocookie.com/embed/${sermon.youtubeId}?rel=0${startAt ? `&start=${startAt}` : ""}`}
           title={sermon.title}
           loading="lazy"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -60,8 +72,23 @@ const videoSchema = {
       {!junk(sermon.description) && <p class="sdesc">{sermon.description}</p>}
 
       <p class="seclink">
-        <a href={`https://www.youtube.com/watch?v=${sermon.youtubeId}`} rel="noopener">Watch on YouTube</a>
+        <a href={`https://www.youtube.com/watch?v=${sermon.youtubeId}${startAt ? `&t=${startAt}` : ""}`} rel="noopener">Watch on YouTube</a>
       </p>
+
+      {startAt > 0 && (
+        <section class="full-service">
+          <h2>Watch the full service</h2>
+          <p>
+            The player above starts at the message. The whole service, including
+            worship, runs about {human(t.duration)} from the beginning.
+          </p>
+          <p class="seclink">
+            <a href={`https://www.youtube.com/watch?v=${sermon.youtubeId}`} rel="noopener">
+              Watch the full service on YouTube
+            </a>
+          </p>
+        </section>
+      )}
 
       {inSeries.length > 1 && (
         <section class="also">
