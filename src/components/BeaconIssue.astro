@@ -14,8 +14,12 @@ const { issue } = Astro.props as { issue: any };
 
 // Tina writes the path the moment an editor picks a file. If the file itself
 // never made it into the repository, show the text instead of a broken icon.
-const pages: Page[] = (issue.pages ?? []).filter((p: Page) => publicFileExists(p.image));
-const missing = (issue.pages ?? []).length - pages.length;
+const kept: Page[] = (issue.pages ?? []).filter((p: Page) => publicFileExists(p.image));
+const missing = (issue.pages ?? []).length - kept.length;
+// Pages are not all the same shape: the office exports the front page wide and
+// the back page tall. Carry each one's true pixel width so the CSS can stop a
+// narrow page being stretched past it and going soft.
+const pages = kept.map((p) => ({ ...p, size: imageSize(p.image) }));
 const highlights: Highlight[] = (issue.highlights ?? []).filter((h: Highlight) => h.title);
 ---
 {highlights.length > 0 && (
@@ -37,10 +41,11 @@ const highlights: Highlight[] = (issue.highlights ?? []).filter((h: Highlight) =
   <div class="beacon-pages">
     {pages.map((p, i) => (
       <figure class="beacon-page">
-        <a href={p.image} target="_blank" rel="noopener">
+        <a href={p.image} target="_blank" rel="noopener"
+           style={p.size ? `--page-w:${p.size.width}px` : undefined}>
           <img src={p.image} alt={p.alt || `The Beacon, page ${i + 1}`}
                loading={i === 0 ? "eager" : "lazy"} decoding="async"
-               width={imageSize(p.image)?.width} height={imageSize(p.image)?.height} />
+               width={p.size?.width} height={p.size?.height} />
         </a>
         <figcaption>
           Page {i + 1} of {pages.length} — <a href={p.image} target="_blank" rel="noopener">open it full size</a>

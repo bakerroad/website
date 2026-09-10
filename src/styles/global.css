@@ -450,8 +450,11 @@ a:hover{color:var(--brand-hover)}
 .beacon-sec{padding-bottom:3.4rem}
 .beacon-pages{display:flex;flex-direction:column;gap:1.6rem;margin-top:1.7rem}
 .beacon-page{margin:0}
+/* never scale a page past its own pixels — --page-w is its true width, set per
+   page by BeaconIssue.astro. A page narrower than the column is centred. */
 .beacon-page a{display:block;border:1px solid var(--border);border-radius:var(--r-lg);
-  overflow:hidden;background:var(--surface-card);box-shadow:var(--shadow)}
+  overflow:hidden;background:var(--surface-card);box-shadow:var(--shadow);
+  max-width:min(100%,var(--page-w,100%));margin-inline:auto}
 .beacon-page a:hover{border-color:var(--border-strong)}
 .beacon-page img{width:100%;height:auto;display:block}
 .beacon-page figcaption{margin-top:.55rem;font-size:.88rem;color:var(--ink-faint)}
