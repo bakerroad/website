@@ -24,8 +24,14 @@ git push -u origin main
 There are 25 commits of history already. Add a second person as repo admin so the
 church is never one account away from losing its website.
 
-**Credentials live in the macOS Keychain (`brbc-website/*`), not in a folder.** See the vault note `Baker Road Baptist/Accounts & Access.md` and `00 SYSTEM/Credentials/🔐 Credentials Index.md`. The old `STORED ACCOUNTS/` plain-text folder was retired on 2026-09-10 — but
-do not move it inside.
+**Credentials live in the macOS Keychain (`brbc-website/*`), not in a folder.** Read them
+with `Second Brain/00 SYSTEM/Credentials/get-secret` (`--list` shows every name, `--copy
+<name>` puts one on the clipboard without printing it). See the vault notes `Baker Road
+Baptist/Accounts & Access.md` and `00 SYSTEM/Credentials/🔐 Credentials Index.md`.
+
+The old `STORED ACCOUNTS/` plain-text folder was retired on 2026-09-10. Nothing replaces it
+inside the repository: **never commit a credential here**, and do not recreate a plain-text
+folder of them.
 
 ---
 
@@ -44,7 +50,8 @@ Tina CLI refuses to run without credentials. Deploy first and the build fails.
    - **Sarah Rose**, `sarah@brbcbaytown.org`
    - Matt
 
-Locally, `cp .env.example .env` and fill in `PUBLIC_TINA_CLIENT_ID` and `TINA_TOKEN`.
+Locally, `cp .env.example .env` and fill in `PUBLIC_TINA_CLIENT_ID` and `TINA_TOKEN`
+(`get-secret brbc-website/PUBLIC_TINA_CLIENT_ID`, `get-secret brbc-website/TINA_TOKEN`).
 
 ### 6. Generate and commit `tina/tina-lock.json` — do not skip this
 
