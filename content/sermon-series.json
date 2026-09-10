@@ -55,8 +55,16 @@
     {
       "name": "Esther",
       "aliases": []
+    },
+    {
+      "name": "Building on a Strong Base",
+      "aliases": []
     }
   ],
+  "excludedVideoIds": [
+    "xdyz85AuiSY"
+  ],
+  "excludedVideoIdsNote": "Recordings verified not to contain a sermon. xdyz85AuiSY is a worship-team rehearsal that was uploaded with a sermon-style title.",
   "notSermons": [
     "announcement",
     "announcements",
@@ -79,13 +87,7 @@
     "committee",
     "wedding ceremony",
     "memorial service",
-    "funeral service",
-    "live stream",
-    "livestream",
-    "re:^ *worship *( |[0-9]|$)",
-    "re:^ *sunday +worship",
-    "re:^ *baker +road +worship +service *$",
-    "re:^ *(full )?service *$"
+    "funeral service"
   ],
-  "notSermonsNote": "Titles matching any of these are not treated as sermons and never reach the website. A plain entry is matched as a substring; an entry beginning 're:' is a regular expression. Regexes are written without backslashes on purpose, because this file gets edited by hand and escaping is easy to get silently wrong. The anchors matter: a video titled just 'worship' is a full-service recording with no sermon in the title, while 'SHADOW WORSHIP' is a sermon. The sync prints everything it skipped so this list can be corrected."
+  "notSermonsNote": "Titles matching any of these are not treated as sermons and never reach the website. A plain entry is matched as a substring; an entry beginning 're:' is a regular expression. Do not exclude a recording merely because its title says worship, service, or livestream: older full-service recordings often contain the only available copy of the sermon. Use excludedVideoIds only after checking the recording itself."
 }

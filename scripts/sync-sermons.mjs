@@ -19,7 +19,7 @@
  */
 import { writeFileSync, readFileSync, existsSync, mkdirSync, readdirSync, unlinkSync } from "node:fs";
 import { join } from "node:path";
-import { extractDate, tidy, unshout, matchSeries, slugify } from "./lib/parse-title.mjs";
+import { extractDate, tidy, unshout, matchSeries, notSermon, slugify } from "./lib/parse-title.mjs";
 
 const API_KEY = process.env.YOUTUBE_API_KEY || "";
 const CHANNEL_ID = process.env.YOUTUBE_CHANNEL_ID || "UCIMoHSQCKy3dtYCG1Wj607A";
@@ -28,16 +28,43 @@ const SERIES_FILE = "content/sermon-series.json";
 const DRY = process.argv.includes("--check");
 
 mkdirSync(OUT, { recursive: true });
-const known = existsSync(SERIES_FILE) ? (JSON.parse(readFileSync(SERIES_FILE, "utf8")).series || []) : [];
+const rules = existsSync(SERIES_FILE) ? JSON.parse(readFileSync(SERIES_FILE, "utf8")) : {};
+const known = rules.series || [];
+const notSermons = rules.notSermons || [];
+const excludedVideoIds = new Set(rules.excludedVideoIds || []);
+// The RSS feed uses the date a video was published, which can be years after
+// the service when an old recording is made public or retitled. Reuse the date
+// and file already attached to a known video ID. This also prevents a title
+// correction from creating a second JSON record for the same recording.
+const existingByVideoId = new Map();
+for (const name of readdirSync(OUT).filter((name) => name.endsWith(".json"))) {
+  const file = join(OUT, name);
+  try {
+    const data = JSON.parse(readFileSync(file, "utf8"));
+    if (data.youtubeId) existingByVideoId.set(data.youtubeId, { file, data });
+  } catch (_) {
+    // Let the normal build report malformed content with its file path.
+  }
+}
 
 const unesc = (s) => (s || "").replace(/&amp;/g, "&").replace(/&#39;/g, "'").replace(/&quot;/g, '"').replace(/&lt;/g, "<").replace(/&gt;/g, ">");
 
+const fetchWithRetry = async (url, attempts = 3) => {
+  let response;
+  for (let attempt = 1; attempt <= attempts; attempt++) {
+    response = await fetch(url);
+    if (response.ok || (response.status < 500 && response.status !== 404 && response.status !== 429)) return response;
+    if (attempt < attempts) await new Promise((resolve) => setTimeout(resolve, 350 * attempt));
+  }
+  return response;
+};
+
 /** RSS: the 15 newest public uploads. No key. */
 async function fetchFromRss() {
-  const r = await fetch(`https://www.youtube.com/feeds/videos.xml?channel_id=${CHANNEL_ID}`);
+  const r = await fetchWithRetry(`https://www.youtube.com/feeds/videos.xml?channel_id=${CHANNEL_ID}`);
   if (!r.ok) throw new Error(`YouTube RSS ${r.status}`);
   const xml = await r.text();
-  return [...xml.matchAll(/<entry>([\s\S]*?)<\/entry>/g)].map((m) => {
+  const rows = [...xml.matchAll(/<entry>([\s\S]*?)<\/entry>/g)].map((m) => {
     const e = m[1], pick = (re) => (e.match(re) || [, ""])[1];
     return {
       videoId: pick(/<yt:videoId>([^<]+)</),
@@ -49,6 +76,22 @@ async function fetchFromRss() {
       thumb: `https://i.ytimg.com/vi/${pick(/<yt:videoId>([^<]+)</)}/hqdefault.jpg`,
     };
   }).filter((v) => v.videoId);
+
+  // RSS does not expose whether a video permits third-party embeds. oEmbed
+  // does: YouTube returns 200 for an embeddable recording and 401/404 when the
+  // recording must be watched on YouTube. Store the result so the website can
+  // show a useful link instead of a player that fails after somebody clicks it.
+  await Promise.all(rows.map(async (v) => {
+    try {
+      const url = `https://www.youtube.com/oembed?url=${encodeURIComponent(`https://www.youtube.com/watch?v=${v.videoId}`)}&format=json`;
+      const r = await fetchWithRetry(url);
+      if (r.ok) v.embeddable = true;
+      else if (r.status === 401 || r.status === 404) v.embeddable = false;
+    } catch (_) {
+      // A transient oEmbed failure must not stop the weekly sermon sync.
+    }
+  }));
+  return rows;
 }
 
 /** Data API: the whole channel, public videos only. Needs a key. */
@@ -83,11 +126,15 @@ async function fetchFromApi() {
   // which is most of this back catalogue. Ask for it in batches of 50.
   for (let i = 0; i < out.length; i += 50) {
     const chunk = out.slice(i, i + 50);
-    const v = await api("videos", { part: "liveStreamingDetails", id: chunk.map((x) => x.videoId).join(",") });
-    const byId = new Map((v.items || []).map((it) => [it.id, it.liveStreamingDetails?.actualStartTime]));
+    const v = await api("videos", { part: "liveStreamingDetails,status", id: chunk.map((x) => x.videoId).join(",") });
+    const byId = new Map((v.items || []).map((it) => [it.id, {
+      actualStart: it.liveStreamingDetails?.actualStartTime,
+      embeddable: it.status?.embeddable,
+    }]));
     for (const row of chunk) {
-      const t = byId.get(row.videoId);
-      if (t) row.actualStart = t;
+      const details = byId.get(row.videoId);
+      if (details?.actualStart) row.actualStart = details.actualStart;
+      if (typeof details?.embeddable === "boolean") row.embeddable = details.embeddable;
     }
   }
   return out;
@@ -98,17 +145,35 @@ async function main() {
   const videos = API_KEY ? await fetchFromApi() : await fetchFromRss();
   console.log(`${DRY ? "CHECK MODE — " : ""}${videos.length} public videos via ${source}.`);
 
-  let created = 0, updated = 0, preserved = 0;
+  let created = 0, updated = 0, preserved = 0, skipped = 0;
   const written = new Set();
 
   for (const v of videos) {
+    if (excludedVideoIds.has(v.videoId)) {
+      console.log(`  skipped excluded recording (${v.videoId}): ${v.title}`);
+      skipped++;
+      continue;
+    }
+    const blockedBy = notSermon(v.title, notSermons);
+    if (blockedBy) {
+      console.log(`  skipped non-sermon (${blockedBy}): ${v.title}`);
+      skipped++;
+      continue;
+    }
     const [dateFromTitle, stripped] = extractDate(v.title);
+    const [dateFromDescription] = extractDate(v.description || "");
     // Order matters: when the stream actually started beats a date typed in a
     // title, which beats the upload timestamp. TZ is fixed at Central so a
     // 10:15am service never lands on the day before.
     const localDay = (iso) =>
       new Date(iso).toLocaleDateString("en-CA", { timeZone: "America/Chicago" });
-    const date = (v.actualStart && localDay(v.actualStart)) || dateFromTitle || localDay(v.publishedAt);
+    const previous = existingByVideoId.get(v.videoId);
+    const sourceDate = (v.actualStart && localDay(v.actualStart)) || dateFromTitle || dateFromDescription ||
+      previous?.data._sourceDate || previous?.data.date || localDay(v.publishedAt);
+    // _sourceDate does for the date what _sourceTitle does for the title: an
+    // editor's correction survives while the upstream evidence is unchanged,
+    // but a genuinely changed source date is still allowed through.
+    const date = previous?.data._sourceDate === sourceDate ? (previous.data.date || sourceDate) : sourceDate;
     const m = matchSeries(tidy(stripped), known);
     // A description that names the series outright beats guessing from the
     // title. Once a title is cleaned up it no longer repeats the strap-line,
@@ -133,22 +198,33 @@ async function main() {
         .trim() || m.title;
     }
     const title = unshout(tidy(m.title)) || "Sunday Service";
-    const file = join(OUT, `${date}-${slugify(title) || v.videoId}.json`);
+    const file = previous?.file || join(OUT, `${date}-${slugify(title) || v.videoId}.json`);
     written.add(file);
 
     const next = {
       title, date, series: m.series || "", speaker: "Pastor Marvin Rose",
       youtubeId: v.videoId, thumbnail: v.thumb,
       description: v.description.split("\n").filter(Boolean).slice(0, 3).join(" ").trim().slice(0, 400),
+      ...(v.embeddable === false ? { embeddable: false } : {}),
+      ...(date !== sourceDate ? { _sourceDate: sourceDate } : {}),
       _sourceTitle: v.title, // how we detect a human edit — do not remove
     };
 
     if (existsSync(file)) {
-      const prev = JSON.parse(readFileSync(file, "utf8"));
+      const prev = previous?.data || JSON.parse(readFileSync(file, "utf8"));
       const merged = prev._sourceTitle === v.title
         // An empty series is the old default, not a human decision, so treat
         // blank as absent and let a newly declared series fill it in.
-        ? { ...next, title: prev.title || next.title, series: prev.series || next.series, speaker: prev.speaker || next.speaker, description: prev.description ?? next.description }
+        ? {
+            ...next,
+            title: prev.title || next.title,
+            series: prev.series || next.series,
+            speaker: prev.speaker || next.speaker,
+            description: prev.description ?? next.description,
+            ...(v.embeddable === false || (typeof v.embeddable !== "boolean" && prev.embeddable === false)
+              ? { embeddable: false }
+              : {}),
+          }
         : next;
       if (JSON.stringify(merged) !== JSON.stringify(prev)) { if (!DRY) writeFileSync(file, JSON.stringify(merged, null, 2) + "\n"); updated++; }
       else preserved++;
@@ -169,7 +245,7 @@ async function main() {
       if (!written.has(full)) { if (!DRY) unlinkSync(full); removed++; }
     }
   }
-  console.log(`${DRY ? "would: " : ""}new ${created} · updated ${updated} · left alone ${preserved} · removed ${removed}`);
+  console.log(`${DRY ? "would: " : ""}new ${created} · updated ${updated} · left alone ${preserved} · skipped ${skipped} non-sermons · removed ${removed}`);
 }
 
 main().catch((e) => { console.error(e.message); process.exit(1); });

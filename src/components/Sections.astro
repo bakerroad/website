@@ -42,7 +42,13 @@ const initials = (t?: string) =>
     <div class="wrap">
       {s.eyebrow && <p class="eyebrow">{s.eyebrow}</p>}
       {s.heading && <h2>{s.heading}</h2>}
-      {s.body && <div class="body">{s.body.split(/\n{2,}/).map((para) => <p style="margin-bottom:.85rem">{para}</p>)}</div>}
+      {s.body && (
+        <div class="body">
+          {s.body.split(/\n{2,}/).map((para: string) => (
+            <p style="margin-bottom:.85rem">{para}</p>
+          ))}
+        </div>
+      )}
 
       {s.image && (
         <figure class="secfig">

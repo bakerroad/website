@@ -17,6 +17,7 @@ export function getStaticPaths() {
 }
 
 const { sermon, newer, older, inSeries } = Astro.props;
+const embeddable = sermon.embeddable !== false;
 // Most of these uploads are the whole service: worship, giving, announcements,
 // then the message. The page defaults to the message and keeps the full
 // service one click away. Offsets come from content/sermon-times.json, derived
@@ -24,7 +25,7 @@ const { sermon, newer, older, inSeries } = Astro.props;
 // the sermon, so it plays from the top.
 const t = (times as Record<string, { sermonStart: number; sermonEnd: number; duration: number }>)[sermon.youtubeId];
 const startAt = t?.sermonStart ?? 0;
-const fmt = (d) =>
+const fmt = (d: string) =>
   new Date(d + "T12:00:00").toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
 const title = `${sermon.title}${sermon.series ? ` — ${sermon.series}` : ""} | Baker Road Baptist Church`;
 // YouTube "descriptions" on this channel are often just a date, e.g. "02-15-26".
@@ -38,8 +39,8 @@ const videoSchema = {
   name: sermon.title, description: desc,
   thumbnailUrl: sermon.thumbnail ? [sermon.thumbnail] : undefined,
   uploadDate: sermon.date,
-  embedUrl: `https://www.youtube.com/embed/${sermon.youtubeId}`,
   contentUrl: `https://www.youtube.com/watch?v=${sermon.youtubeId}`,
+  ...(embeddable ? { embedUrl: `https://www.youtube.com/embed/${sermon.youtubeId}` } : {}),
   publisher: { "@type": "Organization", name: "Baker Road Baptist Church", logo: { "@type": "ImageObject", url: "https://brbcbaytown.org/images/logo.png" } },
   ...(sermon.series ? { partOfSeries: { "@type": "CreativeWorkSeries", name: sermon.series } } : {}),
 };
@@ -56,14 +57,21 @@ const videoSchema = {
         {sermon.speaker && <span> · {sermon.speaker}</span>}
       </p>
 
-      <div class="player">
-        <iframe
-          src={`https://www.youtube-nocookie.com/embed/${sermon.youtubeId}?rel=0${startAt ? `&start=${startAt}` : ""}`}
-          title={sermon.title}
-          loading="lazy"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen></iframe>
-      </div>
+      {embeddable ? (
+        <div class="player">
+          <iframe
+            src={`https://www.youtube-nocookie.com/embed/${sermon.youtubeId}?rel=0${startAt ? `&start=${startAt}` : ""}`}
+            title={sermon.title}
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen></iframe>
+        </div>
+      ) : (
+        <a class="player-fallback" href={`https://www.youtube.com/watch?v=${sermon.youtubeId}`} rel="noopener">
+          {sermon.thumbnail && <img src={sermon.thumbnail} alt="" loading="lazy" decoding="async" />}
+          <span>This recording must be watched on YouTube</span>
+        </a>
+      )}
 
       {!junk(sermon.description) && <p class="sdesc">{sermon.description}</p>}
 
@@ -77,7 +85,7 @@ const videoSchema = {
         <section class="also">
           <h2>More from {sermon.series}</h2>
           <ul class="slist">
-            {inSeries.map((s) => (
+            {inSeries.map((s: any) => (
               <li>
                 <a href={`/watch/${sermonSlug(s)}`} aria-current={s.youtubeId === sermon.youtubeId ? "page" : undefined}>
                   <span class="t">{s.title}</span>
@@ -96,3 +104,15 @@ const videoSchema = {
     </div>
   </article>
 </Base>
+
+<style>
+  .player-fallback {
+    position: relative; display: grid; place-items: center; aspect-ratio: 16/9;
+    margin-top: 1.5rem; overflow: hidden; border-radius: var(--r-lg); background: #07182b;
+  }
+  .player-fallback img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .48; }
+  .player-fallback span {
+    position: relative; z-index: 1; max-width: 22rem; padding: .9rem 1.15rem; border-radius: 999px;
+    background: #fff; color: #07182b; font-weight: 750; text-align: center;
+  }
+</style>
