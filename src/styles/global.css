@@ -302,6 +302,9 @@ a:hover{color:var(--brand-hover)}
 
 /* ── sermon archive + detail ─────────────────────────── */
 .serieslist{display:grid;gap:.7rem;margin-top:1.5rem;max-width:52rem}
+.archive-note{max-width:60ch;color:var(--ink-soft);margin:.65rem 0 0}
+.archive-label{font-family:var(--f-body);font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--brand);margin:2rem 0 -.7rem}
+.standalone-label{margin-top:2.5rem}
 .sgroup{border:1px solid var(--border);border-radius:var(--r-lg);background:var(--surface-card);overflow:hidden}
 .sgroup summary{font-family:var(--f-display);font-size:1.22rem;font-weight:500;display:flex;
   align-items:baseline;justify-content:space-between;gap:1rem;padding:1rem 1.15rem;cursor:pointer;list-style:none}
