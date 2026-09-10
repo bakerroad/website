@@ -28,6 +28,7 @@ for (const s of standalone) {
 const yearGroups = [...byYear.entries()].sort((a, b) => b[0].localeCompare(a[0]))
   .map(([name, items]) => ({ name, items }));
 const latest = all[0];
+const recent = all.slice(1, 6);
 const short = (d: string) =>
   new Date(String(d) + "T12:00:00").toLocaleDateString("en-US", { timeZone: TZ, month: "short", day: "numeric", year: "numeric" });
 ---
@@ -42,6 +43,26 @@ const short = (d: string) =>
 
   {latest && (
     <LiveOrLatest sermon={latest} slug={sermonSlug(latest)} channelId={CHANNEL_ID} />
+  )}
+
+  {recent.length > 0 && (
+    <section class="sec recent-list" aria-labelledby="recent-heading">
+      <div class="wrap">
+        <p class="eyebrow">Keep watching</p>
+        <h2 id="recent-heading">Recent messages</h2>
+        <ul class="slist">
+          {recent.map((s: any) => (
+            <li>
+              <a href={`/watch/${sermonSlug(s)}`}>
+                <span class="t">{s.title}</span>
+                {s.series && <span class="sr">{s.series}</span>}
+              </a>
+              <time datetime={s.date}>{short(s.date)}</time>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
   )}
 
   {(seriesGroups.length > 0 || yearGroups.length > 0) && (
