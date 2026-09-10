@@ -60,8 +60,9 @@ node scripts/add-beacon.mjs 2026-09-06 ~/Desktop/page1.png ~/Desktop/page2.png
 last Sunday's down. You do not have to delete anything, and there is no archive
 to keep tidy. Nothing is lost either — an old issue keeps its file, it just
 stops being the page. The address never changes, so
-**brbcbaytown.org/newsletter/** is always this week's Beacon and is the link to
-share.
+**brbcbaytown.org/upcoming/** is always this week's Beacon and is the link to
+share. The old address **brbcbaytown.org/newsletter/** still works and lands in
+the same place, because that is the word people go looking for.
 
 **Save your pictures as JPEG, not PNG.** A full page saved as a PNG can be ten
 megabytes, which is slow to open on a phone. The same page as a JPEG is under
@@ -69,17 +70,19 @@ one.
 
 ### The Beacon is not on Google, on purpose
 
-Every other page on the site is in Google. The newsletter is not: it is left out
-of the sitemap and marked "do not index". A weekly bulletin carries the
+Every other page on the site is in Google. The Upcoming page is not: it is left
+out of the sitemap and marked "do not index". A weekly bulletin carries the
 children's ministry rota, volunteer names and the week's giving figures — fine
 in the hands of the congregation, but there is no reason for it to be a search
-result years later. Anyone with the link can still read it, and the Newsletter
-tab in the menu is the link.
+result years later. Anyone with the link can still read it. The **Upcoming** tab
+in the menu is the link, and the **Newsletter** entry in the footer opens this
+week's front page picture on its own.
 
-If the church later decides it wants the newsletter found in search, it is a
-two-line change: remove `noindex` from the two newsletter pages and drop
-`/newsletter` from the sitemap filter in `astro.config.mjs`. Ask whoever looks
-after the site.
+If the church later decides it wants this page found in search, it is a two-line
+change: remove `noindex` from `src/pages/upcoming.astro` and drop `/upcoming`
+from the sitemap filter in `astro.config.mjs`. Worth a thought first — the
+events are public, but the Beacon pictures above them carry the rota and the
+giving figures. Ask whoever looks after the site.
 
 ## Saving
 

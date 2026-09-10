@@ -1,6 +1,6 @@
 ---
 import "../styles/global.css";
-import { site, NAV, telHref, emailHref } from "../lib/site";
+import { site, NAV, telHref, emailHref, currentBeaconHref } from "../lib/site";
 
 interface Props { title: string; description?: string; noindex?: boolean; ogImage?: string; ogType?: string; schema?: any; }
 const { title, description = "", noindex = false, ogImage, ogType = "website", schema } = Astro.props;
@@ -151,6 +151,11 @@ const tel = telHref(site.phone);
             {NAV.map((n: any) => (
               <li><a href={n.href} aria-current={n.href === path ? "page" : undefined}>{n.label}</a></li>
             ))}
+            {/* "Newsletter" is the word people go looking for, even though the
+                page is now called Upcoming. This opens this week's front page
+                picture directly, and falls back to /upcoming/ in a week with
+                no issue. */}
+            <li><a href={currentBeaconHref()}>Newsletter</a></li>
             <li><a href="/privacy-policy/">Privacy Policy</a></li>
           </ul>
         </nav>

@@ -21,7 +21,7 @@ export const NAV = [
     { href: "/ministries/#the-pumpkin-patch", label: "The Pumpkin Patch" },
   ]},
   { href: "/watch/", label: "Watch" },
-  { href: "/newsletter/", label: "Newsletter" },
+  { href: "/upcoming/", label: "Upcoming" },
   { href: "/give/", label: "Give" },
   { href: "/contact/", label: "Contact" },
 ];
@@ -82,3 +82,24 @@ export const longDate = (d: string) =>
   new Date(String(d).slice(0, 10) + "T12:00:00").toLocaleDateString("en-US", {
     timeZone: TZ, weekday: "long", year: "numeric", month: "long", day: "numeric",
   });
+
+/** "Sat, October 4" for one day, "October 4 – 31" for a run of them.
+ *  Lived in index.astro until the Upcoming page needed the same thing. */
+export const eventDateRange = (e: any) => {
+  const dayKey = (d: Date) => d.toLocaleDateString("en-CA", { timeZone: TZ });
+  const fmt = (d: Date, o: any) => d.toLocaleDateString("en-US", { timeZone: TZ, ...o });
+  const a = new Date(e.start);
+  const b = e.end ? new Date(e.end) : null;
+  if (!b || dayKey(b) === dayKey(a)) return fmt(a, { weekday: "short", month: "long", day: "numeric" });
+  const sameMonth = fmt(a, { month: "long" }) === fmt(b, { month: "long" });
+  return `${fmt(a, { month: "long", day: "numeric" })} \u2013 ${fmt(b, sameMonth ? { day: "numeric" } : { month: "long", day: "numeric" })}`;
+};
+
+/** The current Beacon's front page, as a link target.
+ *  The footer lists "Newsletter" because that is the word people know, and it
+ *  opens the picture itself rather than a page about the picture. Falls back
+ *  to the Upcoming page in any week with no issue, or none uploaded yet. */
+export function currentBeaconHref() {
+  const first = allNewsletters()[0]?.pages?.[0]?.image;
+  return typeof first === "string" && first.startsWith("/") ? first : "/upcoming/";
+}

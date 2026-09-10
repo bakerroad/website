@@ -3,7 +3,7 @@ import Base from "../layouts/Base.astro";
 import Sections from "../components/Sections.astro";
 import Bridge from "../components/Bridge.astro";
 import page from "../../content/pages/home.json";
-import { site, telHref, upcomingEvents, TZ } from "../lib/site";
+import { site, telHref, upcomingEvents, eventDateRange } from "../lib/site";
 import { imageSize } from "../lib/imagesize";
 const tel = telHref(site.phone);
 const events = upcomingEvents().slice(0, 3);
@@ -25,16 +25,7 @@ const eventSchema = events.length ? events.map((e: any) => ({
   organizer: { "@type": "Organization", name: site.churchName, url: Astro.site?.href },
 })) : undefined;
 
-/** "October 4 – 31" for a run of days; a single date otherwise. */
-const dayKey = (d: Date) => d.toLocaleDateString("en-CA", { timeZone: TZ }); // YYYY-MM-DD
-const fmt = (d: Date, o: any) => d.toLocaleDateString("en-US", { timeZone: TZ, ...o });
-const fmtRange = (e: any) => {
-  const a = new Date(e.start);
-  const b = e.end ? new Date(e.end) : null;
-  if (!b || dayKey(b) === dayKey(a)) return fmt(a, { weekday: "short", month: "long", day: "numeric" });
-  const sameMonth = fmt(a, { month: "long" }) === fmt(b, { month: "long" });
-  return `${fmt(a, { month: "long", day: "numeric" })} – ${fmt(b, sameMonth ? { day: "numeric" } : { month: "long", day: "numeric" })}`;
-};
+const fmtRange = eventDateRange;
 
 ---
 <Base title={page.title} description={page.metaDescription} schema={eventSchema}>

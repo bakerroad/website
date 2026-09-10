@@ -22,21 +22,6 @@ const missing = (issue.pages ?? []).length - kept.length;
 const pages = kept.map((p) => ({ ...p, size: imageSize(p.image) }));
 const highlights: Highlight[] = (issue.highlights ?? []).filter((h: Highlight) => h.title);
 ---
-{highlights.length > 0 && (
-  <div class="beacon-hi">
-    <h2>This week at a glance</h2>
-    <ul>
-      {highlights.map((h) => (
-        <li>
-          <p class="t">{h.title}</p>
-          {h.when && <p class="w">{h.when}</p>}
-          {h.body && <p class="b">{h.body}</p>}
-        </li>
-      ))}
-    </ul>
-  </div>
-)}
-
 {pages.length > 0 ? (
   <div class="beacon-pages">
     {pages.map((p, i) => (
@@ -59,4 +44,19 @@ const highlights: Highlight[] = (issue.highlights ?? []).filter((h: Highlight) =
       ? "The pages for this issue are still being added. Check back shortly."
       : "This issue has no pages yet."}
   </p>
+)}
+
+{highlights.length > 0 && (
+  <div class="beacon-hi">
+    <h2>This week at a glance</h2>
+    <ul>
+      {highlights.map((h) => (
+        <li>
+          <p class="t">{h.title}</p>
+          {h.when && <p class="w">{h.when}</p>}
+          {h.body && <p class="b">{h.body}</p>}
+        </li>
+      ))}
+    </ul>
+  </div>
 )}

@@ -1,0 +1,87 @@
+---
+/** Upcoming. Everything with a date on it, in the order you would want it.
+ *
+ *    1. This week's Beacon, as the pictures the office already makes.
+ *    2. Whatever few lines somebody chose to type out, if any.
+ *    3. Events, straight from Planning Center.
+ *
+ *  Named "Upcoming" because it is no longer only the newsletter. The word
+ *  "newsletter" is what people actually look for, so it survives in the footer
+ *  list and as a redirect from the old address.
+ *
+ *  One issue only: posting this Sunday's takes last Sunday's down. And still
+ *  noindex, because a bulletin carries the children's ministry rota, volunteer
+ *  names and the week's giving figures. */
+import Base from "../layouts/Base.astro";
+import Sections from "../components/Sections.astro";
+import BeaconIssue from "../components/BeaconIssue.astro";
+import page from "../../content/pages/upcoming.json";
+import { allNewsletters, longDate, upcomingEvents, eventDateRange, site } from "../lib/site";
+import { imageSize } from "../lib/imagesize";
+
+const latest = allNewsletters()[0];
+const events = upcomingEvents();
+---
+<Base title={page.title} description={page.metaDescription} noindex={true}>
+  <div class="phead">
+    <div class="wrap">
+      {page.eyebrow && <p class="eyebrow">{page.eyebrow}</p>}
+      <h1>{page.headline}</h1>
+      {page.intro && <p class="lede">{page.intro}</p>}
+    </div>
+  </div>
+
+  {latest ? (
+    <section class="sec beacon-sec" id="newsletter" aria-labelledby="current-issue">
+      <div class="wrap">
+        {/* The date is the label. "This week" would be a claim the page cannot
+            keep: it is built once and then sits there. */}
+        <p class="eyebrow">The Beacon</p>
+        <h2 id="current-issue"><time datetime={latest.date}>{longDate(latest.date)}</time></h2>
+        {latest.summary && <p class="archive-note">{latest.summary}</p>}
+        <BeaconIssue issue={latest} />
+      </div>
+    </section>
+  ) : (
+    <section class="sec" id="newsletter"><div class="wrap">
+      <p class="eyebrow">The Beacon</p>
+      <p class="archive-note">This week's newsletter will appear here as soon as it is added.</p>
+    </div></section>
+  )}
+
+  {/* Events come from Planning Center and only when somebody has tagged one
+      "Website". An empty list means nothing is tagged, not that nothing is
+      happening, so the section says so rather than vanishing and leaving the
+      page looking like it forgot. */}
+  <section class="sec" id="events" aria-labelledby="events-heading">
+    <div class="wrap">
+      <p class="eyebrow">Coming up</p>
+      <h2 id="events-heading">Upcoming events</h2>
+      {events.length > 0 ? (
+        <div class="cards">
+          {events.map((e: any) => (
+            <article class="card evt">
+              {e.image && <img src={e.image} alt={e.title} loading="lazy" decoding="async"
+                              width={imageSize(e.image)?.width ?? 480} height={imageSize(e.image)?.height ?? 270} />}
+              <p class="meta">{eventDateRange(e)}</p>
+              <h3>{e.title}</h3>
+              {e.description && <p>{e.description}</p>}
+              {e.location && <p class="where">{e.location}</p>}
+              {e.url && <a href={e.url}>More details</a>}
+            </article>
+          ))}
+        </div>
+      ) : (
+        <p class="archive-note">
+          Nothing is on the calendar just now. Sunday and Wednesday carry on as usual —
+          the times are at the bottom of every page.
+        </p>
+      )}
+      {site.appUrl && (
+        <p class="seclink"><a href={site.appUrl}>See the full calendar in the church app</a></p>
+      )}
+    </div>
+  </section>
+
+  <Sections sections={page.sections ?? []} />
+</Base>

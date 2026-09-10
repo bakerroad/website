@@ -109,4 +109,4 @@ existing.pages = pages.map((p, i) => ({ ...p, alt: alts[i] || previous[i]?.alt |
 mkdirSync(join("content", "newsletters"), { recursive: true });
 writeFileSync(jsonPath, JSON.stringify(existing, null, 2) + "\n");
 console.log(`\n  ${existsSync(jsonPath) ? "updated" : "wrote"} ${jsonPath}`);
-console.log(`  preview: npm run dev  ->  http://localhost:4321/newsletter/\n`);
+console.log(`  preview: npm run dev  ->  http://localhost:4321/upcoming/\n`);
