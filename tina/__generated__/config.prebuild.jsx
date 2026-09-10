@@ -159,6 +159,7 @@ var config_default = defineConfig({
           { type: "string", name: "speaker", label: "Speaker" },
           { type: "string", name: "youtubeId", label: "YouTube video ID", ui: { component: () => null } },
           { type: "string", name: "thumbnail", label: "Thumbnail", ui: { component: () => null } },
+          { type: "boolean", name: "embeddable", label: "Can play on this website", ui: { component: () => null } },
           textarea("description", "Description")
         ]
       },
