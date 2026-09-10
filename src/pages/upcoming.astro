@@ -77,8 +77,14 @@ const events = upcomingEvents();
           the times are at the bottom of every page.
         </p>
       )}
-      {site.appUrl && (
-        <p class="seclink"><a href={site.appUrl}>See the full calendar in the church app</a></p>
+      {/* Church Center, not Subsplash. Subsplash is where giving happens; the
+          calendar and the sign-ups live in Planning Center, and sending people
+          to the app for a calendar it does not hold wastes the click. */}
+      {site.churchCenterUrl && (
+        <>
+          <p class="seclink"><a href={`${site.churchCenterUrl}/calendar`}>See the full church calendar</a></p>
+          <p class="seclink"><a href={`${site.churchCenterUrl}/registrations`}>Browse everything open for sign-up</a></p>
+        </>
       )}
     </div>
   </section>

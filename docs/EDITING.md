@@ -20,9 +20,11 @@ it like you would type in an email.
 **3. Sermons** — fills itself in from YouTube every Monday. You do not have to
 add anything. If a title came across wrong, fix it here and it will stay fixed.
 
-**4. Events** — fills itself in from Planning Center every night. To get an
-event onto the website, tick **"Visible in Church Center"** on it in Planning
-Center. If it is not ticked, it stays private and off the website, on purpose.
+**4. Events** — fills itself in from Planning Center every night, from two
+places. A **Calendar** event needs the `Website` tag put on it, or it stays off
+the site on purpose. A **Registrations** sign-up needs no tag, but it does need
+a real date in the future. Closing or archiving a sign-up is *not* what takes
+it off the website — the date passing is. So always give a sign-up a date.
 
 **5. The Beacon** — the weekly newsletter. See below.
 
