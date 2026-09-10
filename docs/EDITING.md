@@ -31,7 +31,7 @@ Center. If it is not ticked, it stays private and off the website, on purpose.
 This takes about a minute and it is the only thing on the site with a weekly
 rhythm.
 
-1. Open **5. The Beacon** and press **Create New**.
+1. Open **5. The Beacon** and press **Add File** (top right).
 2. Pick **the Sunday** the issue is for. That is all the naming it needs — the
    web address, the order on the page and the heading all come from that date.
 3. Under **The pictures**, add one row per page and upload the same picture you
@@ -55,6 +55,13 @@ that converts, resizes, names and files the pictures for you:
 ```
 node scripts/add-beacon.mjs 2026-09-06 ~/Desktop/page1.png ~/Desktop/page2.png
 ```
+
+**Only the newest issue is on the website.** Adding this Sunday's is what takes
+last Sunday's down. You do not have to delete anything, and there is no archive
+to keep tidy. Nothing is lost either — an old issue keeps its file, it just
+stops being the page. The address never changes, so
+**brbcbaytown.org/newsletter/** is always this week's Beacon and is the link to
+share.
 
 **Save your pictures as JPEG, not PNG.** A full page saved as a PNG can be ten
 megabytes, which is slow to open on a phone. The same page as a JPEG is under

@@ -258,7 +258,7 @@ import { site } from "../lib/site";
 
     <h3>The weekly routine — about a minute</h3>
     <ol>
-      <li>Left menu → <strong>5. The Beacon</strong> → <strong>Create New</strong>.</li>
+      <li>Left menu → <strong>5. The Beacon</strong> → <strong>Add File</strong>, top right.</li>
       <li>Pick <strong>the Sunday</strong>. The web address (<code>/newsletter/2026-09-06/</code>),
         the heading, and the order in the archive all come from that one date. There is no filename
         to invent.</li>
@@ -301,7 +301,7 @@ import { site } from "../lib/site";
     and it is a different thing for a 2026 rota to still be a Google result in 2031. Anyone with the
     link can read it; the <strong>Newsletter</strong> tab in the menu is the link.</p>
     <p>To reverse it, if the church ever decides otherwise: drop <code>noindex={true}</code> from
-    <code>src/pages/newsletter.astro</code> and <code>src/pages/newsletter/[slug].astro</code>, and
+    <code>src/pages/newsletter.astro</code>, and
     remove <code>/newsletter</code> from the sitemap filter in <code>astro.config.mjs</code>.</p>
 
     <h3>If a picture does not show up</h3>
@@ -309,10 +309,19 @@ import { site } from "../lib/site";
     a broken-image icon. So if an issue looks bare, the upload did not finish — open the issue in
     Tina, re-upload, and save.</p>
 
-    <h3>One thing not to do</h3>
-    <p>Do not delete old issues to tidy up. They cost nothing, and a link to a bulletin posted on
-    Facebook in October should still open October's bulletin years later. Each one is stamped with
-    its own date, so an old issue is obviously old rather than quietly wrong.</p>
+    <h3>Last week's issue removes itself</h3>
+    <p>The page shows <strong>one</strong> issue: the newest. Posting this Sunday's is what takes
+    last Sunday's down. There is no archive to prune and no old link to go and delete, because a
+    bulletin is the most perishable thing the church produces — a rota, a set of times and a list
+    of names, true for seven days. A stack of old ones is a stack of things that are no longer so.</p>
+    <p>Nothing is actually deleted. An unpublished issue keeps its file in the repository and its
+    place in the history, so it can be read or brought back at any time. It simply stops being the
+    page. If you want the files tidied as well, delete the old entry in Tina; the website will not
+    notice either way.</p>
+    <p>Because only one issue is ever published, the address is always the same:
+    <code>brbcbaytown.org/newsletter/</code>. That is the link to put on Facebook or in a text, and
+    it is always this week's. The dated per-issue addresses that existed briefly on 10 September
+    2026 now redirect here.</p>
   </div></section>
 
   <section class="sec" id="broken"><div class="wrap doc">

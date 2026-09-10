@@ -1,19 +1,26 @@
 ---
-/** The Beacon. The latest issue in full, then every earlier one.
+/** The Beacon. One issue: the current one. Nothing else.
  *
- *  Deliberately not indexed by Google — see the note in the archive section
- *  and docs/EDITING.md. A weekly bulletin carries volunteer rosters, the
- *  children's ministry rota and the week's giving figures. Members reach it
- *  from the menu; it does not need to be a search result. */
+ *  There is no archive, on purpose. A bulletin is the most perishable thing
+ *  the church produces — it is a rota, a set of times and a list of names for
+ *  one week — and a pile of old ones is a pile of things that are no longer
+ *  true. So the newest issue is the page, and posting next week's is what
+ *  removes this week's. Nobody has to remember to tidy up.
+ *
+ *  Older issues are not deleted, only unpublished: their files stay in the
+ *  repository and in its history, so an issue can be brought back by dating a
+ *  new one, and nothing is ever actually lost.
+ *
+ *  Not indexed by Google either. A bulletin carries the children's ministry
+ *  rota, volunteer names and the week's giving figures. Members reach it from
+ *  the menu; it has no business being a search result. */
 import Base from "../layouts/Base.astro";
 import Sections from "../components/Sections.astro";
 import BeaconIssue from "../components/BeaconIssue.astro";
 import page from "../../content/pages/newsletter.json";
-import { allNewsletters, newsletterSlug, longDate } from "../lib/site";
+import { allNewsletters, longDate } from "../lib/site";
 
-const all = allNewsletters();
-const latest = all[0];
-const earlier = all.slice(1);
+const latest = allNewsletters()[0];
 ---
 <Base title={page.title} description={page.metaDescription} noindex={true}>
   <div class="phead">
@@ -25,38 +32,21 @@ const earlier = all.slice(1);
   </div>
 
   {latest ? (
-    <section class="sec beacon-sec" aria-labelledby="latest-issue">
+    <section class="sec beacon-sec" aria-labelledby="current-issue">
       <div class="wrap">
-        <p class="eyebrow">This week</p>
-        <h2 id="latest-issue"><time datetime={latest.date}>{longDate(latest.date)}</time></h2>
+        {/* The date is the label. "This week" would be a claim the page cannot
+            keep — it is built once and then sits there, so a week with no new
+            issue would leave it saying something untrue. */}
+        <p class="eyebrow">Current issue</p>
+        <h2 id="current-issue"><time datetime={latest.date}>{longDate(latest.date)}</time></h2>
         {latest.summary && <p class="archive-note">{latest.summary}</p>}
         <BeaconIssue issue={latest} />
-        <p class="seclink"><a href={`/newsletter/${newsletterSlug(latest)}/`}>Link straight to this issue</a></p>
       </div>
     </section>
   ) : (
     <section class="sec"><div class="wrap">
-      <p class="archive-note">The first issue will appear here as soon as it is added.</p>
+      <p class="archive-note">This week's Beacon will appear here as soon as it is added.</p>
     </div></section>
-  )}
-
-  {earlier.length > 0 && (
-    <section class="sec" aria-labelledby="beacon-archive">
-      <div class="wrap">
-        <p class="eyebrow">Archive</p>
-        <h2 id="beacon-archive">Earlier issues</h2>
-        <ul class="slist">
-          {earlier.map((n: any) => (
-            <li>
-              <a href={`/newsletter/${newsletterSlug(n)}/`}>
-                <span class="t">{longDate(n.date)}</span>
-                {n.summary && <span class="sr">{n.summary}</span>}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </section>
   )}
 
   <Sections sections={page.sections ?? []} />

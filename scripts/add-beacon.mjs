@@ -4,7 +4,7 @@
  *
  *   node scripts/add-beacon.mjs 2026-09-06 ~/Desktop/page1.png ~/Desktop/page2.png
  *
- * The office does this in Tina instead (5. The Beacon -> Create New), and that
+ * The office does this in Tina instead (5. The Beacon -> Add File), and that
  * remains the normal route. This exists for whoever is already in a terminal,
  * and because it does three things a person forgets:
  *

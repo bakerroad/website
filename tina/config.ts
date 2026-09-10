@@ -191,7 +191,16 @@ export default defineConfig({
         label: "5. The Beacon (weekly newsletter)",
         path: "content/newsletters",
         format: "json",
-        defaultItem: () => ({ date: new Date().toISOString().slice(0, 10) }),
+        defaultItem: () => {
+          // The coming Sunday, counting today if today is Sunday. Most weeks
+          // this is already right and nobody touches the date at all.
+          // Built from local parts, not toISOString(): an evening in Texas is
+          // already tomorrow in UTC, which would date the issue a day late.
+          const d = new Date();
+          d.setDate(d.getDate() + ((7 - d.getDay()) % 7));
+          const pad = (n: number) => String(n).padStart(2, "0");
+          return { date: `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}` };
+        },
         ui: {
           // The file is always named after its Sunday, so the list stays in
           // date order and nobody has to invent a filename.
