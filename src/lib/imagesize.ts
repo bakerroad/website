@@ -38,3 +38,14 @@ export function imageSize(src?: string) {
   cache.set(src, out);
   return out;
 }
+
+/**
+ * Does a file referenced as "/images/foo.jpg" actually exist in public/?
+ * Tina writes the path into the JSON the moment an editor picks a file, and a
+ * page that references a picture nobody uploaded should quietly show its text
+ * rather than a broken-image icon.
+ */
+export function publicFileExists(src?: string) {
+  if (!src || !src.startsWith("/")) return false;
+  try { return existsSync(join("public", src.replace(/^\//, ""))); } catch { return false; }
+}

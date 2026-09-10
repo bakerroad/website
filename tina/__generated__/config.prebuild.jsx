@@ -182,6 +182,72 @@ var config_default = defineConfig({
           { type: "image", name: "image", label: "Picture" },
           { type: "boolean", name: "featured", label: "Show on the homepage" }
         ]
+      },
+      // ─────────────────────────────────────────────────────────────
+      // 5. THE BEACON — the weekly newsletter. The office already makes
+      //    these as pictures every Saturday; this collection is a place to
+      //    drop them, nothing more. Date + pictures is the whole job.
+      // ─────────────────────────────────────────────────────────────
+      {
+        name: "newsletter",
+        label: "5. The Beacon (weekly newsletter)",
+        path: "content/newsletters",
+        format: "json",
+        defaultItem: () => ({ date: (/* @__PURE__ */ new Date()).toISOString().slice(0, 10) }),
+        ui: {
+          // The file is always named after its Sunday, so the list stays in
+          // date order and nobody has to invent a filename.
+          filename: {
+            readonly: true,
+            slugify: (values) => values?.date ? String(values.date).slice(0, 10) : "new-issue"
+          },
+          itemProps: (i) => ({ label: i?.date ? String(i.date).slice(0, 10) : "New issue" })
+        },
+        fields: [
+          {
+            type: "datetime",
+            name: "date",
+            label: "Which Sunday is this issue for?",
+            required: true,
+            ui: { dateFormat: "YYYY-MM-DD" },
+            description: "Pick the Sunday. The web address and the order on the page both come from this."
+          },
+          {
+            type: "object",
+            name: "pages",
+            label: "The pictures",
+            list: true,
+            description: "Upload the same pictures you already make each week, in reading order \u2014 front page first.",
+            ui: { itemProps: (i) => ({ label: i?.alt || "Page" }) },
+            fields: [
+              { type: "image", name: "image", label: "Picture", required: true },
+              {
+                type: "string",
+                name: "alt",
+                label: "What is on this page?",
+                description: 'A few words for someone using a screen reader, who cannot see the picture at all. e.g. "Front page: schedule, sermon and Sunday classes".'
+              }
+            ]
+          },
+          textarea(
+            "summary",
+            "One line about this week (optional)",
+            `Shown under the date, and used when somebody shares the link. e.g. "Lord's Supper, the Pumpkin Patch work day, and ActivStars sign-ups."`
+          ),
+          {
+            type: "object",
+            name: "highlights",
+            label: "A few things worth typing out (optional)",
+            list: true,
+            description: "A picture cannot be read aloud by a phone, searched, or enlarged well on a small screen. Three or four lines here cover the things nobody should miss. Leave it empty on a busy week \u2014 the pictures still work.",
+            ui: { itemProps: (i) => ({ label: i?.title || "Item" }) },
+            fields: [
+              { type: "string", name: "title", label: "What it is" },
+              { type: "string", name: "when", label: "When (optional)" },
+              textarea("body", "Anything else (optional)")
+            ]
+          }
+        ]
       }
     ]
   }

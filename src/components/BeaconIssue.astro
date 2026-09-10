@@ -1,0 +1,57 @@
+---
+/** One issue of The Beacon: the pictures the office already makes each week,
+ *  plus whatever few lines they chose to type out.
+ *
+ *  The pictures are the issue. Everything else on this component exists
+ *  because a picture of a page cannot be read aloud, searched, or enlarged
+ *  comfortably on a phone — so each one links to itself at full size, and the
+ *  optional highlights carry the things nobody should miss. */
+import { imageSize, publicFileExists } from "../lib/imagesize";
+
+interface Page { image?: string; alt?: string }
+interface Highlight { title?: string; when?: string; body?: string }
+const { issue } = Astro.props as { issue: any };
+
+// Tina writes the path the moment an editor picks a file. If the file itself
+// never made it into the repository, show the text instead of a broken icon.
+const pages: Page[] = (issue.pages ?? []).filter((p: Page) => publicFileExists(p.image));
+const missing = (issue.pages ?? []).length - pages.length;
+const highlights: Highlight[] = (issue.highlights ?? []).filter((h: Highlight) => h.title);
+---
+{highlights.length > 0 && (
+  <div class="beacon-hi">
+    <h2>This week at a glance</h2>
+    <ul>
+      {highlights.map((h) => (
+        <li>
+          <p class="t">{h.title}</p>
+          {h.when && <p class="w">{h.when}</p>}
+          {h.body && <p class="b">{h.body}</p>}
+        </li>
+      ))}
+    </ul>
+  </div>
+)}
+
+{pages.length > 0 ? (
+  <div class="beacon-pages">
+    {pages.map((p, i) => (
+      <figure class="beacon-page">
+        <a href={p.image} target="_blank" rel="noopener">
+          <img src={p.image} alt={p.alt || `The Beacon, page ${i + 1}`}
+               loading={i === 0 ? "eager" : "lazy"} decoding="async"
+               width={imageSize(p.image)?.width} height={imageSize(p.image)?.height} />
+        </a>
+        <figcaption>
+          Page {i + 1} of {pages.length} — <a href={p.image} target="_blank" rel="noopener">open it full size</a>
+        </figcaption>
+      </figure>
+    ))}
+  </div>
+) : (
+  <p class="beacon-none">
+    {missing > 0
+      ? "The pages for this issue are still being added. Check back shortly."
+      : "This issue has no pages yet."}
+  </p>
+)}

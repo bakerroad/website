@@ -1,0 +1,63 @@
+---
+/** The Beacon. The latest issue in full, then every earlier one.
+ *
+ *  Deliberately not indexed by Google — see the note in the archive section
+ *  and docs/EDITING.md. A weekly bulletin carries volunteer rosters, the
+ *  children's ministry rota and the week's giving figures. Members reach it
+ *  from the menu; it does not need to be a search result. */
+import Base from "../layouts/Base.astro";
+import Sections from "../components/Sections.astro";
+import BeaconIssue from "../components/BeaconIssue.astro";
+import page from "../../content/pages/newsletter.json";
+import { allNewsletters, newsletterSlug, longDate } from "../lib/site";
+
+const all = allNewsletters();
+const latest = all[0];
+const earlier = all.slice(1);
+---
+<Base title={page.title} description={page.metaDescription} noindex={true}>
+  <div class="phead">
+    <div class="wrap">
+      {page.eyebrow && <p class="eyebrow">{page.eyebrow}</p>}
+      <h1>{page.headline}</h1>
+      {page.intro && <p class="lede">{page.intro}</p>}
+    </div>
+  </div>
+
+  {latest ? (
+    <section class="sec beacon-sec" aria-labelledby="latest-issue">
+      <div class="wrap">
+        <p class="eyebrow">This week</p>
+        <h2 id="latest-issue"><time datetime={latest.date}>{longDate(latest.date)}</time></h2>
+        {latest.summary && <p class="archive-note">{latest.summary}</p>}
+        <BeaconIssue issue={latest} />
+        <p class="seclink"><a href={`/newsletter/${newsletterSlug(latest)}/`}>Link straight to this issue</a></p>
+      </div>
+    </section>
+  ) : (
+    <section class="sec"><div class="wrap">
+      <p class="archive-note">The first issue will appear here as soon as it is added.</p>
+    </div></section>
+  )}
+
+  {earlier.length > 0 && (
+    <section class="sec" aria-labelledby="beacon-archive">
+      <div class="wrap">
+        <p class="eyebrow">Archive</p>
+        <h2 id="beacon-archive">Earlier issues</h2>
+        <ul class="slist">
+          {earlier.map((n: any) => (
+            <li>
+              <a href={`/newsletter/${newsletterSlug(n)}/`}>
+                <span class="t">{longDate(n.date)}</span>
+                {n.summary && <span class="sr">{n.summary}</span>}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+
+  <Sections sections={page.sections ?? []} />
+</Base>

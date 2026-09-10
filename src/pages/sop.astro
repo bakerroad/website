@@ -31,6 +31,7 @@ import { site } from "../lib/site";
       <li><a href="#tina">Editing the site with Tina, step by step</a></li>
       <li><a href="#events">Adding an event (this is Planning Center, not Tina)</a></li>
       <li><a href="#sermons">Sermons are automatic</a></li>
+      <li><a href="#beacon">The Beacon, the weekly newsletter</a></li>
       <li><a href="#broken">When something breaks</a></li>
       <li><a href="#calendar">The yearly calendar</a></li>
       <li><a href="#rules">Rules that keep it from rotting</a></li>
@@ -41,7 +42,7 @@ import { site } from "../lib/site";
 
   <section class="sec" id="version"><div class="wrap doc">
     <h2>1. The one-minute version</h2>
-    <p><strong>brbcbaytown.org</strong> is a nine-page website. Its words live as plain text
+    <p><strong>brbcbaytown.org</strong> is a ten-page website. Its words live as plain text
     files in a code repository on GitHub. When somebody edits a word through the editor at
     <code>brbcbaytown.org/admin</code>, that saves a change to GitHub, GitHub tells Cloudflare,
     Cloudflare rebuilds the site in about two minutes, and the change is live. Nobody presses
@@ -133,14 +134,15 @@ import { site } from "../lib/site";
       <li>You land on "Welcome to Tina!" with a menu on the left. That menu is the entire website.</li>
     </ol>
 
-    <h3>The four things in the left menu</h3>
+    <h3>The five things in the left menu</h3>
     <div class="tblwrap"><table>
       <thead><tr><th>Menu item</th><th>What is in it</th><th>Edit it?</th></tr></thead>
       <tbody>
         <tr><td><strong>1. Church Info</strong></td><td>Address, phone, office hours, the Sunday and Wednesday schedules, links to Facebook, YouTube, giving, the app, and the two forms. <strong>Change a time here and it changes everywhere on the site at once.</strong> This is the one you will use most.</td><td>Yes</td></tr>
-        <tr><td><strong>2. Pages</strong></td><td>One entry per page: home, visit, about, ministries, watch, give, contact, privacy-policy. Every box is plain text.</td><td>Yes</td></tr>
+        <tr><td><strong>2. Pages</strong></td><td>One entry per page: home, visit, about, ministries, watch, newsletter, give, contact, privacy-policy. Every box is plain text.</td><td>Yes</td></tr>
         <tr><td><strong>3. Sermons</strong></td><td>One entry per sermon, written automatically from YouTube every Monday.</td><td>Only to fix a title or series. Do not add or delete.</td></tr>
         <tr><td><strong>4. Events</strong></td><td>Written automatically from Planning Center every night.</td><td>Only to tick "show on homepage" or add a picture. Do not add or delete — see <a href="#events">§6</a>.</td></tr>
+        <tr><td><strong>5. The Beacon</strong></td><td>The weekly newsletter, one entry per Sunday. The only thing on this site with a weekly rhythm.</td><td>Yes — you add one a week. See <a href="#beacon">§8</a>.</td></tr>
       </tbody>
     </table></div>
 
@@ -186,7 +188,7 @@ import { site } from "../lib/site";
     <h3>If a save does not appear</h3>
     <ol>
       <li>Wait the full two minutes. Then hard-refresh.</li>
-      <li>Cloudflare → website → Deployments. Is the top build green? If red, see <a href="#broken">§8</a>.</li>
+      <li>Cloudflare → website → Deployments. Is the top build green? If red, see <a href="#broken">§9</a>.</li>
       <li>GitHub → the repo → is your change the newest commit? If not, the save did not reach GitHub — log out of Tina and back in.</li>
     </ol>
 
@@ -230,11 +232,70 @@ import { site } from "../lib/site";
     <code>content/sermon-series.json</code>. Only <strong>public</strong> videos are used — unlisted and
     private ones are skipped.</p>
     <p>Nothing to do week to week. If a title comes across wrong, fix it in Tina (§5). If the whole
-    thing stops, see §8.</p>
+    thing stops, see §9.</p>
+  </div></section>
+
+  <section class="sec" id="beacon"><div class="wrap doc">
+    <h2>8. The Beacon, the weekly newsletter</h2>
+    <p>The office already makes The Beacon every week as a set of full-page pictures. The site does
+    not try to rebuild that in a web page — it is a place to put the pictures, and nothing more.
+    One issue is one entry, named after its Sunday.</p>
+
+    <h3>The weekly routine — about a minute</h3>
+    <ol>
+      <li>Left menu → <strong>5. The Beacon</strong> → <strong>Create New</strong>.</li>
+      <li>Pick <strong>the Sunday</strong>. The web address (<code>/newsletter/2026-09-06/</code>),
+        the heading, and the order in the archive all come from that one date. There is no filename
+        to invent.</li>
+      <li><strong>The pictures</strong> → add a row per page, front page first, and upload the same
+        pictures you already make.</li>
+      <li>For each one, write a few words in <em>What is on this page?</em>. A person using a screen
+        reader hears only those words — a picture of a page is silent to them otherwise.</li>
+      <li><strong>Save.</strong> Two minutes later it is live at <code>/newsletter/</code>.</li>
+    </ol>
+
+    <div class="callout">
+      <p><strong>Save the pictures as JPEG, not PNG.</strong> A full page exported as a PNG can be ten
+      megabytes and takes a long time to open on a phone on a car-park signal. The same page as a
+      JPEG is under one megabyte and looks identical.</p>
+    </div>
+
+    <h3>The two optional boxes, and why they are worth the extra minute</h3>
+    <p>A picture of a page cannot be read aloud by a phone, cannot be searched, and on a 375-pixel
+    screen renders about 330 pixels wide — unreadable without pinching. Every page picture therefore
+    links to itself at full size, which is the pinch-and-zoom fallback. The two text boxes are the
+    better fix:</p>
+    <ul>
+      <li><strong>One line about this week</strong> — shown under the date, and the text that appears
+        when somebody shares the link in a text message or on Facebook.</li>
+      <li><strong>A few things worth typing out</strong> — three or four items nobody should miss.
+        This is the part a screen reader reads and a phone can enlarge. Leave it empty on a busy
+        week; the pictures still work on their own.</li>
+    </ul>
+
+    <h3>Why it is kept out of Google, on purpose</h3>
+    <p>The newsletter pages are marked <code>noindex</code> and left out of the sitemap — the same
+    treatment as this manual. A weekly bulletin carries the children's ministry rota, volunteer
+    names and the week's giving figures. That is right and normal in the hands of the congregation,
+    and it is a different thing for a 2026 rota to still be a Google result in 2031. Anyone with the
+    link can read it; the <strong>Newsletter</strong> tab in the menu is the link.</p>
+    <p>To reverse it, if the church ever decides otherwise: drop <code>noindex={true}</code> from
+    <code>src/pages/newsletter.astro</code> and <code>src/pages/newsletter/[slug].astro</code>, and
+    remove <code>/newsletter</code> from the sitemap filter in <code>astro.config.mjs</code>.</p>
+
+    <h3>If a picture does not show up</h3>
+    <p>The page shows its text and quietly skips a picture whose file is missing, rather than showing
+    a broken-image icon. So if an issue looks bare, the upload did not finish — open the issue in
+    Tina, re-upload, and save.</p>
+
+    <h3>One thing not to do</h3>
+    <p>Do not delete old issues to tidy up. They cost nothing, and a link to a bulletin posted on
+    Facebook in October should still open October's bulletin years later. Each one is stamped with
+    its own date, so an old issue is obviously old rather than quietly wrong.</p>
   </div></section>
 
   <section class="sec" id="broken"><div class="wrap doc">
-    <h2>8. When something breaks</h2>
+    <h2>9. When something breaks</h2>
     <div class="tblwrap"><table>
       <thead><tr><th>Symptom</th><th>Most likely cause</th><th>Fix</th></tr></thead>
       <tbody>
@@ -255,9 +316,10 @@ import { site } from "../lib/site";
   </div></section>
 
   <section class="sec" id="calendar"><div class="wrap doc">
-    <h2>9. The yearly calendar</h2>
+    <h2>10. The yearly calendar</h2>
     <p>This is the entire recurring workload. Put these on a real calendar.</p>
     <ul>
+      <li><strong>Every week</strong> — put up that Sunday's Beacon. About a minute; see <a href="#beacon">§8</a>. It is the only weekly item on this list.</li>
       <li><strong>Every September</strong> — add this year's Pumpkin Patch to Planning Center and tag it <code>Website</code>.</li>
       <li><strong>Every January</strong> — read the whole site once, out loud. Check every time, name, and role is still true. Pastor's bio, staff, deacons, class names.</li>
       <li><strong>Before 5 February 2028</strong> — renew the domain at Network Solutions. Set the reminder now. If it lapses, the whole site vanishes.</li>
@@ -266,7 +328,7 @@ import { site } from "../lib/site";
   </div></section>
 
   <section class="sec" id="rules"><div class="wrap doc">
-    <h2>10. Rules that keep it from rotting</h2>
+    <h2>11. Rules that keep it from rotting</h2>
     <ul>
       <li><strong>If a page will be wrong in six months unless somebody remembers to update it, it does not go on the website.</strong> It goes on Facebook or in the app. This rule is why the site went from 26 pages to 9 and why it will still be accurate in two years.</li>
       <li><strong>One name owns the site.</strong> Not a committee. Today that is Sarah Rose. Write the successor's name on paper when it changes.</li>
@@ -279,7 +341,7 @@ import { site } from "../lib/site";
   </div></section>
 
   <section class="sec" id="docs"><div class="wrap doc">
-    <h2>11. The written documents</h2>
+    <h2>12. The written documents</h2>
     <p>All in the repository under <code>docs/</code>. Public, so these links work for anyone.</p>
     <div class="tblwrap"><table>
       <thead><tr><th>Document</th><th>What it is for</th></tr></thead>
@@ -299,7 +361,7 @@ import { site } from "../lib/site";
   </div></section>
 
   <section class="sec" id="open"><div class="wrap doc">
-    <h2>12. Still open, as of launch</h2>
+    <h2>13. Still open, as of launch</h2>
     <ul>
       <li>The <strong>privacy policy</strong> on the live site is the old one and is now wrong about the host. A replacement is drafted and waits on church approval.</li>
       <li><strong>Done 7 Sep 2026:</strong> Cloudflare <em>Always Use HTTPS</em> is on, and a Redirect Rule named <code>www to apex</code> sends <code>www.brbcbaytown.org</code> to the bare domain. If either ever stops working, both live in the Cloudflare dashboard, not in this repository.</li>

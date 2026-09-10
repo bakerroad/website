@@ -1,0 +1,37 @@
+{
+  "title": "The Beacon — Baker Road Baptist Church, Baytown TX",
+  "metaDescription": "The Beacon, the weekly newsletter of Baker Road Baptist Church in Baytown, Texas. This Sunday's schedule, classes, serving rotas and what is coming up.",
+  "eyebrow": "The Beacon",
+  "headline": "This week at Baker Road.",
+  "intro": "The same newsletter handed out on Sunday morning, posted here every week so you can read it on your phone during the week.",
+  "sections": [
+    {
+      "eyebrow": "If you missed something",
+      "heading": "Where else to look",
+      "body": "The Beacon is a snapshot of one week. For the things that do not change week to week, these pages are kept up to date.",
+      "items": [
+        {
+          "title": "Watch a message",
+          "meta": "Sermons",
+          "body": "Every sermon, going back to 2025, with the full service one click away.",
+          "linkText": "Go to the sermon archive",
+          "linkUrl": "/watch/"
+        },
+        {
+          "title": "Ministries and groups",
+          "meta": "Get connected",
+          "body": "Children, students, adult Bible study, the Care Ministry and the Pumpkin Patch.",
+          "linkText": "See the ministries",
+          "linkUrl": "/ministries/"
+        },
+        {
+          "title": "Ask the office",
+          "meta": "Contact",
+          "body": "If something in this week's Beacon needs explaining, the office is glad to help.",
+          "linkText": "Get in touch",
+          "linkUrl": "/contact/"
+        }
+      ]
+    }
+  ]
+}

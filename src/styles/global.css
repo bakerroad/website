@@ -441,3 +441,41 @@ a:hover{color:var(--brand-hover)}
 
 .mapwrap{margin-top:1.4rem;border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;background:var(--surface-alt)}
 .mapwrap iframe{display:block}
+
+/* ── The Beacon (weekly newsletter) ──────────────────────
+   The office makes these as full-page pictures. On a laptop a page is shown
+   at the width of the text column; on a phone it is unreadable at any width,
+   so every page links to itself at full size where the browser's own pinch
+   and zoom take over. That is the whole interaction — no lightbox to learn. */
+.beacon-sec{padding-bottom:3.4rem}
+.beacon-pages{display:flex;flex-direction:column;gap:1.6rem;margin-top:1.7rem}
+.beacon-page{margin:0}
+.beacon-page a{display:block;border:1px solid var(--border);border-radius:var(--r-lg);
+  overflow:hidden;background:var(--surface-card);box-shadow:var(--shadow)}
+.beacon-page a:hover{border-color:var(--border-strong)}
+.beacon-page img{width:100%;height:auto;display:block}
+.beacon-page figcaption{margin-top:.55rem;font-size:.88rem;color:var(--ink-faint)}
+.beacon-page figcaption a{font-weight:600;display:inline-flex;align-items:center;min-height:44px}
+.beacon-none{margin-top:1.4rem;color:var(--ink-faint);max-width:var(--measure)}
+
+/* the few lines somebody typed out, above the pictures: this is the part a
+   screen reader can read and a search box can find */
+.beacon-hi{margin-top:1.7rem;border:1px solid var(--border);border-radius:var(--r-lg);
+  background:var(--surface-card);padding:1.3rem 1.4rem}
+.beacon-hi h2{font-family:var(--f-body);font-size:.76rem;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--brand);margin-bottom:.4rem}
+.beacon-hi ul{list-style:none;margin:0;padding:0}
+.beacon-hi li{padding:.85rem 0;border-bottom:1px solid var(--border)}
+.beacon-hi li:last-child{border-bottom:0;padding-bottom:0}
+.beacon-hi .t{font-weight:700;color:var(--ink)}
+.beacon-hi .w{font-size:.92rem;color:var(--brand);font-weight:600;font-variant-numeric:tabular-nums;margin-top:.1rem}
+.beacon-hi .b{font-size:.97rem;color:var(--ink-soft);margin-top:.25rem;max-width:var(--measure)}
+@media (max-width:520px){.beacon-hi{padding:1.1rem 1.15rem}}
+
+/* printing the bulletin: just the pages, edge to edge, one per sheet */
+@media print{
+  .phead,.beacon-hi,.seclink,.crumb,.prevnext,.beacon-page figcaption{display:none}
+  .beacon-page a{border:0;box-shadow:none;border-radius:0}
+  .beacon-page{break-after:page}
+  .beacon-page:last-child{break-after:auto}
+}

@@ -42,9 +42,10 @@
 # Media
 /media                /watch/      301
 
-# Retired: these pages were empty or stale on the old site
+# Retired: these pages were empty or stale on the old site.
+# (/newsletter used to point here. It is a real page again as of
+#  September 2026 — The Beacon — so it must NOT be redirected.)
 /events               /           301
-/newsletter           /           301
 /blog                 /            301
 /blog/*               /            301
 

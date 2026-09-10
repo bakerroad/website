@@ -21,6 +21,7 @@ export const NAV = [
     { href: "/ministries/#the-pumpkin-patch", label: "The Pumpkin Patch" },
   ]},
   { href: "/watch/", label: "Watch" },
+  { href: "/newsletter/", label: "Newsletter" },
   { href: "/give/", label: "Give" },
   { href: "/contact/", label: "Contact" },
 ];
@@ -64,3 +65,23 @@ export function upcomingEvents() {
     .filter((e) => new Date(e.end || e.start).getTime() >= now - 6 * 3600 * 1000)
     .sort((a, b) => String(a.start).localeCompare(String(b.start)));
 }
+
+/** Load every issue of The Beacon, newest first. */
+export function allNewsletters() {
+  const mods = import.meta.glob("../../content/newsletters/*.json", { eager: true }) as Record<string, any>;
+  return Object.values(mods)
+    .map((m) => (m.default ?? m))
+    .filter((n) => n && n.date)
+    .map((n) => ({ ...n, date: String(n.date).slice(0, 10) }))
+    .sort((a, b) => b.date.localeCompare(a.date));
+}
+
+/** An issue is addressed by its Sunday: /newsletter/2026-09-06/ */
+export const newsletterSlug = (n: any) => String(n.date).slice(0, 10);
+
+/** "Sunday, September 6, 2026" — always in the church's timezone, so an issue
+ *  never shows the day before because the build machine sits in UTC. */
+export const longDate = (d: string) =>
+  new Date(String(d).slice(0, 10) + "T12:00:00").toLocaleDateString("en-US", {
+    timeZone: TZ, weekday: "long", year: "numeric", month: "long", day: "numeric",
+  });
