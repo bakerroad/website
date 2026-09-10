@@ -2,8 +2,8 @@
 import "../styles/global.css";
 import { site, NAV, telHref, emailHref, currentBeaconHref } from "../lib/site";
 
-interface Props { title: string; description?: string; noindex?: boolean; ogImage?: string; ogType?: string; schema?: any; }
-const { title, description = "", noindex = false, ogImage, ogType = "website", schema } = Astro.props;
+interface Props { title: string; description?: string; noindex?: boolean; robots?: string; ogImage?: string; ogType?: string; schema?: any; }
+const { title, description = "", noindex = false, robots, ogImage, ogType = "website", schema } = Astro.props;
 const socialImage = new URL(ogImage || "/images/social-card.jpg", Astro.site).href;
 
 /** "Tuesday — 9:00 AM – 2:00 PM" -> "Tu 09:00-14:00" for schema.org openingHours. */
@@ -42,6 +42,11 @@ const tel = telHref(site.phone);
     <title>{title}</title>
     {description && <meta name="description" content={description} />}
     {noindex && <meta name="robots" content="noindex, nofollow" />}
+    {/* A page that IS indexed can still hold something back. /upcoming uses
+        this to keep the Beacon page-images out of Google Images while the
+        page itself ranks: the events are the point, the bulletin scans are
+        not, and those scans carry the rota and the giving figures. */}
+    {!noindex && robots && <meta name="robots" content={robots} />}
     {!noindex && (
       <>
         <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-37WGNT2TFM"></script>
@@ -94,8 +99,9 @@ const tel = telHref(site.phone);
         <button class="navtoggle" id="navtoggle" aria-expanded="false" aria-controls="nav">Menu</button>
         <nav class="nav" id="nav" aria-label="Main">
           {NAV.map((n: any) => (
-            <div class={n.children ? "navitem has-sub" : "navitem"}>
-              <a href={n.href} aria-current={n.href === path ? "page" : undefined}>{n.label}</a>
+            <div class={[n.children ? "navitem has-sub" : "navitem", n.cta && "navitem-cta"].filter(Boolean).join(" ")}>
+              <a href={n.href} class={n.cta ? "navcta" : undefined}
+                 aria-current={n.href === path ? "page" : undefined}>{n.label}</a>
               {n.children && (
                 <>
                   <button class="subtoggle" type="button" aria-expanded="false"
@@ -138,6 +144,7 @@ const tel = telHref(site.phone);
           <div>
             <h2>Get in touch</h2>
             <ul>
+              <li><a href="/contact/">Contact page</a></li>
               {tel && <li><a href={tel}>{site.phone}</a></li>}
               {site.email && <li><a href={emailHref()}>Email us</a></li>}
               {site.facebookUrl && <li><a href={site.facebookUrl}>Facebook</a></li>}
@@ -156,6 +163,9 @@ const tel = telHref(site.phone);
                 picture directly, and falls back to /upcoming/ in a week with
                 no issue. */}
             <li><a href={currentBeaconHref()}>Newsletter</a></li>
+            {/* Off the main bar to keep it to six items, but this list is the
+                site map, so the page still has to appear here. */}
+            <li><a href="/contact/" aria-current={path === "/contact/" ? "page" : undefined}>Contact</a></li>
             <li><a href="/privacy-policy/">Privacy Policy</a></li>
           </ul>
         </nav>

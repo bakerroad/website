@@ -70,21 +70,15 @@ the same place, because that is the word people go looking for.
 megabytes, which is slow to open on a phone. The same page as a JPEG is under
 one.
 
-### The Beacon is not on Google, on purpose
+### What Google sees
 
-Every other page on the site is in Google. The Upcoming page is not: it is left
-out of the sitemap and marked "do not index". A weekly bulletin carries the
-children's ministry rota, volunteer names and the week's giving figures — fine
-in the hands of the congregation, but there is no reason for it to be a search
-result years later. Anyone with the link can still read it. The **Upcoming** tab
-in the menu is the link, and the **Newsletter** entry in the footer opens this
-week's front page picture on its own.
+Google indexes this page, so the church's events can be found by someone
+searching for them. The Beacon pictures are held back from Google Images,
+because they carry the rota, volunteer names and the week's giving. The page's
+own words carry none of that.
 
-If the church later decides it wants this page found in search, it is a two-line
-change: remove `noindex` from `src/pages/upcoming.astro` and drop `/upcoming`
-from the sitemap filter in `astro.config.mjs`. Worth a thought first — the
-events are public, but the Beacon pictures above them carry the rota and the
-giving figures. Ask whoever looks after the site.
+Nothing you do week to week changes this. It is a setting, not a choice you
+make each time.
 
 ## Saving
 

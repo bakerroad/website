@@ -9,20 +9,25 @@
  *  "newsletter" is what people actually look for, so it survives in the footer
  *  list and as a redirect from the old address.
  *
- *  One issue only: posting this Sunday's takes last Sunday's down. And still
- *  noindex, because a bulletin carries the children's ministry rota, volunteer
- *  names and the week's giving figures. */
+ *  One issue only: posting this Sunday's takes last Sunday's down. */
 import Base from "../layouts/Base.astro";
 import Sections from "../components/Sections.astro";
 import BeaconIssue from "../components/BeaconIssue.astro";
 import page from "../../content/pages/upcoming.json";
-import { allNewsletters, longDate, upcomingEvents, eventDateRange, site } from "../lib/site";
+import { allNewsletters, longDate, upcomingEvents, eventDateRange, eventSchema, site } from "../lib/site";
 import { imageSize } from "../lib/imagesize";
 
 const latest = allNewsletters()[0];
 const events = upcomingEvents();
+const schema = eventSchema(events, Astro.site);
 ---
-<Base title={page.title} description={page.metaDescription} noindex={true}>
+{/* Indexed, on Matt's call (10 Sept 2026). The events are the reason: a
+    church's calendar is exactly what someone searches for. `noimageindex`
+    is the one thing held back — the Beacon page-scans above the events
+    carry the children's ministry rota, volunteer names and the week's
+    giving, and there is no reason for those JPEGs to sit in Google Images
+    for years. The page text carries none of that. */}
+<Base title={page.title} description={page.metaDescription} robots="noimageindex" schema={schema}>
   <div class="phead">
     <div class="wrap">
       {page.eyebrow && <p class="eyebrow">{page.eyebrow}</p>}

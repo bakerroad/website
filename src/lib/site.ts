@@ -21,9 +21,13 @@ export const NAV = [
     { href: "/ministries/#the-pumpkin-patch", label: "The Pumpkin Patch" },
   ]},
   { href: "/watch/", label: "Watch" },
-  { href: "/upcoming/", label: "Upcoming" },
-  { href: "/give/", label: "Give" },
-  { href: "/contact/", label: "Contact" },
+  { href: "/upcoming/", label: "News & Events" },
+  // Give is the one thing on this bar that is an action rather than a place,
+  // so it renders as a filled button and stops competing with the links.
+  { href: "/give/", label: "Give", cta: true },
+  // Contact is deliberately not here. Everything a visitor wants from it —
+  // address, phone, service times — is already in the footer on every page,
+  // and the page itself is linked from the footer list below the fold.
 ];
 
 /** "(281) 427-0506" -> "+12814270506" so phones can dial it. */
@@ -102,4 +106,30 @@ export const eventDateRange = (e: any) => {
 export function currentBeaconHref() {
   const first = allNewsletters()[0]?.pages?.[0]?.image;
   return typeof first === "string" && first.startsWith("/") ? first : "/upcoming/";
+}
+
+/** schema.org Event objects, so Google can show church events as rich results.
+ *  Shared by the homepage and the Upcoming page so the two cannot drift. */
+export function eventSchema(events: any[], siteUrl?: URL) {
+  if (!events.length) return undefined;
+  const abs = (u?: string) => (u && siteUrl ? new URL(u, siteUrl).href : undefined);
+  const place = {
+    "@type": "Place", name: site.churchName,
+    address: { "@type": "PostalAddress", streetAddress: site.street, addressLocality: site.city,
+               addressRegion: "TX", postalCode: site.zip, addressCountry: "US" },
+  };
+  return events.map((e: any) => ({
+    "@context": "https://schema.org", "@type": "Event",
+    name: e.title, startDate: e.start, endDate: e.end || undefined,
+    description: e.description || undefined,
+    image: abs(e.image),
+    url: e.url || siteUrl?.href,
+    eventStatus: "https://schema.org/EventScheduled",
+    eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+    isAccessibleForFree: true,
+    offers: { "@type": "Offer", price: 0, priceCurrency: "USD", availability: "https://schema.org/InStock",
+      url: e.url || siteUrl?.href, validFrom: e.start },
+    location: place,
+    organizer: { "@type": "Organization", name: site.churchName, url: siteUrl?.href },
+  }));
 }
