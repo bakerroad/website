@@ -301,12 +301,19 @@ a:hover{color:var(--brand-hover)}
 @media (max-width:560px){.slist li{flex-direction:column;gap:.15rem}}
 
 /* ── sermon archive + detail ─────────────────────────── */
-.serieslist{display:grid;gap:1.9rem;margin-top:1.5rem}
-.sgroup h3{font-family:var(--f-display);font-size:1.22rem;font-weight:500;display:flex;
-  align-items:baseline;gap:.75rem;flex-wrap:wrap}
+.serieslist{display:grid;gap:.7rem;margin-top:1.5rem;max-width:52rem}
+.sgroup{border:1px solid var(--border);border-radius:var(--r-lg);background:var(--surface-card);overflow:hidden}
+.sgroup summary{font-family:var(--f-display);font-size:1.22rem;font-weight:500;display:flex;
+  align-items:baseline;justify-content:space-between;gap:1rem;padding:1rem 1.15rem;cursor:pointer;list-style:none}
+.sgroup summary::-webkit-details-marker{display:none}
+.sgroup summary::after{content:"+";font-family:var(--f-body);font-size:1.35rem;font-weight:400;color:var(--ink-faint);line-height:1}
+.sgroup[open] summary::after{content:"−"}
+.sgroup summary:hover,.sgroup summary:focus-visible{background:var(--surface-alt)}
+.sgroup summary:focus-visible{outline:2px solid var(--brand);outline-offset:-2px}
+.sgroup .group-name{min-width:0}
 .sgroup .count{font-family:var(--f-body);font-size:.74rem;font-weight:700;letter-spacing:.1em;
   text-transform:uppercase;color:var(--ink-faint)}
-.sgroup .slist{margin-top:.5rem}
+.sgroup .slist{margin:.0 1.15rem .8rem}
 
 .sermon-page{padding:2.4rem 0 3rem}
 .crumb{font-size:.9rem;margin-bottom:1.1rem}

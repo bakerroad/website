@@ -51,9 +51,9 @@ const short = (d: string) =>
         <h2>Earlier messages</h2>
 
         <div class="serieslist">
-          {seriesGroups.map((g) => (
-            <div class="sgroup">
-              <h3>{g.name} <span class="count">{g.items.length} message{g.items.length > 1 ? "s" : ""}</span></h3>
+          {seriesGroups.map((g, index) => (
+            <details class="sgroup" open={index === 0}>
+              <summary><span class="group-name">{g.name}</span> <span class="count">{g.items.length} message{g.items.length > 1 ? "s" : ""}</span></summary>
               <ul class="slist">
                 {g.items.map((s: any) => (
                   <li>
@@ -62,12 +62,12 @@ const short = (d: string) =>
                   </li>
                 ))}
               </ul>
-            </div>
+            </details>
           ))}
 
           {yearGroups.map((g) => (
-            <div class="sgroup">
-              <h3>{g.name} <span class="count">{g.items.length} message{g.items.length > 1 ? "s" : ""}</span></h3>
+            <details class="sgroup">
+              <summary><span class="group-name">{g.name}</span> <span class="count">{g.items.length} message{g.items.length > 1 ? "s" : ""}</span></summary>
               <ul class="slist">
                 {g.items.map((s: any) => (
                   <li>
@@ -76,7 +76,7 @@ const short = (d: string) =>
                   </li>
                 ))}
               </ul>
-            </div>
+            </details>
           ))}
         </div>
       </div>
