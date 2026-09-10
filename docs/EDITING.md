@@ -83,7 +83,8 @@ after the site.
 
 ## Saving
 
-Press **Save**. That is it. The website updates itself a minute or two later.
+Press **Save**. That is it. The website updates itself a few minutes later.
+Allow ten before worrying.
 There is no separate "publish" button.
 
 ## If you make a mistake

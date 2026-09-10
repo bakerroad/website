@@ -45,7 +45,7 @@ import { site } from "../lib/site";
     <p><strong>brbcbaytown.org</strong> is a ten-page website. Its words live as plain text
     files in a code repository on GitHub. When somebody edits a word through the editor at
     <code>brbcbaytown.org/admin</code>, that saves a change to GitHub, GitHub tells Cloudflare,
-    Cloudflare rebuilds the site in about two minutes, and the change is live. Nobody presses
+    Cloudflare rebuilds the site — usually a few minutes, but allow ten — and the change is live. Nobody presses
     "publish". There is no database and no server to log into.</p>
     <p>Two things update themselves: <strong>sermons</strong> arrive from the church's YouTube
     channel every Monday, and <strong>events</strong> arrive from Planning Center every night —
@@ -107,7 +107,7 @@ import { site } from "../lib/site";
       <li>Someone edits a page at <code>brbcbaytown.org/admin</code> and clicks <strong>Save</strong>.</li>
       <li>Tina writes that change into the code repository on GitHub as a commit.</li>
       <li>GitHub tells Cloudflare a change landed.</li>
-      <li>Cloudflare rebuilds the whole site from scratch. Takes about two minutes.</li>
+      <li>Cloudflare rebuilds the whole site from scratch. Usually a few minutes. It took ten on 10 September 2026, so do not panic at three.</li>
       <li>The new version goes live. Your browser may still show the old one for a minute — hard-refresh
         (<code>Cmd+Shift+R</code> on a Mac) or open a private window.</li>
     </ol>
@@ -166,7 +166,7 @@ import { site } from "../lib/site";
       <li>Left menu → <strong>1. Church Info</strong> → click the single entry.</li>
       <li>Scroll to <strong>Sunday schedule</strong> or <strong>Wednesday schedule</strong>. Each row has
         <em>What it is</em>, <em>Small note underneath</em>, and <em>Time</em>.</li>
-      <li>Change the text. Click <strong>Save</strong> (top right). Wait two minutes. Hard-refresh the site.</li>
+      <li>Change the text. Click <strong>Save</strong> (top right). Wait a few minutes. Hard-refresh the site.</li>
     </ol>
 
     <h3>To change the words on a page</h3>
@@ -202,7 +202,7 @@ import { site } from "../lib/site";
 
     <h3>If a save does not appear</h3>
     <ol>
-      <li>Wait the full two minutes. Then hard-refresh.</li>
+      <li>Give it a full ten minutes. Then hard-refresh.</li>
       <li>Cloudflare → website → Deployments. Is the top build green? If red, see <a href="#broken">§9</a>.</li>
       <li>GitHub → the repo → is your change the newest commit? If not, the save did not reach GitHub — log out of Tina and back in.</li>
     </ol>
@@ -256,18 +256,53 @@ import { site } from "../lib/site";
     not try to rebuild that in a web page — it is a place to put the pictures, and nothing more.
     One issue is one entry, named after its Sunday.</p>
 
-    <h3>The weekly routine — about a minute</h3>
+    <h3>The weekly routine, step by step</h3>
+    <p><strong>Before you start:</strong> have this week's Beacon pictures saved somewhere you can
+    find them, one file per page. Save them as JPEG. There is nothing else to prepare.</p>
     <ol>
-      <li>Left menu → <strong>5. The Beacon</strong> → <strong>Add File</strong>, top right.</li>
-      <li>Pick <strong>the Sunday</strong>. The web address (<code>/newsletter/2026-09-06/</code>),
-        the heading, and the order in the archive all come from that one date. There is no filename
-        to invent.</li>
-      <li><strong>The pictures</strong> → add a row per page, front page first, and upload the same
-        pictures you already make.</li>
-      <li>For each one, write a few words in <em>What is on this page?</em>. A person using a screen
-        reader hears only those words — a picture of a page is silent to them otherwise.</li>
-      <li><strong>Save.</strong> Two minutes later it is live at <code>/newsletter/</code>.</li>
+      <li>Go to <strong>brbcbaytown.org/admin</strong> and sign in with the church Google account.</li>
+      <li>In the list down the left, click <strong>5. The Beacon (weekly newsletter)</strong>.</li>
+      <li>Click <strong>Add File</strong>, top right.</li>
+      <li>The date box already shows <strong>the coming Sunday</strong>. Nearly every week that is
+        right and you can leave it. Change it only if you are doing a different week.</li>
+      <li>Find <strong>The pictures</strong> and click <strong>Add item</strong>. Click the
+        <em>Picture</em> box and upload the <strong>front page</strong>.</li>
+      <li>In <strong>What is on this page?</strong> type a short description, e.g.
+        <em>"Front page: today's sermon, Sunday classes and the week's schedule."</em> Somebody who
+        cannot see hears only those words.</li>
+      <li>Click <strong>Add item</strong> again and do the same for the back page. Repeat for a
+        third page if there is one.</li>
+      <li><em>Optional, about a minute:</em> fill in <strong>One line about this week</strong> and
+        two or three <strong>things worth typing out</strong>. See below for why they help.</li>
+      <li>Click <strong>Save</strong>, top right.</li>
+      <li>Wait a few minutes, then open <strong>brbcbaytown.org/newsletter/</strong> and hard-refresh
+        with <code>Cmd+Shift+R</code>. Your issue should be there.</li>
     </ol>
+    <div class="callout">
+      <p><strong>That is the whole job, and last week's comes down by itself.</strong> There is no
+      publish button, no archive to tidy, and nothing to delete. The address is always
+      <code>brbcbaytown.org/newsletter/</code>, so that is the link to share on Facebook or in a
+      text, and it is always the current week.</p>
+    </div>
+
+    <h3>When something looks wrong</h3>
+    <div class="tblwrap"><table>
+      <thead><tr><th>What you see</th><th>What it means</th><th>What to do</th></tr></thead>
+      <tbody>
+        <tr><td>The page shows the words but no pictures</td><td>An upload did not finish. The site
+          shows the text rather than a broken-image box.</td><td>Open the issue in Tina, upload the
+          picture again, Save.</td></tr>
+        <tr><td>Still last week's issue after ten minutes</td><td>Either the save did not go
+          through, or your browser is showing you an old copy.</td><td>Hard-refresh
+          (<code>Cmd+Shift+R</code>). If it is still wrong, check the issue is really in the list in
+          Tina, then see <a href="#broken">§9</a>.</td></tr>
+        <tr><td>You picked the wrong Sunday</td><td>Nothing is broken.</td><td>Open the issue, fix
+          the date, Save. The website goes by the date you set, not by the file's name.</td></tr>
+        <tr><td>You want the newsletter off the site entirely</td><td>Nothing replaces it this
+          week.</td><td>Open the issue in Tina, use the three-dot menu on the right, Delete. The
+          page then says the next one will appear shortly.</td></tr>
+      </tbody>
+    </table></div>
 
     <h3>The same job from a terminal</h3>
     <p>For whoever is already in the code rather than in Tina. It converts to JPEG, caps the width
