@@ -31,9 +31,9 @@ import { site } from "../lib/site";
       stopped, an event is missing — go straight to
       <a href="#broken"><strong>the troubleshooting table in Part 3</strong></a>.</p>
       <p class="startbox-owner"><strong>Who owns this site today:</strong> Sarah Rose. Passwords and
-      keys are not on this page and never will be — they are on Matt Rose's Mac in
-      <code>Baker Road Baptist/STORED ACCOUNTS/</code>. Every service listed in Part 3 also has a
-      normal "forgot password" flow.</p>
+      keys are not on this page and never will be — they are in the macOS Keychain on Matt Rose's Mac,
+      read with <code>Second Brain/00 SYSTEM/Credentials/get-secret</code>. Every service listed in
+      Part 3 also has a normal "forgot password" flow.</p>
     </div>
 
     <div class="toolbar">
@@ -211,7 +211,7 @@ import { site } from "../lib/site";
         <strong><code>connect@brbcbaytown.org</code></strong> with <strong>the normal ministry
         password</strong> — the one the office already uses for the church's other accounts. That is
         the main login for the editor and the one to hand on. If it does not work, the password is in
-        <code>STORED ACCOUNTS</code> (see Part 3); it is deliberately not written on this page.</li>
+        the Keychain (see Part 3); it is deliberately not written on this page.</li>
       <li>If that login has been removed, or you need a second person editing at the same time,
         whoever runs <code>bakerroadbaptist@gmail.com</code> adds an address at app.tina.io → project
         → Collaborators. <strong>There are only two seats</strong> on the free plan; a third costs
@@ -414,12 +414,23 @@ import { site } from "../lib/site";
           </tbody>
         </table></div>
         <div class="callout">
-          <p><strong>Where the actual passwords and keys are.</strong> Not here. They are on Matt Rose's
-          Mac in a locked folder beside the project (<code>Baker Road Baptist/STORED ACCOUNTS/</code>),
-          and the automation keys are in GitHub Secrets and Cloudflare's build variables, which cannot
-          be read back once saved. The right long-term home is a shared password manager. If you are
-          taking this over and cannot reach Matt, every one of these services has a normal
-          "forgot password" flow on the account email above.</p>
+          <p><strong>Where the actual passwords and keys are.</strong> Not here. They are in the
+          <strong>macOS Keychain</strong> on Matt Rose's Mac, under the service name
+          <code>orbit-secrets</code>, with this site's entries named <code>brbc-website/…</code>. Read
+          them with the helper script at
+          <code>Second Brain/00 SYSTEM/Credentials/get-secret</code>:</p>
+          <pre><code>./get-secret --list
+./get-secret --copy brbc-website/TINA_TOKEN</code></pre>
+          <p>The register of what exists is <code>Second Brain/00 SYSTEM/Credentials/01 — Token
+          Register.md</code>, and the account-by-account notes are
+          <code>Baker Road Baptist/Accounts &amp; Access.md</code>. This replaced a plain-text
+          <code>STORED ACCOUNTS/</code> folder, which was retired on 10 September 2026 — if any
+          document still points you at that folder, it is out of date.</p>
+          <p>The automation keys are also in GitHub Secrets and Cloudflare's build variables, which
+          cannot be read back once saved. <strong>The Keychain is on one Mac, so it dies with that
+          Mac</strong> — a shared password manager the church controls is still the right long-term
+          home. If you are taking this over and cannot reach Matt, every one of these services has a
+          normal "forgot password" flow on the account email above.</p>
         </div>
       </div>
     </details>
@@ -460,7 +471,8 @@ import { site } from "../lib/site";
           credentials; the other held the YouTube API key and the OAuth token the sermon sync needs. Each
           copy could do half the job and neither could do all of it, and nothing warned anybody.</p>
           <p>The two were merged back together and the duplicate was removed. If you need the code on
-          another machine, <code>git clone</code> it there and copy <code>.env</code> from STORED ACCOUNTS.
+          another machine, <code>git clone</code> it there and rebuild <code>.env</code> from the
+          Keychain with <code>get-secret</code>.
           Never keep a second copy on the same Mac.</p>
         </div>
       </div>
@@ -475,7 +487,7 @@ import { site } from "../lib/site";
           <li><strong>Two Tina seats.</strong> Share one rather than pay for a third.</li>
           <li><strong>Never click "Change Repo" in TinaCloud.</strong> It does not refresh; it replaces.</li>
           <li><strong>Leave <code>--skip-cloud-checks</code> in the build command.</strong> It is what keeps the website deploying when the editor is misconfigured. A broken editor is a nuisance; a broken website is not.</li>
-          <li><strong>The <code>STORED ACCOUNTS</code> folder never goes in the repository.</strong> It lives one folder above it for exactly that reason. Do not move it.</li>
+          <li><strong>Credentials never go in the repository.</strong> They live in the macOS Keychain, outside the project entirely, and are read with <code>get-secret</code>. Do not paste one into a file here, and do not recreate a plain-text folder of them.</li>
           <li><strong>No passwords on this page.</strong> Ever.</li>
         </ul>
       </div>
