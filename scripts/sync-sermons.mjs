@@ -37,11 +37,14 @@ const excludedVideoIds = new Set(rules.excludedVideoIds || []);
 // and file already attached to a known video ID. This also prevents a title
 // correction from creating a second JSON record for the same recording.
 const existingByVideoId = new Map();
+const existingBySourceKey = new Map();
+const sourceKey = (date, title) => `${date}|${String(title || "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim()}`;
 for (const name of readdirSync(OUT).filter((name) => name.endsWith(".json"))) {
   const file = join(OUT, name);
   try {
     const data = JSON.parse(readFileSync(file, "utf8"));
     if (data.youtubeId) existingByVideoId.set(data.youtubeId, { file, data });
+    if (data.date && data._sourceTitle) existingBySourceKey.set(sourceKey(data.date, data._sourceTitle), { file, data });
   } catch (_) {
     // Let the normal build report malformed content with its file path.
   }
@@ -174,6 +177,16 @@ async function main() {
     // editor's correction survives while the upstream evidence is unchanged,
     // but a genuinely changed source date is still allowed through.
     const date = previous?.data._sourceDate === sourceDate ? (previous.data.date || sourceDate) : sourceDate;
+    // It is common for the same service to be uploaded twice. Once a source
+    // title and service date are already represented, keep the curated record
+    // instead of creating a second page or silently replacing its video ID.
+    const sourceDuplicate = !previous && existingBySourceKey.get(sourceKey(date, v.title));
+    if (sourceDuplicate) {
+      written.add(sourceDuplicate.file);
+      console.log(`  skipped duplicate upload (${v.videoId}; kept ${sourceDuplicate.data.youtubeId}): ${v.title}`);
+      skipped++;
+      continue;
+    }
     const m = matchSeries(tidy(stripped), known);
     // A description that names the series outright beats guessing from the
     // title. Once a title is cleaned up it no longer repeats the strap-line,
@@ -245,7 +258,7 @@ async function main() {
       if (!written.has(full)) { if (!DRY) unlinkSync(full); removed++; }
     }
   }
-  console.log(`${DRY ? "would: " : ""}new ${created} · updated ${updated} · left alone ${preserved} · skipped ${skipped} non-sermons · removed ${removed}`);
+  console.log(`${DRY ? "would: " : ""}new ${created} · updated ${updated} · left alone ${preserved} · skipped ${skipped} · removed ${removed}`);
 }
 
 main().catch((e) => { console.error(e.message); process.exit(1); });

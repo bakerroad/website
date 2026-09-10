@@ -62,9 +62,11 @@
     }
   ],
   "excludedVideoIds": [
-    "xdyz85AuiSY"
+    "GgxFYpLkG3Y",
+    "xdyz85AuiSY",
+    "zFIXTOjspLg"
   ],
-  "excludedVideoIdsNote": "Recordings verified not to contain a sermon. xdyz85AuiSY is a worship-team rehearsal that was uploaded with a sermon-style title.",
+  "excludedVideoIdsNote": "Recordings intentionally omitted after review. xdyz85AuiSY is a worship-team rehearsal uploaded with a sermon-style title. GgxFYpLkG3Y and zFIXTOjspLg are duplicate service uploads; the archive keeps the versions with verified sermon starts or YouTube chapters.",
   "notSermons": [
     "announcement",
     "announcements",
