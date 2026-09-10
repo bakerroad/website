@@ -12,6 +12,12 @@
   X-Robots-Tag: noindex, nofollow
 /sop/*
   X-Robots-Tag: noindex, nofollow
+# The Beacon scans carry the children's rota, volunteer names and the week's
+# giving figures. The Upcoming page sets noimageindex, but that only governs
+# images found on that page, and the footer of every page links one of these
+# files directly. Setting it on the file itself is what actually holds.
+/images/beacon/*
+  X-Robots-Tag: noindex, noimageindex
 
 # Fingerprinted build assets never change — cache them for a year.
 /_astro/*
