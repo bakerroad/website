@@ -47,6 +47,19 @@ a:hover{color:var(--brand-hover)}
 .nav a[aria-current="page"]{color:var(--brand);background:var(--brand-tint)}
 .subtoggle{display:none;font:inherit;cursor:pointer;background:transparent;border:0;color:var(--ink-faint);padding:.3rem .4rem;line-height:1}
 
+/* ── the Give button ───────────────────────────────────
+   Give is an action, not a destination. Filled so it reads as the one thing
+   to press, and pushed off the link run so it is not scanned as a seventh
+   tab. Kept at the link's own font size — a button that also grows starts
+   shouting over the church name. */
+.navitem-cta{margin-left:.55rem}
+.nav a.navcta,
+.nav a.navcta[aria-current="page"]{
+  background:var(--brand);color:var(--on-brand);
+  border:1px solid var(--brand);font-weight:700;padding:.55rem 1.1rem;
+}
+.nav a.navcta:hover{background:var(--brand-hover);border-color:var(--brand-hover);color:#fff}
+
 /* ── dropdowns ──────────────────────────────────────── */
 .sub{
   position:absolute;top:100%;left:0;min-width:216px;margin:0;padding:.35rem;
@@ -64,7 +77,10 @@ a:hover{color:var(--brand-hover)}
 .sub a:hover{background:var(--brand-tint);color:var(--brand)}
 @media (prefers-reduced-motion:reduce){.sub{transition:none}}
 .navtoggle{margin-left:auto;display:none;font:inherit;font-weight:600;cursor:pointer;background:transparent;border:1px solid var(--border-strong);border-radius:var(--r-sm);padding:.42rem .7rem;color:var(--ink)}
-@media (max-width:860px){
+/* 960px, not 860: the seven items plus the button need 940px to sit on one
+   row, so anything narrower gets the stacked menu rather than a bar that
+   wraps to two lines. Measure again if a label is added or renamed. */
+@media (max-width:960px){
   .hdr-in{min-height:68px}
   .brand{font-size:1.06rem}
   .brand img{width:48px;height:48px}
@@ -86,6 +102,16 @@ a:hover{color:var(--brand-hover)}
   .navitem.has-sub:hover > .sub{opacity:1;visibility:visible}
   .navitem.has-sub:hover > .sub:not(.navitem.open > .sub){display:none}
   .sub::before{display:none}
+  /* In the stacked menu a hairline row would read as one more link, so the
+     button separates itself instead of borrowing the list's border. */
+  .navitem-cta{border-bottom:0;margin:.6rem 0 0;padding:0}
+  .nav a.navcta,
+  .nav a.navcta[aria-current="page"]{
+    flex:1;padding:.8rem .5rem;border-radius:var(--r-sm);
+    /* .nav a is inline-flex, so the label is a flex item: justify-content is
+       what centres it, not text-align. */
+    justify-content:center;text-align:center;
+  }
 }
 
 /* ── hero ───────────────────────────────────────────── */
