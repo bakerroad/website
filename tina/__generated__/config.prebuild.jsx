@@ -17,7 +17,7 @@ var config_default = defineConfig({
   // passing an empty token makes Tina throw rather than degrade. Generate one
   // at app.tina.io -> project -> Search, put it in .env and in the Cloudflare
   // build variables, and the notice in /admin goes away.
-  ...process.env.TINA_SEARCH_TOKEN ? { search: { tina: { indexerToken: process.env.TINA_SEARCH_TOKEN, stopwordLanguages: ["eng"] } } } : {},
+  ...(process.env.TINA_SEARCH_TOKEN || "").trim() ? { search: { tina: { indexerToken: (process.env.TINA_SEARCH_TOKEN || "").trim(), stopwordLanguages: ["eng"] } } } : {},
   schema: {
     collections: [
       // ─────────────────────────────────────────────────────────────
