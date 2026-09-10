@@ -24,7 +24,7 @@ git push -u origin main
 There are 25 commits of history already. Add a second person as repo admin so the
 church is never one account away from losing its website.
 
-**Do not commit `STORED ACCOUNTS/`.** It sits above the repo, so it cannot be — but
+**Credentials live in the macOS Keychain (`brbc-website/*`), not in a folder.** See the vault note `Baker Road Baptist/Accounts & Access.md` and `00 SYSTEM/Credentials/🔐 Credentials Index.md`. The old `STORED ACCOUNTS/` plain-text folder was retired on 2026-09-10 — but
 do not move it inside.
 
 ---
@@ -132,7 +132,7 @@ Free quota is 10,000 units/day. This uses about 5, once a week.
 
 ## 5. Planning Center  ·  already done  ·  2 min
 
-The token exists and is tested. It is in `STORED ACCOUNTS/planning-center.md`.
+The token exists and is tested. It is in the Keychain as `brbc-website/PCO_APP_ID` + `brbc-website/PCO_SECRET` (copy with `get-secret --copy`).
 Put both halves into GitHub Actions secrets:
 
 - `PCO_APP_ID`
