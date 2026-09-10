@@ -49,6 +49,13 @@ Two optional boxes are worth the extra minute on most weeks:
   read on a small screen. These lines can. Skip it on a busy week; the pictures
   still work on their own.
 
+If you would rather do it from a terminal than from Tina, there is a one-liner
+that converts, resizes, names and files the pictures for you:
+
+```
+node scripts/add-beacon.mjs 2026-09-06 ~/Desktop/page1.png ~/Desktop/page2.png
+```
+
 **Save your pictures as JPEG, not PNG.** A full page saved as a PNG can be ten
 megabytes, which is slow to open on a phone. The same page as a JPEG is under
 one.
