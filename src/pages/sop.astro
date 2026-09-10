@@ -117,6 +117,21 @@ import { site } from "../lib/site";
     <div class="callout"><p><strong>There is no "publish" button, on purpose.</strong> Save is publish.
     If you save something by mistake, saving it back is the undo. Every version ever saved is kept in
     GitHub's history, so nothing is ever truly lost.</p></div>
+
+    <h3>Where the code lives on this Mac — one copy, and only one</h3>
+    <p>Almost nobody needs this. Editors use <code>/admin</code> and never touch a file. But if you are
+    editing the code directly, there is <strong>exactly one working copy on this machine</strong>:</p>
+    <pre><code>~/Desktop/Second Brain/Baker Road Baptist/brbc-website</code></pre>
+    <div class="callout warn">
+      <p><strong>Do not make a second clone.</strong> There were two for a while — this one and another
+      at <code>~/Desktop/brbc-website</code> — and by 10 September 2026 they had quietly drifted into a
+      state where <em>neither one worked properly</em>. One held the Planning Center and TinaCMS
+      credentials; the other held the YouTube API key and the OAuth token the sermon sync needs. Each
+      copy could do half the job and neither could do all of it, and nothing warned anybody.</p>
+      <p>The two were merged back together and the duplicate was removed. If you need the code on
+      another machine, <code>git clone</code> it there and copy <code>.env</code> from STORED ACCOUNTS.
+      Never keep a second copy on the same Mac.</p>
+    </div>
   </div></section>
 
   <section class="sec" id="tina"><div class="wrap doc">
