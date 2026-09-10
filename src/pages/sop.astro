@@ -23,9 +23,10 @@ import { site } from "../lib/site";
       minute. Everything else on this site either never changes or updates itself — sermons arrive
       from YouTube every Monday, events arrive from Planning Center every night.</p>
       <p><strong>To change words, times, or links,</strong> go to
-      <a href="https://brbcbaytown.org/admin"><strong>brbcbaytown.org/admin</strong></a> and edit like a form.
-      Click Save. That <em>is</em> publishing — there is no publish button. Give it a few minutes.
-      That is Part 2.</p>
+      <a href="https://brbcbaytown.org/admin"><strong>brbcbaytown.org/admin</strong></a>, sign in as
+      <strong><code>connect@brbcbaytown.org</code></strong> with the normal ministry password, and edit
+      like a form. Click Save. That <em>is</em> publishing — there is no publish button. Give it a few
+      minutes. That is Part 2.</p>
       <p><strong>If something is broken</strong> — the site is down, a save will not appear, sermons
       stopped, an event is missing — go straight to
       <a href="#broken"><strong>the troubleshooting table in Part 3</strong></a>.</p>
@@ -57,10 +58,14 @@ import { site } from "../lib/site";
     weekly rhythm, and it is the only thing that will go stale if nobody does it.</p>
 
     <h3>Every week — put up the Beacon</h3>
+    <p>The office already makes The Beacon every week as a set of full-page pictures. The site does
+    not try to rebuild that in a web page — it is a place to put the pictures, and nothing more.
+    One issue is one entry, named after its Sunday.</p>
     <p><strong>Before you start:</strong> have this week's Beacon pages saved somewhere you can find
     them, one file per page, <strong>saved as JPEG</strong>. There is nothing else to prepare.</p>
     <ol>
-      <li>Go to <strong>brbcbaytown.org/admin</strong> and sign in with the church Google account.</li>
+      <li>Go to <strong>brbcbaytown.org/admin</strong> and sign in as
+        <strong><code>connect@brbcbaytown.org</code></strong> with the normal ministry password.</li>
       <li>In the list down the left, click <strong>5. The Beacon (weekly newsletter)</strong>.</li>
       <li>Click <strong>Add File</strong>, top right.</li>
       <li>The date box already shows <strong>the coming Sunday</strong>. Nearly every week that is
@@ -75,14 +80,16 @@ import { site } from "../lib/site";
       <li><em>Optional, about a minute:</em> fill in <strong>One line about this week</strong> and
         two or three <strong>things worth typing out</strong>. See the fold below for why they help.</li>
       <li>Click <strong>Save</strong>, top right.</li>
-      <li>Wait a few minutes, then open <strong>brbcbaytown.org/newsletter/</strong> and hard-refresh
+      <li>Wait a few minutes, then open <strong>brbcbaytown.org/upcoming/</strong> and hard-refresh
         with <code>Cmd+Shift+R</code>. Your issue should be there.</li>
     </ol>
     <div class="callout">
       <p><strong>That is the whole job, and last week's comes down by itself.</strong> There is no
       publish button, no archive to tidy, and nothing to delete. The address is always
-      <code>brbcbaytown.org/newsletter/</code>, so that is the link to share on Facebook or in a
-      text, and it is always the current week.</p>
+      <code>brbcbaytown.org/upcoming/</code>, so that is the link to share on Facebook or in a
+      text, and it is always the current week. The old address
+      <code>brbcbaytown.org/newsletter/</code> still works and lands in the same place, because
+      that is the word people go looking for.</p>
     </div>
 
     <details class="fold">
@@ -100,7 +107,7 @@ import { site } from "../lib/site";
               Tina, then see <a href="#broken">the troubleshooting table</a>.</td></tr>
             <tr><td>You picked the wrong Sunday</td><td>Nothing is broken.</td><td>Open the issue, fix
               the date, Save. The website goes by the date you set, not by the file's name.</td></tr>
-            <tr><td>You want the newsletter off the site entirely</td><td>Nothing replaces it this
+            <tr><td>You want the Beacon off the page entirely</td><td>Nothing replaces it this
               week.</td><td>Open the issue in Tina, use the three-dot menu on the right, Delete. The
               page then says the next one will appear shortly.</td></tr>
           </tbody>
@@ -132,7 +139,7 @@ import { site } from "../lib/site";
     </details>
 
     <details class="fold">
-      <summary>Why only one issue is ever up, and why it is kept out of Google</summary>
+      <summary>Why only one issue is ever up, and what Google is allowed to see</summary>
       <div class="foldbody">
         <p>The page shows <strong>one</strong> issue: the newest. Posting this Sunday's is what takes
         last Sunday's down. There is no archive to prune and no old link to go and delete, because a
@@ -143,16 +150,24 @@ import { site } from "../lib/site";
         page. If you want the files tidied as well, delete the old entry in Tina; the website will not
         notice either way.</p>
         <p>Because only one issue is ever published, the address is always the same:
-        <code>brbcbaytown.org/newsletter/</code>. The dated per-issue addresses that existed briefly on
-        10 September 2026 now redirect here.</p>
-        <p>The newsletter pages are marked <code>noindex</code> and left out of the sitemap — the same
-        treatment as this manual. A weekly bulletin carries the children's ministry rota, volunteer
-        names and the week's giving figures. That is right and normal in the hands of the congregation,
-        and it is a different thing for a 2026 rota to still be a Google result in 2031. Anyone with the
-        link can read it; the <strong>Newsletter</strong> tab in the menu is the link.</p>
-        <p>To reverse it, if the church ever decides otherwise: drop <code>noindex={true}</code> from
-        <code>src/pages/newsletter.astro</code>, and remove <code>/newsletter</code> from the sitemap
-        filter in <code>astro.config.mjs</code>.</p>
+        <code>brbcbaytown.org/upcoming/</code>. That is the link to put on Facebook or in a text, and
+        it is always this week's. The old <code>/newsletter/</code> address and the dated per-issue
+        addresses that existed briefly on 10 September 2026 all redirect here.</p>
+        <p><strong>Google indexes this page.</strong> It did not until 10 September 2026, when the
+        church decided the events on it are worth being found — a church's calendar is exactly what
+        somebody searches for. The page carries schema.org Event data so those events can show as
+        rich results.</p>
+        <p><strong>One thing is still held back: the pictures.</strong> The page sends
+        <code>noimageindex</code>, so the Beacon page-scans never enter Google Images. Those scans
+        carry the children's ministry rota, volunteer names and the week's giving figures, and there
+        is no reason for a 2026 rota to sit in image search in 2031. The page's own words carry none
+        of that — only the date, the summary, the highlights and the event names — so indexing the
+        text costs nothing.</p>
+        <p>To change it either way: <code>robots="noimageindex"</code> in
+        <code>src/pages/upcoming.astro</code> is the switch, and the sitemap filter in
+        <code>astro.config.mjs</code> now excludes only <code>/sop</code>. Putting the page back out
+        of Google means <code>noindex={true}</code> there and <code>/upcoming</code> back in the
+        filter. Note that un-indexing is slow: Google drops a page in its own time.</p>
       </div>
     </details>
 
@@ -175,7 +190,7 @@ import { site } from "../lib/site";
         <tr><td><strong>Every September</strong></td><td>Add this year's Pumpkin Patch to Planning Center and tag it <code>Website</code>. That is the whole yearly event workload.</td></tr>
         <tr><td><strong>Every January</strong></td><td>Read the whole site once, out loud. Check every time, name, and role is still true — pastor's bio, staff, deacons, class names.</td></tr>
         <tr><td><strong>Before 5 February 2028</strong></td><td>Renew the domain at Network Solutions. Set the reminder now. If it lapses, the whole site vanishes.</td></tr>
-        <tr><td><strong>Whenever staff change</strong></td><td>Update Tina editors (two seats), GitHub and Cloudflare admins, and rotate the Planning Center token if the person who created it leaves.</td></tr>
+        <tr><td><strong>Whenever staff change</strong></td><td><strong>Change the password on <code>connect@brbcbaytown.org</code></strong>, since that is the login everybody shares. Then check the Tina editor seats (there are two), the GitHub and Cloudflare admins, and rotate the Planning Center token if the person who created it leaves.</td></tr>
       </tbody>
     </table></div>
   </div></section>
@@ -192,10 +207,15 @@ import { site } from "../lib/site";
     <h3>Getting in</h3>
     <ol>
       <li>Go to <strong>brbcbaytown.org/admin</strong>.</li>
-      <li>Click <strong>Log in with TinaCloud</strong>. Use the email address that was invited as an
-        editor. If you have not been invited, whoever runs <code>bakerroadbaptist@gmail.com</code> adds
-        you at app.tina.io → project → Collaborators. <strong>There are only two seats</strong> on the
-        free plan; a third costs money. Share a seat rather than buy one.</li>
+      <li>Click <strong>Log in with TinaCloud</strong>. Sign in as
+        <strong><code>connect@brbcbaytown.org</code></strong> with <strong>the normal ministry
+        password</strong> — the one the office already uses for the church's other accounts. That is
+        the main login for the editor and the one to hand on. If it does not work, the password is in
+        <code>STORED ACCOUNTS</code> (see Part 3); it is deliberately not written on this page.</li>
+      <li>If that login has been removed, or you need a second person editing at the same time,
+        whoever runs <code>bakerroadbaptist@gmail.com</code> adds an address at app.tina.io → project
+        → Collaborators. <strong>There are only two seats</strong> on the free plan; a third costs
+        money. Share the <code>connect@</code> login rather than buy one.</li>
       <li>You land on "Welcome to Tina!" with a menu on the left. That menu is the entire website.</li>
     </ol>
 
@@ -204,7 +224,7 @@ import { site } from "../lib/site";
       <thead><tr><th>Menu item</th><th>What is in it</th><th>Edit it?</th></tr></thead>
       <tbody>
         <tr><td><strong>1. Church Info</strong></td><td>Address, phone, office hours, the Sunday and Wednesday schedules, links to Facebook, YouTube, giving, the app, and the two forms. <strong>Change a time here and it changes everywhere on the site at once.</strong> This is the one you will use most.</td><td>Yes</td></tr>
-        <tr><td><strong>2. Pages</strong></td><td>One entry per page: home, visit, about, ministries, watch, newsletter, give, contact, privacy-policy. Every box is plain text.</td><td>Yes</td></tr>
+        <tr><td><strong>2. Pages</strong></td><td>One entry per page: home, visit, about, ministries, watch, upcoming, give, contact, privacy-policy. Every box is plain text.</td><td>Yes</td></tr>
         <tr><td><strong>3. Sermons</strong></td><td>One entry per sermon, written automatically from YouTube every Monday.</td><td>Only to fix a title or series. Do not add or delete.</td></tr>
         <tr><td><strong>4. Events</strong></td><td>Written automatically from Planning Center every night.</td><td>Only to tick "show on homepage" or add a picture. Do not add or delete — see below.</td></tr>
         <tr><td><strong>5. The Beacon</strong></td><td>The weekly newsletter, one entry per Sunday.</td><td>Yes — you add one a week. See <a href="#weekly">Part 1</a>.</td></tr>
@@ -244,7 +264,8 @@ import { site } from "../lib/site";
     <h3>Sermons need nothing at all</h3>
     <p>Every Monday around midday a robot reads the church's YouTube channel and writes any new video
     onto the Watch page. Nothing to do week to week. If a title comes across wrong, fix it in Tina →
-    <strong>3. Sermons</strong> → fix the title or series → Save; your fix survives every future sync.
+    <strong>3. Sermons</strong> → fix the title or series → Save. Your fix survives every future
+    Monday sync; the robot notices a human changed it and leaves it alone.
     If sermons stop appearing entirely, see <a href="#broken">the troubleshooting table</a>.</p>
 
     <h3>What not to do in Tina</h3>
@@ -329,7 +350,7 @@ import { site } from "../lib/site";
             <tr><td><strong>Site updates fine but <code>/admin</code> is dead, and the build log says "BUILDING WITHOUT THE EDITOR"</strong></td><td>Cloudflare's build variables were wiped or changed. The website keeps publishing on purpose; only editing stops.</td><td>Cloudflare → website → Settings → <strong>Build</strong> → <strong>Build variables</strong> must have <code>PUBLIC_TINA_CLIENT_ID</code>, <code>TINA_TOKEN</code> (secret), <code>NODE_VERSION</code> = 22. This is a different box from the runtime "Variables and Secrets" panel — the build cannot see that one. Retry build.</td></tr>
             <tr><td><strong>Build is red for any other reason</strong></td><td>Something in the code.</td><td>Emergency valve: change the build command from <code>npm run build</code> to <code>npm run build:site</code>. That deploys the site without the editor, so the website is up while <code>/admin</code> is fixed. Then get help.</td></tr>
             <tr><td><strong>/admin shows "Unexpected error validating your schema" or "Branch 'main' not found"</strong></td><td>TinaCloud lost its index of the code. Usually because <code>tina/tina-lock.json</code> was deleted, or someone clicked "Change Repo" in TinaCloud.</td><td>Make sure <code>tina/tina-lock.json</code> exists in the repo. In app.tina.io → Configuration → Refresh Branches; <code>main</code> should show a green check. <strong>Never click "Change Repo"</strong> — it replaces the whole project and invalidates every token.</td></tr>
-            <tr><td><strong>/admin login refused</strong></td><td>Not invited, or the two seats are full.</td><td>app.tina.io → Collaborators.</td></tr>
+            <tr><td><strong>/admin login refused</strong></td><td>Wrong password on <code>connect@brbcbaytown.org</code>, or you are using a different address that was never invited, or the two seats are full.</td><td>Try <code>connect@brbcbaytown.org</code> with the normal ministry password first — that is the main login. Otherwise app.tina.io → Collaborators.</td></tr>
             <tr><td><strong>New sermons stopped appearing</strong></td><td>The weekly job failed, or the video is unlisted/private (RSS only lists public videos).</td><td>GitHub → repo → Actions tab → "Sync sermons from YouTube". Red? Read the log. No key is involved — it reads the public RSS feed. You can run the job by hand from that tab.</td></tr>
             <tr><td><strong>Events page empty, or an event missing</strong></td><td>Not tagged <code>Website</code>, or the Planning Center token was revoked.</td><td>Check the tag first — it is almost always the tag. Otherwise Actions → "Sync events from Planning Center" and read the log. A new Personal Access Token from Planning Center goes into Secrets as <code>PCO_APP_ID</code> and <code>PCO_SECRET</code>.</td></tr>
             <tr><td><strong>A form button goes to a dead page</strong></td><td>Planning Center form deleted or renamed.</td><td>Get the new form address from Planning Center → Forms → View on Church Center. Paste it into Tina → Church Info → the matching <em>form link</em> field. All buttons update.</td></tr>
@@ -382,7 +403,7 @@ import { site } from "../lib/site";
             <tr><td><strong>Domain name</strong></td><td>Owns <code>brbcbaytown.org</code>. Expires <strong>5 Feb 2028</strong>. Its nameservers point at Cloudflare.</td><td>Network Solutions</td><td>The church's registrar login</td></tr>
             <tr><td><strong>DNS + hosting</strong></td><td>Answers the domain and serves the site. Set up as a Worker named <code>website</code> with static assets. Rebuilds on every GitHub push.</td><td>dash.cloudflare.com</td><td>bakerroadbaptist@gmail.com</td></tr>
             <tr><td><strong>The code</strong></td><td>Every page, photo, and setting. Branch <code>main</code> is what is live. Public repository.</td><td>github.com/bakerroad/website</td><td>bakerroadbaptist@gmail.com</td></tr>
-            <tr><td><strong>The editor</strong></td><td>TinaCloud. The thing behind <code>/admin</code>. Free plan — <strong>exactly two editor seats.</strong></td><td>app.tina.io · project "website"</td><td>bakerroadbaptist@gmail.com</td></tr>
+            <tr><td><strong>The editor</strong></td><td>TinaCloud. The thing behind <code>/admin</code>. Free plan — <strong>exactly two editor seats.</strong> Editors sign in as <code>connect@brbcbaytown.org</code>; that is a seat, not the owner.</td><td>app.tina.io · project "website"</td><td>Project owned by <code>bakerroadbaptist@gmail.com</code></td></tr>
             <tr><td><strong>Sermons</strong></td><td>YouTube channel <code>@BRBCBaytown</code>. A weekly job copies new videos onto the Watch page.</td><td>youtube.com/@BRBCBaytown</td><td>The church's YouTube</td></tr>
             <tr><td><strong>Events</strong></td><td>Planning Center Calendar. Only events tagged <code>Website</code> reach the site.</td><td>calendar.planningcenteronline.com</td><td>The church's Planning Center</td></tr>
             <tr><td><strong>Forms</strong></td><td>Two Planning Center forms: <em>Connection Card</em> (1314833) and <em>Join the Team</em> (1314832). Submissions land in Planning Center People.</td><td>people.planningcenteronline.com → Forms</td><td>The church's Planning Center</td></tr>
@@ -406,16 +427,19 @@ import { site } from "../lib/site";
     <details class="fold">
       <summary>The email accounts, and not getting locked out</summary>
       <div class="foldbody">
-        <p>Two Gmail addresses, two jobs. Confusing them is the most common way to get locked out.</p>
+        <p>Four addresses, four jobs. Confusing them is the most common way to get locked out.
+        The one an ordinary editor needs is <code>connect@brbcbaytown.org</code>; the rest are here
+        so that whoever takes this over can find them.</p>
         <div class="tblwrap"><table>
           <thead><tr><th>Address</th><th>Job</th><th>Owns</th></tr></thead>
           <tbody>
             <tr><td><code>bakerroadbaptist@gmail.com</code></td><td><strong>Build account.</strong> The infrastructure. Created for this project.</td><td>GitHub, Cloudflare, TinaCloud project, Google Cloud (YouTube API key)</td></tr>
             <tr><td><code>bakerroadbc@gmail.com</code></td><td><strong>The church's account.</strong> Public-facing.</td><td>Receives every "Email us" on the site.</td></tr>
-            <tr><td><code>sarah@brbcbaytown.org</code></td><td><strong>Sarah Rose's account.</strong> Google Workspace on brbcbaytown.org.</td><td>Her login for the editor (brbcbaytown.org/admin, via Tina Cloud) and for Google Analytics (Viewer).</td></tr>
+            <tr><td><code>connect@brbcbaytown.org</code></td><td><strong>The editor login.</strong> Google Workspace on brbcbaytown.org. Uses the normal ministry password, so anyone in the office who already has that password can get in.</td><td>Signing in to <strong>brbcbaytown.org/admin</strong> via TinaCloud. This is the main login, the one to give a new person, and the one to change the password on when somebody leaves.</td></tr>
+            <tr><td><code>sarah@brbcbaytown.org</code></td><td><strong>Sarah Rose's account.</strong> Google Workspace on brbcbaytown.org.</td><td>Google Analytics (Viewer). Also holds the second TinaCloud editor seat, so she can edit alongside whoever is on <code>connect@</code>.</td></tr>
           </tbody>
         </table></div>
-        <p><strong>Turn on two-factor authentication on both</strong>, and write the recovery codes
+        <p><strong>Turn on two-factor authentication on the two Gmail accounts</strong>, and write the recovery codes
         down on paper somewhere in the church office. The realistic disaster is not a hacker; it is
         one person losing a phone and the church losing access to its own website.</p>
         <p>Add a second person as an admin on GitHub and Cloudflare. A church should never be one
