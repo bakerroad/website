@@ -42,9 +42,6 @@ export const telHref = (phone: string) => {
  *  can find it; the real defence is Gmail's spam filtering. */
 export const emailHref = () => (site.email ? `mailto:${site.email}` : "");
 
-export const fullAddress = () =>
-  [site.street, [site.city, site.state].filter(Boolean).join(", "), site.zip].filter(Boolean).join(" ");
-
 /** Load every sermon, newest first. */
 export function allSermons() {
   const mods = import.meta.glob("../../content/sermons/*.json", { eager: true }) as Record<string, any>;
