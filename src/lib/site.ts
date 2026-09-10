@@ -21,7 +21,7 @@ export const NAV = [
     { href: "/ministries/#the-pumpkin-patch", label: "The Pumpkin Patch" },
   ]},
   { href: "/watch/", label: "Watch" },
-  { href: "/upcoming/", label: "News & Events" },
+  { href: "/news/", label: "News & Events" },
   // Give is the one thing on this bar that is an action rather than a place,
   // so it renders as a filled button and stops competing with the links.
   { href: "/give/", label: "Give", cta: true },
@@ -105,7 +105,7 @@ export const eventDateRange = (e: any) => {
  *  to the Upcoming page in any week with no issue, or none uploaded yet. */
 export function currentBeaconHref() {
   const first = allNewsletters()[0]?.pages?.[0]?.image;
-  return typeof first === "string" && first.startsWith("/") ? first : "/upcoming/";
+  return typeof first === "string" && first.startsWith("/") ? first : "/news/";
 }
 
 /** schema.org Event objects, so Google can show church events as rich results.

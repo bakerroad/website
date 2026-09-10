@@ -35,35 +35,14 @@ for (let i = 0; i < argv.length; i++) {
   else rest.push(argv[i]);
 }
 
-/**
- * Crop the blank border off a page, in place, and report what it did.
- * Uses Pillow because nothing in Node or in macOS itself can find the edge of
- * the artwork. If Pillow is not installed the page is simply left alone: an
- * untrimmed page is worse-looking, not broken, and is never worth failing over.
- */
-const trimBlank = (file) => {
-  const py = `
-import sys
-from PIL import Image
-import numpy as np
-f = sys.argv[1]
-im = Image.open(f).convert("RGB")
-a = np.array(im.convert("L"))
-m = a < 246
-if not m.any():
-    print("blank"); raise SystemExit
-r, c = np.where(m.any(1))[0], np.where(m.any(0))[0]
-box = (max(0, int(c[0])-2), max(0, int(r[0])-2),
-       min(im.width, int(c[-1])+3), min(im.height, int(r[-1])+3))
-if box == (0, 0, im.width, im.height):
-    print("nothing to trim"); raise SystemExit
-im.crop(box).save(f, "JPEG", quality=86, optimize=True, progressive=True)
-print(f"trimmed {im.width}x{im.height} -> {box[2]-box[0]}x{box[3]-box[1]}")
-`;
-  const r = spawnSync("python3", ["-c", py, file], { encoding: "utf8" });
-  if (r.status !== 0) return "not trimmed (needs python3 with Pillow and numpy)";
-  return r.stdout.trim();
+// Trimming lives in scripts/lib/trim-image.mjs so the build and this script
+// cannot disagree about what a trimmed page looks like.
+const { trimIfPadded } = await import("./lib/trim-image.mjs");
+const trimBlank = async (file) => {
+  try { return (await trimIfPadded(file)) ?? "nothing to trim"; }
+  catch (e) { return `not trimmed (${e.message})`; }
 };
+
 const [date, ...files] = rest;
 
 const die = (m) => { console.error(`\n  ${m}\n`); process.exit(1); };
@@ -77,7 +56,8 @@ if (new Date(date + "T12:00:00").getUTCDay() !== 0)
 const outDir = join("public", "images", "beacon");
 mkdirSync(outDir, { recursive: true });
 
-const pages = files.map((src, i) => {
+const pages = [];
+for (const [i, src] of files.entries()) {
   const name = `${date}-page-${i + 1}.jpg`;
   const out = join(outDir, name);
   // Convert first, at full size. sips ships with macOS, so this needs nothing
@@ -87,7 +67,7 @@ const pages = files.map((src, i) => {
   const r = spawnSync("sips", ["-s", "format", "jpeg", "-s", "formatOptions", "86",
                                resolve(src), "--out", out], { encoding: "utf8" });
   if (r.status !== 0 || !existsSync(out)) die(`Could not convert ${src}\n  ${r.stderr || ""}`);
-  const trimmed = trim ? trimBlank(out) : "kept the border (--no-trim)";
+  const trimmed = trim ? await trimBlank(out) : "kept the border (--no-trim)";
   const width = () => Number((spawnSync("sips", ["-g", "pixelWidth", out], { encoding: "utf8" })
     .stdout.match(/pixelWidth: (\d+)/) || [])[1] || 0);
   if (width() > MAX_WIDTH) spawnSync("sips", ["-Z", String(MAX_WIDTH), out], { encoding: "utf8" });
@@ -96,8 +76,8 @@ const pages = files.map((src, i) => {
     .stdout.match(/pixel(?:Width|Height): (\d+)/g) || []).map((s) => s.split(": ")[1]).join("x");
   console.log(`  page ${i + 1}: ${out}  ${dim}  ${kb} KB  (${trimmed})`);
   if (kb > 1500) console.warn(`           that is large for a phone; consider a smaller export`);
-  return { image: `/${join("images", "beacon", name)}`, alt: alts[i] || `The Beacon, page ${i + 1}` };
-});
+  pages.push({ image: `/${join("images", "beacon", name)}`, alt: alts[i] || `The Beacon, page ${i + 1}` });
+}
 
 const jsonPath = join("content", "newsletters", `${date}.json`);
 const existing = existsSync(jsonPath) ? JSON.parse(readFileSync(jsonPath, "utf8")) : { date };
@@ -109,4 +89,4 @@ existing.pages = pages.map((p, i) => ({ ...p, alt: alts[i] || previous[i]?.alt |
 mkdirSync(join("content", "newsletters"), { recursive: true });
 writeFileSync(jsonPath, JSON.stringify(existing, null, 2) + "\n");
 console.log(`\n  ${existsSync(jsonPath) ? "updated" : "wrote"} ${jsonPath}`);
-console.log(`  preview: npm run dev  ->  http://localhost:4321/upcoming/\n`);
+console.log(`  preview: npm run dev  ->  http://localhost:4321/news/\n`);

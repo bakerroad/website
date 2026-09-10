@@ -23,6 +23,8 @@
  * going stale is a Sunday-morning problem.
  */
 import { spawnSync } from "node:child_process";
+import { existsSync, readdirSync } from "node:fs";
+import { join } from "node:path";
 
 // Cloudflare's variable boxes are easy to paste a stray space or newline into,
 // and " abc" is not a valid client ID. Trim before anyone downstream sees it.
@@ -31,6 +33,25 @@ const clean = (name) => {
   process.env[name] = value;
   return value;
 };
+
+// Crop the blank canvas off any Beacon page before Astro measures it.
+// The office's export tool pads every page onto a fixed sheet, and the editor
+// in Tina has nowhere to crop. Doing it here means it stops mattering who
+// uploaded the picture or how. It is idempotent — a page already trimmed is
+// left untouched — so this is a no-op on every build after the first.
+const BEACON = join("public", "images", "beacon");
+if (existsSync(BEACON)) {
+  const { trimIfPadded } = await import("./lib/trim-image.mjs");
+  for (const f of readdirSync(BEACON).filter((f) => /\.jpe?g$/i.test(f))) {
+    try {
+      const what = await trimIfPadded(join(BEACON, f));
+      if (what) console.log(`  trimmed ${f}: ${what}`);
+    } catch (e) {
+      // A picture we cannot read must never stop the website publishing.
+      console.warn(`  could not trim ${f}: ${e.message}`);
+    }
+  }
+}
 
 const clientId = clean("PUBLIC_TINA_CLIENT_ID");
 const token = clean("TINA_TOKEN");

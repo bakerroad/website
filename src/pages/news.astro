@@ -1,19 +1,20 @@
 ---
-/** Upcoming. Everything with a date on it, in the order you would want it.
+/** News & Events. Everything with a date on it, in the order you would want it.
  *
  *    1. This week's Beacon, as the pictures the office already makes.
  *    2. Whatever few lines somebody chose to type out, if any.
  *    3. Events, straight from Planning Center.
  *
- *  Named "Upcoming" because it is no longer only the newsletter. The word
+ *  Called News & Events because it is no longer only the newsletter. The word
  *  "newsletter" is what people actually look for, so it survives in the footer
- *  list and as a redirect from the old address.
+ *  list and as a redirect, and so does the /upcoming/ address this page wore
+ *  for about an hour on 10 September 2026.
  *
  *  One issue only: posting this Sunday's takes last Sunday's down. */
 import Base from "../layouts/Base.astro";
 import Sections from "../components/Sections.astro";
 import BeaconIssue from "../components/BeaconIssue.astro";
-import page from "../../content/pages/upcoming.json";
+import page from "../../content/pages/news.json";
 import { allNewsletters, longDate, upcomingEvents, eventDateRange, eventSchema, site } from "../lib/site";
 import { imageSize } from "../lib/imagesize";
 

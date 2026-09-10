@@ -80,13 +80,13 @@ import { site } from "../lib/site";
       <li><em>Optional, about a minute:</em> fill in <strong>One line about this week</strong> and
         two or three <strong>things worth typing out</strong>. See the fold below for why they help.</li>
       <li>Click <strong>Save</strong>, top right.</li>
-      <li>Wait a few minutes, then open <strong>brbcbaytown.org/upcoming/</strong> and hard-refresh
+      <li>Wait a few minutes, then open <strong>brbcbaytown.org/news/</strong> and hard-refresh
         with <code>Cmd+Shift+R</code>. Your issue should be there.</li>
     </ol>
     <div class="callout">
       <p><strong>That is the whole job, and last week's comes down by itself.</strong> There is no
       publish button, no archive to tidy, and nothing to delete. The address is always
-      <code>brbcbaytown.org/upcoming/</code>, so that is the link to share on Facebook or in a
+      <code>brbcbaytown.org/news/</code>, so that is the link to share on Facebook or in a
       text, and it is always the current week. The old address
       <code>brbcbaytown.org/newsletter/</code> still works and lands in the same place, because
       that is the word people go looking for.</p>
@@ -150,8 +150,8 @@ import { site } from "../lib/site";
         page. If you want the files tidied as well, delete the old entry in Tina; the website will not
         notice either way.</p>
         <p>Because only one issue is ever published, the address is always the same:
-        <code>brbcbaytown.org/upcoming/</code>. That is the link to put on Facebook or in a text, and
-        it is always this week's. The old <code>/newsletter/</code> address and the dated per-issue
+        <code>brbcbaytown.org/news/</code>. That is the link to put on Facebook or in a text, and
+        it is always this week's. The old <code>/newsletter/</code> and <code>/upcoming/</code> addresses and the dated per-issue
         addresses that existed briefly on 10 September 2026 all redirect here.</p>
         <p><strong>Google indexes this page.</strong> It did not until 10 September 2026, when the
         church decided the events on it are worth being found — a church's calendar is exactly what
@@ -164,7 +164,7 @@ import { site } from "../lib/site";
         of that — only the date, the summary, the highlights and the event names — so indexing the
         text costs nothing.</p>
         <p>To change it either way: <code>robots="noimageindex"</code> in
-        <code>src/pages/upcoming.astro</code> is the switch, and the sitemap filter in
+        <code>src/pages/news.astro</code> is the switch, and the sitemap filter in
         <code>astro.config.mjs</code> now excludes only <code>/sop</code>. Putting the page back out
         of Google means <code>noindex={true}</code> there and <code>/upcoming</code> back in the
         filter. Note that un-indexing is slow: Google drops a page in its own time.</p>

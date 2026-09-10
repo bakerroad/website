@@ -13,6 +13,11 @@ var config_default = defineConfig({
   token: process.env.TINA_TOKEN || "",
   build: { outputFolder: "admin", publicFolder: "public" },
   media: { tina: { mediaRoot: "images", publicFolder: "public" } },
+  // Search inside the editor. Off until TINA_SEARCH_TOKEN is set, because
+  // passing an empty token makes Tina throw rather than degrade. Generate one
+  // at app.tina.io -> project -> Search, put it in .env and in the Cloudflare
+  // build variables, and the notice in /admin goes away.
+  ...process.env.TINA_SEARCH_TOKEN ? { search: { tina: { indexerToken: process.env.TINA_SEARCH_TOKEN, stopwordLanguages: ["eng"] } } } : {},
   schema: {
     collections: [
       // ─────────────────────────────────────────────────────────────

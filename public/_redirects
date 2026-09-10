@@ -122,10 +122,13 @@
 # itself forever. It did exactly that in production on 10 Sept 2026 and took
 # the newsletter down until it was removed. The same trap applies to any
 # wildcard whose target sits underneath the wildcard's own prefix.
-# The page is called Upcoming now, because it carries the events list as well
-# as the newsletter. /newsletter is the address people know and it keeps
-# working. Written out in full, never as a wildcard — see the warning above.
-/newsletter              /upcoming/ 301
-/newsletter/             /upcoming/ 301
-/newsletter/2026-09-06   /upcoming/ 301
-/newsletter/2026-09-06/  /upcoming/ 301
+# The page is called News & Events and lives at /news/. Two older addresses
+# point at it: /newsletter, which is the word people know and search for, and
+# /upcoming, which this page wore for about an hour on 10 September 2026.
+# Exact paths only. A splat here is what took the page down that morning.
+/newsletter              /news/ 301
+/newsletter/             /news/ 301
+/newsletter/2026-09-06   /news/ 301
+/newsletter/2026-09-06/  /news/ 301
+/upcoming                /news/ 301
+/upcoming/               /news/ 301

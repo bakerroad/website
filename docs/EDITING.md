@@ -62,7 +62,7 @@ node scripts/add-beacon.mjs 2026-09-06 ~/Desktop/page1.png ~/Desktop/page2.png
 last Sunday's down. You do not have to delete anything, and there is no archive
 to keep tidy. Nothing is lost either — an old issue keeps its file, it just
 stops being the page. The address never changes, so
-**brbcbaytown.org/upcoming/** is always this week's Beacon and is the link to
+**brbcbaytown.org/news/** is always this week's Beacon and is the link to
 share. The old address **brbcbaytown.org/newsletter/** still works and lands in
 the same place, because that is the word people go looking for.
 
