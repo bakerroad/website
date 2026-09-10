@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
-    "@tinacms/astro": "^0.6.1",
+    "@tinacms/astro": "^0.7.0",
     "astro": "^7.2.7",
     "tinacms": "^3.12.1"
   },

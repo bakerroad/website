@@ -6,6 +6,8 @@ portraits/
 .astro/
 .env
 .env.local
+.env.backup*
+.env.*.backup
 .DS_Store
 
 # Tina build output — regenerated on every build, 10MB of it
