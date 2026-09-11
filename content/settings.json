@@ -31,6 +31,11 @@
   ],
   "wednesday": [
     {
+      "label": "Dinner in the Fellowship Hall",
+      "note": "",
+      "time": "5:30 PM"
+    },
+    {
       "label": "Adult Bible Study",
       "note": "",
       "time": "6:00 PM"
@@ -41,8 +46,8 @@
       "time": "6:00 PM"
     },
     {
-      "label": "ONE Student Ministry",
-      "note": "Grades 6 through 12",
+      "label": "Children's Group",
+      "note": "",
       "time": "6:00 PM"
     }
   ],
