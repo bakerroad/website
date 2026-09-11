@@ -53,7 +53,7 @@ export function allSermons() {
 
 /** A stable URL slug for a sermon: /watch/2026-08-30-for-such-a-time-as-this */
 export const sermonSlug = (s: any) =>
-  `${String(s.date).slice(0, 10)}-${String(s.title || "")
+  `${calendarDate(s.date)}-${String(s.title || "")
     .toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 60)}`;
 
 /** Load upcoming events, soonest first. Anything already finished is dropped. */
@@ -73,7 +73,7 @@ export function allNewsletters() {
   return Object.values(mods)
     .map((m) => (m.default ?? m))
     .filter((n) => n && n.date)
-    .map((n) => ({ ...n, date: String(n.date).slice(0, 10) }))
+    .map((n) => ({ ...n, date: calendarDate(n.date) }))
     .sort((a, b) => b.date.localeCompare(a.date));
 }
 
@@ -83,6 +83,24 @@ export const longDate = (d: string) =>
   new Date(String(d).slice(0, 10) + "T12:00:00").toLocaleDateString("en-US", {
     timeZone: TZ, weekday: "long", year: "numeric", month: "long", day: "numeric",
   });
+
+/** The calendar date an editor actually picked, as YYYY-MM-DD.
+ *
+ *  Tina's datetime field stores a UTC instant. Pick Sunday 13 September in
+ *  Texas and it saves "2026-09-14T00:00:00.000Z" — because 13 Sept 19:00 CDT
+ *  IS 14 Sept 00:00 UTC. Slicing the first ten characters, which is what this
+ *  used to do, therefore printed Monday the 14th over a Sunday bulletin.
+ *
+ *  So: a plain YYYY-MM-DD is taken at face value, and a timestamp is resolved
+ *  in the church's own timezone rather than the build server's. Cloudflare
+ *  builds in UTC, so resolving "locally" would have kept the bug. */
+export function calendarDate(value: unknown): string {
+  const raw = String(value ?? "");
+  if (/^\d{4}-\d{2}-\d{2}$/.test(raw)) return raw;
+  const d = new Date(raw);
+  if (Number.isNaN(d.getTime())) return raw.slice(0, 10);
+  return d.toLocaleDateString("en-CA", { timeZone: TZ }); // en-CA gives YYYY-MM-DD
+}
 
 /** "Sat, October 4" for one day, "October 4 – 31" for a run of them.
  *  Lived in index.astro until the Upcoming page needed the same thing. */

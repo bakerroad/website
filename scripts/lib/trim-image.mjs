@@ -20,7 +20,12 @@ import { readFileSync, writeFileSync } from "node:fs";
 
 const NEAR_WHITE = 246;  // 0-255; anything lighter counts as blank canvas
 const MIN_BORDER = 8;    // px; below this it is a scan edge, not padding
-const QUALITY = 86;
+// mozjpeg at 80 rather than plain 86: on the 13 September back page that was
+// 660KB instead of 902KB for text that reads the same. These are scans of a
+// printed sheet being opened on a phone, so bytes matter more than the last
+// few percent of encoder fidelity.
+const QUALITY = 80;
+const MAX_WIDTH = 2000;  // beyond this is detail no screen shows
 
 /** Measure the bounding box of everything that is not blank canvas. */
 async function contentBox(file) {
@@ -46,12 +51,22 @@ async function contentBox(file) {
  * Trim `file` in place if it is padded. Returns a short line describing what
  * happened, suitable for printing, or null when the file was left alone.
  */
-export async function trimIfPadded(file, { pad = 2 } = {}) {
+export async function trimIfPadded(file, { pad = 2, maxWidth = MAX_WIDTH } = {}) {
   const box = await contentBox(file);
   if (!box) return null;
   const { left, top, width, height, imageW, imageH } = box;
   const border = Math.max(left, top, imageW - (left + width), imageH - (top + height));
-  if (border < MIN_BORDER) return null;             // already trimmed — do nothing
+
+  // An untrimmed page can still be far too large to send to a phone. The office
+  // uploaded a 4760px scan on 11 September 2026; nothing shows more than 2000.
+  if (border < MIN_BORDER) {
+    if (imageW <= maxWidth) return null;            // nothing to do at all
+    const out = await sharp(file).resize({ width: maxWidth })
+      .jpeg({ quality: QUALITY, progressive: true, mozjpeg: true }).toBuffer();
+    const wasKb = Math.round(readFileSync(file).length / 1024);
+    writeFileSync(file, out);
+    return `${imageW}x${imageH} -> ${maxWidth}px wide  ${wasKb}KB -> ${Math.round(out.length / 1024)}KB`;
+  }
 
   const region = {
     left: Math.max(0, left - pad),
@@ -59,8 +74,9 @@ export async function trimIfPadded(file, { pad = 2 } = {}) {
     width: Math.min(imageW, left + width + pad) - Math.max(0, left - pad),
     height: Math.min(imageH, top + height + pad) - Math.max(0, top - pad),
   };
-  const out = await sharp(file).extract(region)
-    .jpeg({ quality: QUALITY, progressive: true, mozjpeg: false }).toBuffer();
+  let pipe = sharp(file).extract(region);
+  if (region.width > maxWidth) pipe = pipe.resize({ width: maxWidth });
+  const out = await pipe.jpeg({ quality: QUALITY, progressive: true, mozjpeg: true }).toBuffer();
   const wasKb = Math.round(readFileSync(file).length / 1024);
   writeFileSync(file, out);
   const nowKb = Math.round(out.length / 1024);
