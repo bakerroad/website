@@ -61,8 +61,28 @@ import { site } from "../lib/site";
     <p>The office already makes The Beacon every week as a set of full-page pictures. The site does
     not try to rebuild that in a web page — it is a place to put the pictures, and nothing more.
     One issue is one entry, named after its Sunday.</p>
-    <p><strong>Before you start:</strong> have this week's Beacon pages saved somewhere you can find
-    them, one file per page, <strong>saved as JPEG</strong>. There is nothing else to prepare.</p>
+    <p><strong>Before you start:</strong> have this week's Beacon pages saved somewhere you can
+    find them, one file per page, <strong>saved as JPEG</strong> and <strong>named like this</strong>:</p>
+    <pre><code>2026-09-13-page-1.jpg
+2026-09-13-page-2.jpg</code></pre>
+    <p>The Sunday, then <code>-page-</code>, then the number. Year first, then month, then day, so the
+    files sort themselves and 09-13 can never be misread as the ninth of December. Page 1 is the
+    front.</p>
+    <div class="callout warn">
+      <p><strong>Lower case, hyphens only.</strong> No spaces, commas, apostrophes or capitals.
+      Rename whatever your design tool called it before you upload.</p>
+      <p>Not fussiness. On 11 September 2026 the pages went up as
+      <code>The-Beacon-September-13,-2026_Page_1.jpg</code>, and that one comma sent every visitor's
+      browser through a redirect before it was allowed to have the picture, on every load, on every
+      phone.</p>
+    </div>
+    <div class="callout">
+      <p><strong>You do not have to do anything about the white border or the file being huge.</strong>
+      Every build crops the blank canvas off each page and caps the width at 2000px, whoever uploaded
+      it and however. The 13 September pages arrived at 4760 and 4200 pixels wide and were cut to
+      2000; nobody asked for that and nobody ran anything. Upload exactly what your design tool
+      gives you.</p>
+    </div>
     <ol>
       <li>Go to <strong>brbcbaytown.org/admin</strong> and sign in as
         <strong><code>connect@brbcbaytown.org</code></strong> with the normal ministry password.</li>
@@ -71,7 +91,8 @@ import { site } from "../lib/site";
       <li>The date box already shows <strong>the coming Sunday</strong>. Nearly every week that is
         right and you can leave it. Change it only if you are doing a different week.</li>
       <li>Find <strong>The pictures</strong> and click <strong>Add item</strong>. Click the
-        <em>Picture</em> box and upload the <strong>front page</strong>.</li>
+        <em>Picture</em> box, open the <strong>beacon</strong> folder, and upload the
+        <strong>front page</strong>. Uploading outside that folder still works; it is just untidy.</li>
       <li>In <strong>What is on this page?</strong> type a short description, e.g.
         <em>"Front page: today's sermon, Sunday classes and the week's schedule."</em> Somebody who
         cannot see hears only those words.</li>

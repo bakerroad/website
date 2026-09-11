@@ -66,6 +66,18 @@ stops being the page. The address never changes, so
 share. The old address **brbcbaytown.org/newsletter/** still works and lands in
 the same place, because that is the word people go looking for.
 
+**Name the files after the Sunday**, lower case, hyphens only:
+
+```
+2026-09-13-page-1.jpg
+2026-09-13-page-2.jpg
+```
+
+Year, month, day, then `-page-` and the number. Page 1 is the front. No spaces,
+commas, apostrophes or capitals — a comma makes every browser take a redirect
+before it gets the picture. Rename whatever your design tool produced before
+uploading.
+
 **Save your pictures as JPEG, not PNG.** A full page saved as a PNG can be ten
 megabytes, which is slow to open on a phone. The same page as a JPEG is under
 one.
