@@ -8,10 +8,15 @@
 > **What this is based on.** An audit of the built site on 7 September 2026:
 > Google Analytics 4 for anonymous visit counts (added 7 Sept, and the only
 > cookies the site sets are its), no other tracking, no forms
-> hosted on the site, and six third parties — Google Analytics, Cloudflare (hosting),
-> Google Fonts, YouTube (privacy-enhanced embeds), Subsplash (the giving panel),
-> and Planning Center (the two forms, linked not embedded). If any of that
-> changes — an analytics tag, a new embed — this document has to change with it.
+> hosted on the site, and five third parties — Google Analytics, Cloudflare (hosting),
+> Google Fonts, YouTube (privacy-enhanced embeds), and Planning Center (giving,
+> plus the two forms — all linked or opened over the page, none built into it).
+> If any of that changes — an analytics tag, a new embed — this document has to
+> change with it.
+>
+> **Updated 11 September 2026.** Giving moved from Subsplash to Planning Center
+> Giving, and the embedded Subsplash panel became a button that opens Planning
+> Center's own page. Subsplash is no longer a third party on this site.
 >
 > **Two things only the church can decide**, marked ⚠️ below.
 >
@@ -72,12 +77,14 @@ privacy-enhanced embed, which does not set cookies until you press play. Once
 you do, YouTube's policy applies. Links to our YouTube channel take you to
 YouTube itself. [policies.google.com/privacy](https://policies.google.com/privacy)
 
-**Subsplash** runs online giving. The giving form on our Give page is a Subsplash
-panel embedded in our site. Anything you type into it — your name, card or bank
-details, gift amount — goes to Subsplash, not to our website. Our website never
-sees or stores payment information. [subsplash.com/privacy](https://www.subsplash.com/privacy)
+**Planning Center Giving** runs online giving. The "Give now" button on our Give
+page opens Planning Center's own giving page — over the page on a computer, in a
+new tab on a phone. Either way the form is Planning Center's, not ours. Anything
+you type into it — your name, card or bank details, gift amount — goes to
+Planning Center, not to our website. Our website never sees or stores payment
+information. [planningcenter.com/privacy](https://www.planningcenter.com/privacy)
 
-**Planning Center** runs our Connection Card and Join the Team forms. When you
+**Planning Center** also runs our Connection Card and Join the Team forms. When you
 click "I'm interested" or "Join the serve team," you leave our website and fill
 in a form on Planning Center's Church Center. What you enter is stored in our
 Planning Center account, which our church staff use to follow up with you.
@@ -103,7 +110,7 @@ is gathered in person, by their parents or guardians, not through this website.
 
 ## Links to other sites
 
-Our site links to Facebook, YouTube, Google Maps, Subsplash and Planning Center.
+Our site links to Facebook, YouTube, Google Maps and Planning Center.
 Once you follow a link, you are on their site and their privacy policy applies.
 
 ## Changes

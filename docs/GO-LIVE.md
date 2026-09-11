@@ -175,7 +175,14 @@ belongs in GitHub Secrets.
    `/outreach`, `/blog`. Every one should land somewhere sensible.
 
 **Leave the old SnapPages site up until step 5 passes.** Leaving SnapPages does not
-cancel Subsplash giving or the app — the new site links to both.
+cancel anything else the church pays for — it is only the website.
+
+Giving moved to Planning Center on 11 September 2026, so the Give page no longer
+touches Subsplash. Cancelling Subsplash is a separate decision for the church,
+and worth checking before it is made: **members with a recurring gift set up in
+Subsplash will not be moved across automatically.** Confirm in Planning Center
+Giving that recurring donors have re-enrolled, or tell them to, before the
+Subsplash account is closed.
 
 ---
 

@@ -83,9 +83,8 @@ const schema = eventSchema(events, Astro.site);
           the times are at the bottom of every page.
         </p>
       )}
-      {/* Church Center, not Subsplash. Subsplash is where giving happens; the
-          calendar and the sign-ups live in Planning Center, and sending people
-          to the app for a calendar it does not hold wastes the click. */}
+      {/* The calendar and the sign-ups live in Planning Center, so these go to
+          Church Center — the same place giving now goes. */}
       {site.churchCenterUrl && (
         <>
           <p class="seclink"><a href={`${site.churchCenterUrl}/calendar`}>See the full church calendar</a></p>

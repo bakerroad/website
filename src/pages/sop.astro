@@ -320,12 +320,18 @@ import { site } from "../lib/site";
     </details>
 
     <details class="fold">
-      <summary>The two buttons on every ministry card, and the @ shortcuts</summary>
+      <summary>The Planning Center buttons, and the @ shortcuts</summary>
       <div class="foldbody">
         <p>They are not typed in by hand. Each button's link is written as <code>@connectionCardUrl</code>
         or <code>@serveFormUrl</code>, which means "look this up in Church Info". So if Planning Center ever
-        gives you a new form address, change it <strong>once</strong> in Church Info and all fourteen buttons
-        follow. Other lookups that work the same way: <code>@mailto</code> (the church email),
+        gives you a new form address, change it <strong>once</strong> in Church Info and all sixteen buttons
+        follow.</p>
+        <p><strong>Where they are.</strong> The Connection Card sits on the seven ministry cards, at the
+        bottom of <em>Plan a Visit</em> under "Tell us you are coming", and under the four first-time
+        questions on the home page. The Join the Team form sits on the same seven ministry cards. Church
+        Center's own "First Time Guests" button points at <code>brbcbaytown.org/welcome</code>, which lands
+        on <em>Plan a Visit</em> — so a guest who starts in the app and a guest who starts on Google both
+        end up at the same card. Other lookups that work the same way: <code>@mailto</code> (the church email),
         <code>@tel</code> (the phone), <code>@givingUrl</code>, <code>@facebookUrl</code>, <code>@youtubeUrl</code>,
         <code>@appUrl</code>, <code>@mapUrl</code>.</p>
       </div>
@@ -375,7 +381,8 @@ import { site } from "../lib/site";
             <tr><td><strong>New sermons stopped appearing</strong></td><td>The weekly job failed, or the video is unlisted/private (RSS only lists public videos).</td><td>GitHub → repo → Actions tab → "Sync sermons from YouTube". Red? Read the log. No key is involved — it reads the public RSS feed. You can run the job by hand from that tab.</td></tr>
             <tr><td><strong>Events page empty, or an event missing</strong></td><td>Not tagged <code>Website</code>, or the Planning Center token was revoked.</td><td>Check the tag first — it is almost always the tag. Otherwise Actions → "Sync events from Planning Center" and read the log. A new Personal Access Token from Planning Center goes into Secrets as <code>PCO_APP_ID</code> and <code>PCO_SECRET</code>.</td></tr>
             <tr><td><strong>A form button goes to a dead page</strong></td><td>Planning Center form deleted or renamed.</td><td>Get the new form address from Planning Center → Forms → View on Church Center. Paste it into Tina → Church Info → the matching <em>form link</em> field. All buttons update.</td></tr>
-            <tr><td><strong>Giving panel blank</strong></td><td>Subsplash changed the embed address.</td><td>Subsplash → Giving → embed → new address into Tina → Church Info → Online giving link.</td></tr>
+            <tr><td><strong>"Give now" does nothing, or opens a dead page</strong></td><td>The Church Center address changed, or giving was switched off in Planning Center.</td><td>Open the giving page on its own first — if that is dead the problem is in Planning Center, not the website. Otherwise Planning Center → Giving → the Church Center address, pasted into Tina → Church Info → Online giving link.</td></tr>
+            <tr><td><strong>"Give now" opens a new tab instead of a pop-up</strong></td><td>Working as intended. Planning Center only shows the pop-up on a computer; on a phone it always opens a tab instead.</td><td>Nothing to fix.</td></tr>
           </tbody>
         </table></div>
         <p>Rolling back a bad change: GitHub → the repo → Commits → find the last good one → the ⋯ menu on
@@ -393,7 +400,7 @@ import { site } from "../lib/site";
         "publish". There is no database and no server to log into.</p>
         <p>Two things update themselves: <strong>sermons</strong> arrive from the church's YouTube
         channel every Monday, and <strong>events</strong> arrive from Planning Center every night —
-        but only events someone has tagged <code>Website</code>. Giving runs through Subsplash. The
+        but only events someone has tagged <code>Website</code>. Giving runs through Planning Center. The
         two forms — "I'm interested" and "Join the serve team" — are Planning Center forms.</p>
         <p>It costs nothing to run. The only paid thing is the domain name, renewed every few years.</p>
         <h3>How a change gets onto the site</h3>
@@ -429,7 +436,7 @@ import { site } from "../lib/site";
             <tr><td><strong>Events</strong></td><td>Planning Center Calendar. Only events tagged <code>Website</code> reach the site.</td><td>calendar.planningcenteronline.com</td><td>The church's Planning Center</td></tr>
             <tr><td><strong>Forms</strong></td><td>Two Planning Center forms: <em>Connection Card</em> (1314833) and <em>Join the Team</em> (1314832). Submissions land in Planning Center People.</td><td>people.planningcenteronline.com → Forms</td><td>The church's Planning Center</td></tr>
             <tr><td><strong>Analytics</strong></td><td>Google Analytics 4, measurement ID <code>G-37WGNT2TFM</code>. The property is named <em>Baker Road Baptist Church</em> (GA account 407158412, property 553104809) and lives in the church's Google Workspace under <code>matt.rose@brbcbaytown.org</code>, not in either Gmail account. Sign in there at analytics.google.com to see reports or add another user (Admin → Property access management). The tag runs on every public page (not on this one), counts visits, and sets its own cookies — disclosed in the privacy policy.</td><td>analytics.google.com</td><td>Owned by the Workspace admin account <code>matt.rose@brbcbaytown.org</code> (confirmed 7 Sept 2026). Sarah Rose's access is through <code>sarah@brbcbaytown.org</code> (Viewer), so reports do not depend on one login.</td></tr>
-            <tr><td><strong>Giving</strong></td><td>Subsplash. Embedded on the Give page. The website never touches payment details.</td><td>subsplash.com</td><td>The church's Subsplash</td></tr>
+            <tr><td><strong>Giving</strong></td><td>Planning Center Giving. The Give page holds a <em>Give now</em> button that opens Planning Center's own form over the page — on a phone it opens in a new tab instead, which is Planning Center's own behaviour, not a fault. Planning Center does not allow its giving form to be built into the page the way Subsplash was, so there is no panel to go blank. The website never touches payment details.</td><td>giving.planningcenteronline.com, and bakerroadbaptistchurch.churchcenter.com/giving for the public page</td><td>The church's Planning Center</td></tr>
             <tr><td><strong>Automation keys</strong></td><td>Two secrets the events robot needs (Planning Center ID + secret), stored as encrypted GitHub Actions secrets. Sermons need no key: they use YouTube's free RSS feed. A <code>YOUTUBE_API_KEY</code> is optional and only pulls the old back catalogue.</td><td>GitHub → repo → Settings → Secrets</td><td>bakerroadbaptist@gmail.com</td></tr>
             <tr><td><strong>Church email</strong></td><td>Where every "Email us" button on the site goes.</td><td>Gmail</td><td>bakerroadbc@gmail.com</td></tr>
           </tbody>

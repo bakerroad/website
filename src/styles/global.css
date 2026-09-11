@@ -255,29 +255,25 @@ a:hover{color:var(--brand-hover)}
 .seclink a::after{content:" →"}
 
 /* ── giving ─────────────────────────────────────────────
-   Subsplash forces a white background and centres its own form, so the frame
-   cannot be made invisible. It is a deliberate panel instead: white, rounded,
-   about as wide as the form actually is, and left-aligned with the copy beside
-   it. scrolling="no" plus a measured height means the page scrolls and the
-   embed never does. */
+   Planning Center will not be framed, so the form is no longer in the page and
+   there is no panel to hold it. What is left is one instruction, so it is
+   sized like one: a single column held to a readable measure, the button given
+   more weight than a nav button because on this page it is the whole point,
+   and the "on its own" link beside it rather than under it so the two read as
+   one choice instead of a fallback nobody notices. */
 .give-sec{padding-top:3.2rem;padding-bottom:3.4rem}
-.give-grid{display:grid;grid-template-columns:minmax(0,460px) minmax(0,1fr);
-  gap:2rem 2.6rem;align-items:start;margin-top:1.6rem}
-.give-panel{background:#fff;border:1px solid var(--border);border-radius:var(--r-lg);
-  padding:.5rem;box-shadow:var(--shadow);overflow:hidden}
-.give-panel iframe{width:100%;height:660px;border:0;display:block;background:#fff;
-  border-radius:calc(var(--r-lg) - 2px);color-scheme:light}
-.give-aside{padding-top:.4rem;max-width:44ch}
-.give-aside p{margin-bottom:.9rem}
-.give-aside .quiet{color:var(--ink-faint);font-size:.95rem}
-.give-aside a{font-weight:600}
-@media (max-width:900px){
-  .give-grid{grid-template-columns:1fr;gap:1.4rem}
-  .give-aside{padding-top:0;max-width:none;order:-1}
-}
+.give-box{margin-top:1.4rem;max-width:52ch}
+.give-lede{margin-bottom:1.3rem}
+.give-act{display:flex;flex-wrap:wrap;align-items:center;gap:.85rem 1.3rem;margin-bottom:1.3rem}
+.btn-give{font-size:1.06rem;padding:.78rem 1.7rem}
+.give-alt{font-weight:600}
+.give-box .quiet{color:var(--ink-faint);font-size:.95rem;margin-bottom:0}
 @media (max-width:520px){
-  .give-panel{padding:.35rem}
-  .give-panel iframe{height:640px}
+  /* Full-width tap target, and the secondary link drops below it so the two
+     are never a pair of half-width things competing on one line. */
+  .give-act{display:block}
+  .btn-give{display:block;text-align:center}
+  .give-alt{display:inline-block;margin-top:1rem}
 }
 
 /* pictures inside sections and cards */

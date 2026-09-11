@@ -1,47 +1,57 @@
 ---
 /**
- * Subsplash giving, in the page.
+ * Planning Center giving, opened from the page.
  *
- * `?embed=true` strips Subsplash's own header bar. What it will not do is give
- * up its white background, and it centres its form inside whatever width you
- * hand it. Pretending the frame is invisible therefore fails: a full-width
- * white block ends in a hard seam against the page, with the form marooned in
- * the middle of it.
+ * Subsplash let us drop its form straight into a frame on this page. Planning
+ * Center does not: their guidance is that older iframe embeds broke donations
+ * for some people and tripped browser security warnings, so the only method
+ * they support is the Church Center modal — a link that the script below turns
+ * into a full-screen overlay served by Planning Center itself.
  *
- * So it is a deliberate panel instead — white, rounded, sized close to the
- * form's real width and sat on the left, with the reassuring copy beside it on
- * desktop and underneath on a phone. Measured content height is 607-627px
- * across 390px, 700px and 1100px wide, so 660px clears the first step with no
- * internal scrollbar and no dead space.
+ * That is why this section is a button and not a panel. The form cannot sit in
+ * the page any more, so pretending otherwise would mean shipping something the
+ * provider will not stand behind on the one page where a failure costs the
+ * church money.
  *
- * Deferred with native loading="lazy", not an IntersectionObserver: an observer
- * that fails to fire leaves the giving form permanently blank.
+ * The script is loaded here rather than in <head> so that the button and the
+ * thing that makes it work cannot drift into separate files. It is a plain,
+ * non-deferred <script src>, so it runs while the page is still parsing and
+ * its own DOMContentLoaded hook — the one that appends the overlay — still
+ * fires. It attaches a delegated click handler to window and calls start() on
+ * itself, so there is nothing here to initialise.
+ *
+ * The overlay needs HTTPS and a desktop browser. On a phone, and on anything
+ * served over plain HTTP, the script quietly falls back to opening the giving
+ * page in a new tab. The plain link underneath is therefore not decoration: it
+ * is the same destination for anyone the overlay cannot serve, it is what a
+ * reader with JavaScript off gets when they click the button itself, and it is
+ * the only route on which Apple Pay works — Apple disallows it inside a frame,
+ * so the overlay never offers it.
  */
 import { site } from "../lib/site";
-const base = site.givingUrl || "";
-const url = base ? base + (base.includes("?") ? "&" : "?") + "embed=true" : "";
+const url = site.givingUrl || "";
 ---
 {url && (
   <section class="sec give-sec">
+    <script is:inline src="https://js.churchcenter.com/modal/v1"></script>
     <div class="wrap">
       <p class="eyebrow">Online</p>
       <h2>Give online</h2>
 
-      <div class="give-grid">
-        <div class="give-panel">
-          <iframe id="give-frame" title="Give to Baker Road Baptist Church" src={url}
-                  loading="lazy" scrolling="no" allow="payment *"
-                  referrerpolicy="no-referrer-when-downgrade"></iframe>
-        </div>
+      <div class="give-box">
+        <p class="give-lede">A one-time gift or a recurring one, by card or bank draft.</p>
 
-        <aside class="give-aside">
-          <p>A one-time gift or a recurring one, by card or bank draft.</p>
-          <p class="quiet">
-            Handled by Subsplash, the church's own giving provider. Baker Road's website
-            never sees your card details.
-          </p>
-          <p><a href={base} target="_blank" rel="noopener">Open the giving page on its own</a></p>
-        </aside>
+        <p class="give-act">
+          {/* Without the script this is an ordinary link to the giving page,
+              which is the behaviour we want it to degrade to. */}
+          <a class="btn btn-p btn-give" href={url} data-open-in-church-center-modal="true">Give now</a>
+          <a class="give-alt" href={url} target="_blank" rel="noopener">Or open the giving page on its own</a>
+        </p>
+
+        <p class="quiet">
+          Handled by Planning Center Giving, the church's own giving provider.
+          Baker Road's website never sees your card details.
+        </p>
       </div>
     </div>
   </section>
