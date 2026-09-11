@@ -37,6 +37,8 @@
       "eyebrow": "The shape of our week",
       "heading": "Two gatherings, and everything grows out of them",
       "body": "We keep it simple on purpose. Sunday mornings we learn and worship together. Wednesday nights we eat together and go deeper.",
+      "image": "/images/worship.jpg",
+      "imageAlt": "The worship team leading a Sunday service at Baker Road, with the words of a hymn on the screen behind them",
       "note": "",
       "items": [
         {
@@ -51,12 +53,10 @@
         },
         {
           "title": "Wednesday Nights",
-          "meta": "Wednesday, 5:30 PM",
-          "body": "Dinner in the Fellowship Hall first, then everybody scatters: adults to Bible study, students to ONE, kids to Children's Group. It is the easiest night of the week to visit if a Sunday morning feels like a lot."
+          "meta": "Wednesday, 6:00 PM",
+          "body": "Join us for adult Bible study, ONE student ministry, TeamKids children's ministry. It is the easiest night of the week to visit if a Sunday morning feels like a lot."
         }
-      ],
-      "image": "/images/worship.jpg",
-      "imageAlt": "The worship team leading a Sunday service at Baker Road, with the words of a hymn on the screen behind them"
+      ]
     }
   ]
 }
