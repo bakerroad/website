@@ -31,11 +31,6 @@
   ],
   "wednesday": [
     {
-      "label": "Dinner in the Fellowship Hall",
-      "note": "",
-      "time": "5:30 PM"
-    },
-    {
       "label": "Adult Bible Study",
       "note": "",
       "time": "6:00 PM"
@@ -46,8 +41,8 @@
       "time": "6:00 PM"
     },
     {
-      "label": "Children's Group",
-      "note": "",
+      "label": "TeamKids Children's Ministry",
+      "note": "Pre-K through 5th Grade",
       "time": "6:00 PM"
     }
   ],
