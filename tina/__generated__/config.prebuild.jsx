@@ -208,7 +208,8 @@ var config_default = defineConfig({
           const d = /* @__PURE__ */ new Date();
           d.setDate(d.getDate() + (7 - d.getDay()) % 7);
           const pad = (n) => String(n).padStart(2, "0");
-          return { date: `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}` };
+          const ymd = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+          return { date: `${ymd}T12:00:00` };
         },
         ui: {
           // The file is always named after its Sunday, so the list stays in

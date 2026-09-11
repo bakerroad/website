@@ -204,12 +204,19 @@ export default defineConfig({
         defaultItem: () => {
           // The coming Sunday, counting today if today is Sunday. Most weeks
           // this is already right and nobody touches the date at all.
-          // Built from local parts, not toISOString(): an evening in Texas is
-          // already tomorrow in UTC, which would date the issue a day late.
+          //
+          // Two timezone traps, both avoided here. Built from local parts
+          // rather than toISOString(), because an evening in Texas is already
+          // tomorrow in UTC. And handed over anchored at midday rather than as
+          // a bare "YYYY-MM-DD", because JavaScript reads a bare date string as
+          // UTC midnight, which any negative offset then drags back a day in
+          // the picker. Midday is far enough from both midnights that no US
+          // offset can move the calendar date.
           const d = new Date();
           d.setDate(d.getDate() + ((7 - d.getDay()) % 7));
           const pad = (n: number) => String(n).padStart(2, "0");
-          return { date: `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}` };
+          const ymd = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+          return { date: `${ymd}T12:00:00` };
         },
         ui: {
           // The file is always named after its Sunday, so the list stays in

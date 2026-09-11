@@ -23,7 +23,7 @@
  * going stale is a Sunday-morning problem.
  */
 import { spawnSync } from "node:child_process";
-import { existsSync, readdirSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
 // Cloudflare's variable boxes are easy to paste a stray space or newline into,
@@ -39,16 +39,30 @@ const clean = (name) => {
 // in Tina has nowhere to crop. Doing it here means it stops mattering who
 // uploaded the picture or how. It is idempotent — a page already trimmed is
 // left untouched — so this is a no-op on every build after the first.
-const BEACON = join("public", "images", "beacon");
-if (existsSync(BEACON)) {
+// Follow the pictures each issue actually references, rather than scanning a
+// folder. Tina uploads to public/images/ by default, not public/images/beacon/,
+// so a folder scan would silently miss every page the office uploads through
+// the editor — which is precisely the case this was written for.
+const ISSUES = join("content", "newsletters");
+if (existsSync(ISSUES)) {
   const { trimIfPadded } = await import("./lib/trim-image.mjs");
-  for (const f of readdirSync(BEACON).filter((f) => /\.jpe?g$/i.test(f))) {
-    try {
-      const what = await trimIfPadded(join(BEACON, f));
-      if (what) console.log(`  trimmed ${f}: ${what}`);
-    } catch (e) {
-      // A picture we cannot read must never stop the website publishing.
-      console.warn(`  could not trim ${f}: ${e.message}`);
+  const seen = new Set();
+  for (const f of readdirSync(ISSUES).filter((f) => f.endsWith(".json"))) {
+    let issue;
+    try { issue = JSON.parse(readFileSync(join(ISSUES, f), "utf8")); } catch { continue; }
+    for (const pg of issue.pages || []) {
+      const src = pg?.image;
+      if (typeof src !== "string" || !src.startsWith("/") || !/\.jpe?g$/i.test(src)) continue;
+      const file = join("public", src.replace(/^\//, ""));
+      if (seen.has(file) || !existsSync(file)) continue;
+      seen.add(file);
+      try {
+        const what = await trimIfPadded(file);
+        if (what) console.log(`  trimmed ${src}: ${what}`);
+      } catch (e) {
+        // A picture we cannot read must never stop the website publishing.
+        console.warn(`  could not trim ${src}: ${e.message}`);
+      }
     }
   }
 }
