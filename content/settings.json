@@ -1,4 +1,11 @@
 {
+  "churchCenterUrl": "https://bakerroadbaptistchurch.churchcenter.com",
+  "googlePlaceId": "ChIJdZCijh5cP4YRD2idB3WaxMU",
+  "reviewUrl": "https://search.google.com/local/writereview?placeid=ChIJdZCijh5cP4YRD2idB3WaxMU",
+  "latitude": 29.769583,
+  "longitude": -94.9730775,
+  "yelpUrl": "https://www.yelp.com/biz/baker-rd-baptist-church-baytown",
+  "foundingYear": "1978",
   "churchName": "Baker Road Baptist Church",
   "tagline": "A family of faith in Baytown since 1978",
   "street": "900 W. Baker Rd",
@@ -9,28 +16,7 @@
   "email": "bakerroadbc@gmail.com",
   "prayerEmail": "bakerroadbc@gmail.com",
   "mapUrl": "https://www.google.com/maps/place/?q=place_id:ChIJdZCijh5cP4YRD2idB3WaxMU",
-  "officeHours": [
-    {
-      "day": "Monday",
-      "hours": "Closed"
-    },
-    {
-      "day": "Tuesday",
-      "hours": "9:00 AM – 2:00 PM"
-    },
-    {
-      "day": "Wednesday",
-      "hours": "12:30 – 5:30 PM"
-    },
-    {
-      "day": "Thursday",
-      "hours": "9:00 AM – 2:00 PM"
-    },
-    {
-      "day": "Friday",
-      "hours": "9:00 AM – 2:00 PM"
-    }
-  ],
+  "officeHours": [],
   "sunday": [
     {
       "label": "Sunday School, all ages",
@@ -45,11 +31,6 @@
   ],
   "wednesday": [
     {
-      "label": "Dinner in the Fellowship Hall",
-      "note": "",
-      "time": "5:30 PM"
-    },
-    {
       "label": "Adult Bible Study",
       "note": "",
       "time": "6:00 PM"
@@ -60,8 +41,8 @@
       "time": "6:00 PM"
     },
     {
-      "label": "Children's Group",
-      "note": "",
+      "label": "ONE Student Ministry",
+      "note": "Grades 6 through 12",
       "time": "6:00 PM"
     }
   ],
@@ -69,13 +50,6 @@
   "youtubeUrl": "https://www.youtube.com/@BRBCBaytown",
   "givingUrl": "https://subsplash.com/u/-7ZWBBR/give",
   "appUrl": "https://subsplash.com/bakerroadbaptistchurch",
-  "churchCenterUrl": "https://bakerroadbaptistchurch.churchcenter.com",
   "connectionCardUrl": "https://bakerroadbaptistchurch.churchcenter.com/people/forms/1314833",
-  "serveFormUrl": "https://bakerroadbaptistchurch.churchcenter.com/people/forms/1314832",
-  "googlePlaceId": "ChIJdZCijh5cP4YRD2idB3WaxMU",
-  "reviewUrl": "https://search.google.com/local/writereview?placeid=ChIJdZCijh5cP4YRD2idB3WaxMU",
-  "latitude": 29.769583,
-  "longitude": -94.9730775,
-  "yelpUrl": "https://www.yelp.com/biz/baker-rd-baptist-church-baytown",
-  "foundingYear": "1978"
+  "serveFormUrl": "https://bakerroadbaptistchurch.churchcenter.com/people/forms/1314832"
 }
