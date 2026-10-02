@@ -5,7 +5,8 @@
       "image": "/images/bulletin-2026-10-04-brbc-full-bleed.png"
     },
     {
-      "image": "/images/beacon/beacon-pumpkin-patch-sign-up-genius.png"
+      "image": "/images/beacon/beacon-pumpkin-patch-sign-up-genius.png",
+      "alt": "Pumpkin Patch"
     },
     {
       "image": "/images/beacon/beacon-pastor-appreciation-day.png",
