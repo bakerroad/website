@@ -518,23 +518,45 @@ a:hover{color:var(--brand-hover)}
    so every page links to itself at full size where the browser's own pinch
    and zoom take over. That is the whole interaction — no lightbox to learn. */
 .beacon-sec{padding-bottom:3.4rem}
-.beacon-pages{display:flex;flex-direction:column;gap:1.6rem;margin-top:1.7rem}
-.beacon-page{margin:0}
-/* never scale a page past its own pixels — --page-w is its true width, set per
-   page by BeaconIssue.astro. A page narrower than the column is centred.
-   No frame: the build has already cropped the blank sheet off, and `multiply`
-   lets whatever white is left in the artwork (the gutters between panels)
-   take on the page colour, so the bulletin sits on the site rather than in a
-   white box. Safe only because the site has no dark background behind it. */
-.beacon-page a{display:block;max-width:min(100%,var(--page-w,100%));margin-inline:auto}
-.beacon-page img{width:100%;height:auto;display:block;mix-blend-mode:multiply}
-/* on a phone every pixel of width is legibility: run the pages edge to edge,
-   past the column's side padding, and keep the caption in the column */
-@media (max-width:640px){
-  .beacon-page a{max-width:none;margin-inline:-1.35rem}
+/* the printed PDF, one tap away, right under the date */
+.beacon-dl{margin-top:1.1rem;display:flex;flex-wrap:wrap;align-items:center;gap:.4rem .9rem}
+.beacon-dl a{display:inline-flex;align-items:center;gap:.5rem;min-height:44px;padding:.55rem 1rem;
+  border:1px solid var(--border-strong);border-radius:var(--r-lg);background:var(--surface-card);
+  font-weight:600;text-decoration:none}
+.beacon-dl a:hover{border-color:var(--brand);background:var(--brand-tint)}
+.beacon-dl span{font-size:.88rem;color:var(--ink-faint)}
+
+/* Each printed page, laid out again from its own panels. On a phone the panels
+   simply stack, full width, in reading order. From a tablet up they go back to
+   where they were printed: the sheet keeps the page's proportions, and every
+   panel is placed by percentage, so it scales as one piece. --sheet-max keeps
+   a tall narrow page (a column of flyers) from growing taller than a screen
+   or two. Rounded corners and a soft shadow make the panels sit on the page
+   like the site's own cards. */
+.beacon-issue{display:flex;flex-direction:column;gap:1.4rem;margin-top:1.5rem}
+.bsheet{display:flex;flex-direction:column;gap:.75rem}
+.bpanel{display:block;border-radius:var(--r-lg);overflow:hidden;background:var(--surface-alt);
+  box-shadow:0 1px 2px rgba(23,33,58,.08),0 6px 18px -8px rgba(23,33,58,.22);
+  transition:transform .15s ease,box-shadow .15s ease}
+.bpanel img{display:block;width:100%;height:auto}
+.bpanel:hover{transform:translateY(-1px);box-shadow:0 2px 4px rgba(23,33,58,.1),0 12px 26px -10px rgba(23,33,58,.3)}
+@media (min-width:760px){
+  .bsheet{display:block;position:relative;aspect-ratio:var(--aspect);
+    width:100%;max-width:min(100%,var(--sheet-max));margin-inline:auto}
+  .bpanel{position:absolute;left:var(--l);top:var(--t);width:var(--w);height:var(--h)}
+  .bpanel img{height:100%;object-fit:fill}  /* exactly as printed, even where the print stretched a picture */
 }
-.beacon-page figcaption{margin-top:.55rem;font-size:.88rem;color:var(--ink-faint)}
-.beacon-page figcaption a{font-weight:600;display:inline-flex;align-items:center;min-height:44px}
+@media (prefers-reduced-motion:reduce){.bpanel{transition:none}.bpanel:hover{transform:none}}
+
+/* A picture uploaded on its own: never scaled past its own pixels (--page-w),
+   no frame, and its white allowed to take on the page colour so a page with a
+   white margin still sits on the site. On a phone, edge to edge. */
+.bimage{display:block;max-width:min(100%,var(--page-w,100%));margin-inline:auto;border-radius:var(--r-lg);overflow:hidden}
+.bimage img{display:block;width:100%;height:auto;mix-blend-mode:multiply}
+@media (max-width:640px){
+  .bimage{max-width:none;margin-inline:-1.35rem;border-radius:0}
+}
+.beacon-tip{font-size:.88rem;color:var(--ink-faint);text-align:center;margin:0}
 .beacon-none{margin-top:1.4rem;color:var(--ink-faint);max-width:var(--measure)}
 
 /* the few lines somebody typed out, above the pictures: this is the part a
@@ -551,11 +573,12 @@ a:hover{color:var(--brand-hover)}
 .beacon-hi .b{font-size:.97rem;color:var(--ink-soft);margin-top:.25rem;max-width:var(--measure)}
 @media (max-width:520px){.beacon-hi{padding:1.1rem 1.15rem}}
 
-/* printing the bulletin: just the pages, edge to edge, one per sheet */
+/* printing the page: the panels as laid out, nothing else from the Beacon
+   section. Anyone who wants the real thing has the PDF. */
 @media print{
-  .phead,.beacon-hi,.seclink,.crumb,.prevnext,.beacon-page figcaption{display:none}
-  .beacon-page a{margin-inline:0}
-  .beacon-page img{mix-blend-mode:normal}
-  .beacon-page{break-after:page}
-  .beacon-page:last-child{break-after:auto}
+  .phead,.beacon-hi,.seclink,.crumb,.prevnext,.beacon-dl,.beacon-tip{display:none}
+  .bpanel{box-shadow:none}
+  .bimage img{mix-blend-mode:normal}
+  .bsheet,.bimage{break-inside:avoid;break-after:page}
 }
+

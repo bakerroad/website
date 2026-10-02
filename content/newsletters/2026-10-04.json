@@ -2,20 +2,8 @@
   "date": "2026-10-04T12:00:00.000Z",
   "pages": [
     {
-      "image": "/images/bulletin-2026-10-04-brbc-full-bleed.png",
-      "alt": "Front Page"
-    },
-    {
-      "image": "/images/beacon/beacon-pumpkin-patch-sign-up-genius.png",
-      "alt": "Pumpkin Patch"
-    },
-    {
-      "image": "/images/beacon/beacon-pastor-appreciation-day.png",
-      "alt": "Pastor Appreciation"
-    },
-    {
-      "image": "/images/beacon/beacon-joyful-jesus-filled-week.png",
-      "alt": "Let Your Light Shine!"
+      "image": "/images/beacon/2026-10-04-beacon.pdf",
+      "alt": "The printed Beacon"
     }
   ]
 }

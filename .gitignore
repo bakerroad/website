@@ -21,3 +21,8 @@ tina/__generated__/static-media.json
 
 # OAuth token cache for scripts/retitle-youtube.py — never commit
 .youtube-token.json
+
+# The Beacon, prepared at build time from whatever was uploaded (see
+# scripts/lib/beacon-prepare.mjs). Regenerated on every build.
+public/_beacon/
+src/generated/

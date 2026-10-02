@@ -241,17 +241,17 @@ export default defineConfig({
           {
             type: "object",
             name: "pages",
-            label: "The pictures",
+            label: "The Beacon: the PDF, and any pictures",
             list: true,
             description:
-              "Upload the same pictures you already make each week, in reading order — front page first.",
-            ui: { itemProps: (i: any) => ({ label: i?.alt || "Page" }) },
+              "Easiest: upload the PDF you print from, and that is all. The website lays out every panel itself and offers the PDF to download. You can also add pictures of any kind (JPG, PNG, a screenshot, a flyer) — they show in the order listed here.",
+            ui: { itemProps: (i: any) => ({ label: i?.alt || (/\.pdf$/i.test(i?.image || "") ? "The printed Beacon (PDF)" : "Picture") }) },
             fields: [
-              { type: "image", name: "image", label: "Picture", required: true },
+              { type: "image", name: "image", label: "PDF or picture", required: true },
               {
                 type: "string",
                 name: "alt",
-                label: "What is on this page?",
+                label: "What is on it? (optional)",
                 description:
                   "A few words for someone using a screen reader, who cannot see the picture at all. e.g. \"Front page: schedule, sermon and Sunday classes\".",
               },
