@@ -8,7 +8,8 @@
       "image": "/images/beacon/beacon-pumpkin-patch-sign-up-genius.png"
     },
     {
-      "image": "/images/beacon/beacon-pastor-appreciation-day.png"
+      "image": "/images/beacon/beacon-pastor-appreciation-day.png",
+      "alt": "Pastor Appreciation"
     }
   ]
 }
