@@ -63,6 +63,9 @@ mkdirSync(OUT, { recursive: true });
 const RULES = existsSync("content/event-rules.json")
   ? JSON.parse(readFileSync("content/event-rules.json", "utf8")) : {};
 const EXCLUDE_NAMES = new Set((RULES.excludeNames || []).map((n) => n.trim().toLowerCase()));
+// Exact names someone decided are public even though a pattern below would
+// catch them. Exact, so "Church Council" lets nothing else with "council" in.
+const ALLOW_NAMES = new Set((RULES.allowNames || []).map((n) => n.trim().toLowerCase()));
 const EXCLUDE_RE = (RULES.excludePatterns || []).length
   ? new RegExp((RULES.excludePatterns || []).join("|"), "i") : null;
 
@@ -70,6 +73,7 @@ const EXCLUDE_RE = (RULES.excludePatterns || []).length
 function refuse(name) {
   const n = (name || "").trim().toLowerCase();
   if (EXCLUDE_NAMES.has(n)) return "outside group, not a church event";
+  if (ALLOW_NAMES.has(n)) return null;
   if (EXCLUDE_RE && EXCLUDE_RE.test(n)) return "private, pastoral or internal by name";
   return null;
 }

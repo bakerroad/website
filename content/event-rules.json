@@ -7,6 +7,11 @@
   ],
   "excludeNote": "Outside groups that rent the building. They are not church events and must never appear on the church's website.",
 
+  "allowNames": [
+    "Church Council"
+  ],
+  "allowNote": "Exact event names that may appear even though a pattern below would refuse them. Matt's call, 2 October 2026: Church Council is announced publicly in the Beacon. Only the exact name gets through; anything else containing 'council' is still refused.",
+
   "excludePatterns": [
     "wedding", "memorial", "funeral", "graveside", "visitation",
     "personnel", "committee", "council", "business meeting", "deacon",
