@@ -36,19 +36,18 @@ rhythm.
 1. Open **5. The Beacon** and press **Add File** (top right).
 2. Pick **the Sunday** the issue is for. That is all the naming it needs — the
    web address, the order on the page and the heading all come from that date.
-3. Under **The Beacon: the PDF, and any pictures**, add a row and upload **the
-   PDF you print from**. That is the whole job. The website takes the PDF apart
-   into its panels, lays them out on the page the way they were printed (on a
-   phone, one under another, big enough to read), and puts a **Download the
-   printed Beacon** button above them.
-4. Want to add something else? Add another row and upload any picture: a
-   flyer, a photo, a screenshot. JPG, PNG, WebP and most others work. Rows show
-   in the order listed. If a picture is not one the site can show, it is left
-   off and the PDF still works.
+3. In **The printed Beacon (PDF)**, upload **the PDF you print from** — one
+   file, however many pages it has. That is the whole job. The website takes
+   the PDF apart into its panels, lays them out on the page the way they were
+   printed (on a phone, one under another, big enough to read), and puts a
+   **Download the printed Beacon** button above them.
+4. Want to show something else too? Under **Extra pictures (optional)**, add a
+   row and upload any picture: a flyer, a photo, a screenshot. JPG, PNG, WebP
+   and most others work. They show after the PDF, in the order listed.
 5. Press **Save**. The site takes about three minutes to update.
 
-Pictures instead of a PDF still work exactly as before: one row per page,
-front page first.
+No PDF this week? Leave that box empty and upload the pages under **Extra
+pictures** instead, front page first.
 
 **If whole pages show instead of separate panels**, the PDF was saved as one
 flat picture per page (a scan, or "print as image"). It still works; the panels

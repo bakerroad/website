@@ -79,8 +79,13 @@ var config_default = defineConfig({
           },
           { type: "string", name: "facebookUrl", label: "Facebook page link" },
           { type: "string", name: "youtubeUrl", label: "YouTube channel link" },
-          { type: "string", name: "givingUrl", label: "Online giving link", description: "The Subsplash giving page. Do not change unless Subsplash gives you a new address." },
-          { type: "string", name: "appUrl", label: "Church app link" },
+          { type: "string", name: "givingUrl", label: "Online giving link", description: "The Planning Center giving page, normally yourchurch.churchcenter.com/giving. Do not change unless Planning Center gives you a new address." },
+          {
+            type: "string",
+            name: "appUrl",
+            label: "Church app link",
+            description: "Church Center. The /setup address shows the App Store and Google Play buttons on a phone, and falls back to the Church Center website on a computer."
+          },
           {
             type: "string",
             name: "churchCenterUrl",
@@ -230,18 +235,24 @@ var config_default = defineConfig({
             description: "Pick the Sunday. The web address and the order on the page both come from this."
           },
           {
+            type: "image",
+            name: "pdf",
+            label: "The printed Beacon (PDF)",
+            description: "Upload the one PDF you print from \u2014 every page of it, in one file. That is all the website needs: it lays out each panel itself and offers the PDF to download."
+          },
+          {
             type: "object",
             name: "pages",
-            label: "The pictures",
+            label: "Extra pictures (optional)",
             list: true,
-            description: "Upload the same pictures you already make each week, in reading order \u2014 front page first.",
-            ui: { itemProps: (i) => ({ label: i?.alt || "Page" }) },
+            description: "Anything to show as well as the PDF: a flyer, a photo, a screenshot, in any picture format. Shown after the PDF, in the order listed. No PDF this week? Upload the pages here instead, front page first.",
+            ui: { itemProps: (i) => ({ label: i?.alt || (/\.pdf$/i.test(i?.image || "") ? "The printed Beacon (PDF)" : "Picture") }) },
             fields: [
-              { type: "image", name: "image", label: "Picture", required: true },
+              { type: "image", name: "image", label: "PDF or picture", required: true },
               {
                 type: "string",
                 name: "alt",
-                label: "What is on this page?",
+                label: "What is on it? (optional)",
                 description: 'A few words for someone using a screen reader, who cannot see the picture at all. e.g. "Front page: schedule, sermon and Sunday classes".'
               }
             ]

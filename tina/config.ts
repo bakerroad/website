@@ -239,12 +239,19 @@ export default defineConfig({
             description: "Pick the Sunday. The web address and the order on the page both come from this.",
           },
           {
+            type: "image",
+            name: "pdf",
+            label: "The printed Beacon (PDF)",
+            description:
+              "Upload the one PDF you print from — every page of it, in one file. That is all the website needs: it lays out each panel itself and offers the PDF to download.",
+          },
+          {
             type: "object",
             name: "pages",
-            label: "The Beacon: the PDF, and any pictures",
+            label: "Extra pictures (optional)",
             list: true,
             description:
-              "Easiest: upload the PDF you print from, and that is all. The website lays out every panel itself and offers the PDF to download. You can also add pictures of any kind (JPG, PNG, a screenshot, a flyer) — they show in the order listed here.",
+              "Anything to show as well as the PDF: a flyer, a photo, a screenshot, in any picture format. Shown after the PDF, in the order listed. No PDF this week? Upload the pages here instead, front page first.",
             ui: { itemProps: (i: any) => ({ label: i?.alt || (/\.pdf$/i.test(i?.image || "") ? "The printed Beacon (PDF)" : "Picture") }) },
             fields: [
               { type: "image", name: "image", label: "PDF or picture", required: true },

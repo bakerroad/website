@@ -85,7 +85,9 @@ export async function prepareBeacon(log = console) {
   const blocks = [], pdfs = [];
   let n = 0;
 
-  for (const page of issue.pages ?? []) {
+  // the one PDF first, then any extra pictures (or PDFs) in the order listed
+  const entries = [...(issue.pdf ? [{ image: issue.pdf }] : []), ...(issue.pages ?? [])];
+  for (const page of entries) {
     const src = page?.image;
     if (typeof src !== "string" || !src.startsWith("/")) continue;
     const file = join("public", src.replace(/^\//, ""));

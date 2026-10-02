@@ -21,8 +21,9 @@ const prepared = Object.values(import.meta.glob("../generated/beacon.json", { ea
   .map((m) => m.default ?? m)[0]?.[day];
 
 const isPdf = (s?: string) => /\.pdf$/i.test(s ?? "");
-const uploaded: Page[] = (issue.pages ?? []).filter((p: Page) => publicFileExists(p.image));
-const missing = (issue.pages ?? []).length - uploaded.length;
+const entries: Page[] = [...(issue.pdf ? [{ image: issue.pdf }] : []), ...(issue.pages ?? [])];
+const uploaded: Page[] = entries.filter((p: Page) => publicFileExists(p.image));
+const missing = entries.length - uploaded.length;
 
 const pdfs = prepared?.pdfs ?? uploaded.filter((p) => isPdf(p.image)).map((p) => ({ src: p.image, download: `The-Beacon-${day}.pdf` }));
 const blocks: any[] = prepared?.blocks ?? uploaded.filter((p) => !isPdf(p.image)).map((p) => {

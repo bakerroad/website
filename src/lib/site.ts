@@ -119,7 +119,8 @@ export const eventDateRange = (e: any) => {
  *  opens the picture itself rather than a page about the picture. Falls back
  *  to the Upcoming page in any week with no issue, or none uploaded yet. */
 export function currentBeaconHref() {
-  const first = allNewsletters()[0]?.pages?.[0]?.image;
+  const latest = allNewsletters()[0];
+  const first = latest?.pdf || latest?.pages?.[0]?.image;
   return typeof first === "string" && first.startsWith("/") ? first : "/news/";
 }
 
