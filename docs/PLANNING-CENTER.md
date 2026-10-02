@@ -55,23 +55,36 @@ Publishing on that flag would have put a grieving family's funeral, two named
 couples' weddings, and an HR meeting on the public internet. So the flag alone
 is not the gate.
 
-### The sync is now opt-in by tag, and fails closed
+### What the sync pulls (changed 2 October 2026)
 
-An event reaches the website **only if someone deliberately tags it**. No tag,
-nothing published — the script says so and stops.
+There is **no tag to apply**. Matt's call: nobody was going to tag events, and
+an empty events list helps no one. The sync now pulls every event that is:
 
-**To turn it on:** in Planning Center, **Calendar → Tags** → create a tag group
-containing a tag named **`Website`**. Then open each event that belongs on the
-site and apply that tag.
+- **Visible in Church Center**, and
+- **one-off**, not a weekly regular (Sunday and Wednesday times are already on
+  every page), and
+- **not refused by name** in `content/event-rules.json`.
 
-Tag genuine, public, occasional events: the Pumpkin Patch, the Thanksgiving
-Banquet, a Community Worship Night, Hymn Sunday. **Do not tag the weekly
-schedule** — Sunday and Wednesday times already appear on every page. **Never
-tag a wedding, a memorial service, or a committee meeting.**
+Sign-ups from Registrations come in too, as long as they have a date still ahead.
 
-There is a second guard: if a tagged event turns out to recur more than twelve
-times in the window, the sync caps it and warns you, so a mistagged weekly
-regular cannot flood the page.
+The name rules are now the only thing standing between a wedding or a funeral and
+the public site, so they matter. They refuse anything whose name contains
+*wedding, memorial, funeral, visitation, committee, council, deacon, meeting,
+shower, reception, rehearsal, private* and a few more, plus the outside groups
+that rent the building. Every private event found on the calendar in September
+2026 is caught by them. **If something private ever does get through, add a
+word to `excludePatterns`** — it comes off at the next sync.
+
+**To preview without publishing:** GitHub → Actions → *Sync events from
+Planning Center* → *Run workflow* → tick **Preview only**. The log lists
+everything it would publish and everything it refused.
+
+### Pictures
+
+If an event or sign-up has a picture in Planning Center, the sync copies it onto
+the site (Planning Center's own picture links expire after a few days). A
+picture chosen by hand in Tina always wins. No picture at all, and the site
+shows a plain tile with the date.
 
 ### What is on the calendar right now
 

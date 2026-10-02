@@ -14,9 +14,9 @@
 import Base from "../layouts/Base.astro";
 import Sections from "../components/Sections.astro";
 import BeaconIssue from "../components/BeaconIssue.astro";
+import EventThumb from "../components/EventThumb.astro";
 import page from "../../content/pages/news.json";
 import { allNewsletters, longDate, upcomingEvents, eventDateRange, eventSchema, site } from "../lib/site";
-import { imageSize } from "../lib/imagesize";
 
 const latest = allNewsletters()[0];
 const events = upcomingEvents();
@@ -64,19 +64,23 @@ const schema = eventSchema(events, Astro.site);
       <p class="eyebrow">Coming up</p>
       <h2 id="events-heading">Upcoming events</h2>
       {events.length > 0 ? (
-        <div class="cards">
-          {events.map((e: any) => (
-            <article class="card evt">
-              {e.image && <img src={e.image} alt={e.title} loading="lazy" decoding="async"
-                              width={imageSize(e.image)?.width ?? 480} height={imageSize(e.image)?.height ?? 270} />}
-              <p class="meta">{eventDateRange(e)}</p>
-              <h3>{e.title}</h3>
-              {e.description && <p>{e.description}</p>}
-              {e.location && <p class="where">{e.location}</p>}
-              {e.url && <a href={e.url}>More details</a>}
-            </article>
-          ))}
-        </div>
+        <ul class="elist">
+          {events.map((e: any, i: number) => {
+            const signup = e.kind === "registration" || !!e._pcoSignupId;
+            return (
+              <li class="eitem">
+                <EventThumb event={e} eager={i === 0} />
+                <div class="ebody">
+                  <p class="meta">{eventDateRange(e)}</p>
+                  <h3>{e.url ? <a href={e.url}>{e.title}</a> : e.title}</h3>
+                  {e.description && <p class="edesc">{e.description}</p>}
+                  {e.location && <p class="where">{e.location}</p>}
+                  {e.url && <p class="ego" aria-hidden="true">{signup ? "Sign up" : "Details"} →</p>}
+                </div>
+              </li>
+            );
+          })}
+        </ul>
       ) : (
         <p class="archive-note">
           Nothing is on the calendar just now. Sunday and Wednesday carry on as usual —

@@ -4,6 +4,11 @@ on:
   schedule:
     - cron: "0 11 * * *"   # every day, 11:00 UTC ≈ 5:00 AM Baytown
   workflow_dispatch:
+    inputs:
+      preview:
+        description: "Preview only: list what would be published, change nothing"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -22,20 +27,24 @@ jobs:
         with:
           node-version: 22
 
+      # sharp shrinks the pictures copied from Planning Center
+      - name: Install
+        run: npm ci --no-audit --no-fund
+
       - name: Pull upcoming events
         env:
           PCO_APP_ID: ${{ secrets.PCO_APP_ID }}
           PCO_SECRET: ${{ secrets.PCO_SECRET }}
-        run: node scripts/sync-events.mjs
+        run: node scripts/sync-events.mjs ${{ inputs.preview && '--check' || '' }}
 
       - name: Commit anything that changed
         run: |
-          if [ -z "$(git status --porcelain content/events)" ]; then
+          if [ -z "$(git status --porcelain content/events public/images/events)" ]; then
             echo "No event changes. Nothing to do."
             exit 0
           fi
           git config user.name  "Baker Road events bot"
           git config user.email "bakerroadbaptist@gmail.com"
-          git add content/events
+          git add content/events public/images/events
           git commit -m "Update events from Planning Center"
           git push

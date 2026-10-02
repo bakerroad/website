@@ -1,5 +1,5 @@
 {
-  "note": "Rules for what reaches the website from Planning Center. The 'Website' tag in Planning Center decides what appears; these rules are a second safety net that runs even if something is tagged by mistake.",
+  "note": "Rules for what reaches the website from Planning Center. Every event marked Visible in Church Center is pulled unless these rules refuse it. There is no tag to apply, so these rules are what keep weddings, funerals and internal meetings off the public site. When in doubt, add a word.",
 
   "excludeNames": [
     "Active Stars Karate",
@@ -10,7 +10,10 @@
   "excludePatterns": [
     "wedding", "memorial", "funeral", "graveside", "visitation",
     "personnel", "committee", "council", "business meeting", "deacon",
-    "staff meeting", "counseling", "counselling", "benevolence", "birthday"
+    "staff meeting", "counseling", "counselling", "benevolence", "birthday",
+    "meeting", "shower", "bridal", "reception", "rehearsal", "private",
+    "rental", "interview", "celebration of life", "homegoing", "home going",
+    "bereavement"
   ],
-  "excludePatternsNote": "Matched case-insensitively against the event name. These are private, pastoral or internal by nature. Even a correctly-tagged event whose name matches one of these is refused."
+  "excludePatternsNote": "Matched case-insensitively against the event name. These are private, pastoral or internal by nature. Any event whose name contains one of these is refused, no matter how it is set up in Planning Center."
 }

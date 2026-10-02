@@ -7,17 +7,21 @@
  * Registrations (gated by the date, see the second block below).
  *
  * ─────────────────────────────────────────────────────────────────────────
- * WHY THIS IS OPT-IN BY TAG, AND MUST STAY THAT WAY
+ * WHAT GETS THROUGH, AND WHAT KEEPS PRIVATE EVENTS OFF
  *
- * The obvious filter is `visible_in_church_center`. On this church's calendar
- * that flag is set on 123 of 136 events — it is effectively always on. Among
- * the events it marks "visible" are two named couples' weddings, a named
- * memorial service, and the Personnel Committee. Publishing on that flag would
- * put a grieving family's funeral and an HR meeting on the public internet.
+ * Every event that is "Visible in Church Center", one-off rather than weekly,
+ * and whose name passes content/event-rules.json. There is no tag to apply.
+ * Matt's call, 2 October 2026: nobody at Baker Road was going to tag events,
+ * and an events list that stays empty helps no one.
  *
- * So an event reaches the website only if someone has deliberately tagged it.
- * If the tag does not exist, this script publishes NOTHING and says why.
- * Fail closed. Never widen this filter to "everything public" for convenience.
+ * That makes the name rules the real lock, so treat them seriously. When this
+ * was built the "visible" flag was on 123 of 136 events, including two named
+ * couples' weddings, a named memorial service and the Personnel Committee.
+ * The rules refuse all of those by name. If a private event ever does get
+ * through, add a word to excludePatterns rather than loosening anything here.
+ *
+ * Weekly regulars (Sunday worship, the Bible studies, rehearsals) are held
+ * back because the schedule is already on every page of the site.
  *
  * ─────────────────────────────────────────────────────────────────────────
  * WHY REGISTRATIONS ARE GATED ON THE DATE, NOT ON "OPEN"
@@ -40,8 +44,9 @@ import { join } from "node:path";
 import { slugify } from "./lib/parse-title.mjs";
 
 const { PCO_APP_ID, PCO_SECRET } = process.env;
-const TAG_NAME = process.env.PCO_WEBSITE_TAG || "Website";
 const OUT = "content/events";
+const IMG_DIR = "public/images/events";     // pictures copied from Planning Center
+const IMG_URL = "/images/events/";
 const MONTHS_AHEAD = Number(process.env.EVENT_MONTHS_AHEAD || 6);
 const MAX_INSTANCES = Number(process.env.EVENT_MAX_INSTANCES || 12);
 const DRY = process.argv.includes("--check");
@@ -61,12 +66,61 @@ const EXCLUDE_NAMES = new Set((RULES.excludeNames || []).map((n) => n.trim().toL
 const EXCLUDE_RE = (RULES.excludePatterns || []).length
   ? new RegExp((RULES.excludePatterns || []).join("|"), "i") : null;
 
-/** Refuse an event regardless of tagging. The tag is the gate; this is the lock. */
+/** Refuse an event by name. This is the lock that keeps private events off. */
 function refuse(name) {
   const n = (name || "").trim().toLowerCase();
   if (EXCLUDE_NAMES.has(n)) return "outside group, not a church event";
   if (EXCLUDE_RE && EXCLUDE_RE.test(n)) return "private, pastoral or internal by name";
   return null;
+}
+
+/**
+ * Copy an event's Planning Center picture onto the website.
+ *
+ * PCO hands out image links that are signed and expire, so pointing the site
+ * at them would leave broken pictures a few days later. A copy is kept under
+ * public/images/events/ instead. The link's query string is the signature and
+ * changes on every request; the path before it only changes when somebody
+ * uploads a different picture, so that path is what decides whether to fetch.
+ *
+ * Returns { image, key } or null. Never throws: a picture is not worth a
+ * failed sync.
+ */
+let sharp = null;
+try { sharp = (await import("sharp")).default; } catch { /* save the original bytes instead */ }
+
+async function savePicture(url, base, prev) {
+  if (!url || typeof url !== "string") return null;
+  let key;
+  try { const u = new URL(url); key = u.origin + u.pathname; } catch { return null; }
+  const image = IMG_URL + base + ".jpg";
+  const file = join(IMG_DIR, base + ".jpg");
+  if (prev?._pcoImageKey === key && prev?.image === image && existsSync(file)) return { image, key };
+  if (DRY) return { image, key };
+  try {
+    const r = await fetch(url);
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    let buf = Buffer.from(await r.arrayBuffer());
+    // 1280 wide is more than any card shows; PCO originals run to megabytes
+    if (sharp) buf = await sharp(buf).rotate().resize({ width: 1280, withoutEnlargement: true })
+      .flatten({ background: "#ffffff" }).jpeg({ quality: 80, mozjpeg: true, progressive: true }).toBuffer();
+    mkdirSync(IMG_DIR, { recursive: true });
+    writeFileSync(file, buf);
+    return { image, key };
+  } catch (e) {
+    console.log(`  could not copy the picture for ${base}: ${e.message}`);
+    return null;
+  }
+}
+
+/** The picture a person chose in Tina always wins over Planning Center's. */
+const isOurs = (image) => typeof image === "string" && image.startsWith(IMG_URL);
+
+/** Work out the picture fields for an event about to be written. */
+async function pictureFor(pcoUrl, base, prev) {
+  if (prev?.image && !isOurs(prev.image)) return { image: prev.image };
+  const got = await savePicture(pcoUrl, base, prev);
+  return got ? { image: got.image, _pcoImageKey: got.key } : {};
 }
 
 const AUTH = "Basic " + Buffer.from(`${PCO_APP_ID}:${PCO_SECRET}`).toString("base64");
@@ -100,18 +154,6 @@ async function pageAll(path, params = {}, base = "calendar/v2") {
   return { rows: out, included };
 }
 
-const HOWTO = `
-Nothing was published, on purpose.
-
-To choose what appears on the website, in Planning Center:
-  Calendar -> Tags -> create a tag group with a tag named "${TAG_NAME}"
-  then open each event that belongs on the website and apply that tag.
-
-Tag only genuine, public, occasional events — the Pumpkin Patch, a
-Thanksgiving Banquet, a Community Worship Night. Do NOT tag the weekly
-schedule; Sunday and Wednesday times are already on every page of the site.
-Never tag weddings, memorial services, or committee meetings.
-`;
 
 function reportFactory(refused, staples) {
   return () => {
@@ -119,8 +161,8 @@ function reportFactory(refused, staples) {
       console.log(`\nheld back as weekly staples (already shown as the schedule): ${[...staples].join(", ")}`);
     }
     if (refused.length) {
-      console.log("\nrefused by content/event-rules.json even though tagged:");
-      refused.forEach((r) => console.log("  ✗ " + r));
+      console.log("\nrefused by name (content/event-rules.json):");
+      [...new Set(refused)].forEach((r) => console.log("  ✗ " + r));
     }
   };
 }
@@ -128,22 +170,7 @@ function reportFactory(refused, staples) {
 async function main() {
   if (DRY) console.log("CHECK MODE — reading Planning Center, writing nothing.\n");
 
-  // 1. find the opt-in tag
-  const { rows: tags } = await pageAll("tags");
-  const tag = tags.find((t) => (t.attributes?.name || "").trim().toLowerCase() === TAG_NAME.toLowerCase());
-  if (!tag) {
-    console.log(`No Calendar tag called "${TAG_NAME}" exists yet.`);
-    console.log(HOWTO);
-    return;
-  }
-
-  // 2. which events carry it
-  const { rows: tagged } = await pageAll(`tags/${tag.id}/events`);
-  const allowed = new Set(tagged.map((e) => e.id));
-  console.log(`Tag "${TAG_NAME}" is on ${allowed.size} event(s).`);
-  if (!allowed.size) { console.log(HOWTO); return; }
-
-  // 3. upcoming instances of those events
+  // upcoming instances of every event; the checks below decide what shows
   const cutoff = new Date(); cutoff.setMonth(cutoff.getMonth() + MONTHS_AHEAD);
   const { rows: instances, included } = await pageAll("event_instances", {
     filter: "future", include: "event", order: "starts_at",
@@ -158,20 +185,13 @@ async function main() {
 
   for (const inst of instances) {
     const evId = inst.relationships?.event?.data?.id;
-    if (!allowed.has(evId)) { skipped++; continue; }
-
     const ev = included.get(`Event:${evId}`);
     const a = ev?.attributes || {};
-    // belt and braces: the tag is the gate, but honour the flag too
+    // hidden in Church Center means hidden here too
     if (!a.visible_in_church_center) { skipped++; continue; }
 
     const start = inst.attributes?.starts_at;
     if (!start || new Date(start) > cutoff) continue;
-
-    // a weekly regular that got tagged by mistake would flood the page
-    const n = (perEvent.get(evId) || 0) + 1;
-    perEvent.set(evId, n);
-    if (n > MAX_INSTANCES) continue;
 
     const title = (a.name || "").trim();
     if (!title) continue;
@@ -182,8 +202,15 @@ async function main() {
     // Wednesday times already appear on every page of the site.
     const rec = (inst.attributes?.recurrence || "").trim();
     if (rec && rec.toLowerCase() !== "none") { staples.add(title); continue; }
+
+    // something repeating without a recurrence rule would still flood the page
+    const n = (perEvent.get(evId) || 0) + 1;
+    perEvent.set(evId, n);
+    if (n > MAX_INSTANCES) continue;
+
     const day = start.slice(0, 10);
-    const file = join(OUT, `${day}-${slugify(title) || inst.id}.json`);
+    const base = `${day}-${slugify(title) || inst.id}`;
+    const file = join(OUT, `${base}.json`);
     written.add(file);
 
     const next = {
@@ -192,17 +219,19 @@ async function main() {
       description: (a.summary || a.description || "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim().slice(0, 500),
       url: a.registration_url || inst.attributes?.church_center_url || "",
       featured: false,
+      kind: "calendar",
       _pcoInstanceId: inst.id,
     };
 
-    if (DRY) { console.log(`  would publish: ${day}  ${title}`); created++; continue; }
+    if (DRY) { console.log(`  would publish: ${day}  ${title}${a.image_url ? "  (has a picture)" : ""}`); created++; continue; }
 
-    if (existsSync(file)) {
-      const prev = JSON.parse(readFileSync(file, "utf8"));
-      // `featured` and `image` are human decisions. Planning Center's own
-      // image_url is a signed link that expires, so a locally-hosted picture
-      // always wins over re-syncing that URL.
-      const merged = { ...next, featured: prev.featured ?? false, ...(prev.image ? { image: prev.image } : {}) };
+    const prev = existsSync(file) ? JSON.parse(readFileSync(file, "utf8")) : null;
+    // `featured` is a human decision, and so is a picture picked in Tina.
+    // Otherwise the picture is Planning Center's, copied locally.
+    Object.assign(next, await pictureFor(a.image_url, base, prev));
+
+    if (prev) {
+      const merged = { ...next, featured: prev.featured ?? false };
       if (JSON.stringify(merged) !== JSON.stringify(prev)) { writeFileSync(file, JSON.stringify(merged, null, 2) + "\n"); updated++; }
       else preserved++;
       continue;
@@ -241,7 +270,8 @@ async function main() {
       if (why) { refused.push(`${title} — ${why} (registration)`); continue; }
 
       const day = String(start).slice(0, 10);
-      const file = join(OUT, `${day}-${slugify(title) || su.id}.json`);
+      const base = `${day}-${slugify(title) || su.id}`;
+      const file = join(OUT, `${base}.json`);
       // the calendar pass already published this one; it wins, it has more detail
       if (written.has(file)) { regSkipped++; continue; }
       written.add(file);
@@ -252,14 +282,17 @@ async function main() {
         description: (a.description || "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim().slice(0, 500),
         url: a.open ? (a.new_registration_url || "") : "",
         featured: false,
+        kind: "registration",
         _pcoSignupId: su.id,
       };
 
-      if (DRY) { console.log(`  would publish (registration): ${day}  ${title}`); regCreated++; continue; }
+      if (DRY) { console.log(`  would publish (registration): ${day}  ${title}${a.logo_url ? "  (has a picture)" : ""}`); regCreated++; continue; }
 
-      if (existsSync(file)) {
-        const prev = JSON.parse(readFileSync(file, "utf8"));
-        const merged = { ...next, featured: prev.featured ?? false, ...(prev.image ? { image: prev.image } : {}) };
+      const prev = existsSync(file) ? JSON.parse(readFileSync(file, "utf8")) : null;
+      Object.assign(next, await pictureFor(a.logo_url, base, prev));
+
+      if (prev) {
+        const merged = { ...next, featured: prev.featured ?? false };
         if (JSON.stringify(merged) !== JSON.stringify(prev)) { writeFileSync(file, JSON.stringify(merged, null, 2) + "\n"); regUpdated++; }
         continue;
       }
@@ -278,12 +311,12 @@ async function main() {
   for (const [evId, n] of perEvent) {
     if (n > MAX_INSTANCES) {
       const nm = included.get(`Event:${evId}`)?.attributes?.name || evId;
-      console.log(`  ! "${nm}" recurs ${n}+ times — capped at ${MAX_INSTANCES}. If it is a weekly regular, untag it.`);
+      console.log(`  ! "${nm}" recurs ${n}+ times — capped at ${MAX_INSTANCES}.`);
     }
   }
 
   if (DRY) {
-    console.log(`\nWould publish ${created}. Skipped ${skipped} untagged instance(s).`);
+    console.log(`\nWould publish ${created} calendar event(s) and ${regCreated} sign-up(s). Skipped ${skipped} hidden instance(s).`);
     report();
     console.log("Credentials work. Re-run without --check to write the files.");
     return;
@@ -299,8 +332,19 @@ async function main() {
     if (manual) { kept++; continue; }
     unlinkSync(full); removed++;
   }
+  // A copied picture whose event has gone goes with it. Only ever inside
+  // public/images/events/, which nothing but this script writes to.
+  if (existsSync(IMG_DIR)) {
+    const used = new Set();
+    for (const f of readdirSync(OUT).filter((f) => f.endsWith(".json"))) {
+      try { const im = JSON.parse(readFileSync(join(OUT, f), "utf8")).image; if (isOurs(im)) used.add(im); } catch {}
+    }
+    for (const f of readdirSync(IMG_DIR)) {
+      if (!used.has(IMG_URL + f)) { unlinkSync(join(IMG_DIR, f)); removed++; }
+    }
+  }
   console.log(`new ${created} · updated ${updated} · left alone ${preserved} · removed ${removed} · manual kept ${kept}`);
-  console.log(`skipped ${skipped} instance(s) not tagged "${TAG_NAME}"`);
+  console.log(`skipped ${skipped} instance(s) hidden in Church Center`);
   report();
 }
 

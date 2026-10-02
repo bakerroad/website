@@ -1,0 +1,30 @@
+---
+/** The 16:9 picture at the head of an event.
+ *
+ *  Planning Center pictures are almost always 16:9, so the box is 16:9 and a
+ *  picture that is not gets cropped to fit rather than letterboxed. With no
+ *  picture at all, the box shows the date instead: something true and useful,
+ *  where a stock photo of a calendar would be neither. */
+import { imageSize, publicFileExists } from "../lib/imagesize";
+import { TZ } from "../lib/site";
+
+const { event: e, eager = false } = Astro.props as { event: any; eager?: boolean };
+const img = e.image && publicFileExists(e.image) ? e.image : null;
+const size = img ? imageSize(img) : null;
+const signup = e.kind === "registration" || !!e._pcoSignupId;
+const d = new Date(e.start);
+const part = (o: any) => d.toLocaleDateString("en-US", { timeZone: TZ, ...o });
+---
+<div class="ethumb">
+  {img ? (
+    <img src={img} alt="" loading={eager ? "eager" : "lazy"} decoding="async"
+         width={size?.width ?? 1280} height={size?.height ?? 720} />
+  ) : (
+    <div class="ethumb-date" aria-hidden="true">
+      <span class="m">{part({ month: "short" })}</span>
+      <span class="d">{part({ day: "numeric" })}</span>
+      <span class="w">{part({ weekday: "long" })}</span>
+    </div>
+  )}
+  {signup && <span class="ethumb-tag">Sign-up</span>}
+</div>

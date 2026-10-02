@@ -245,11 +245,59 @@ a:hover{color:var(--brand-hover)}
 
 /* event cards that carry a picture */
 .card.evt{padding:0;overflow:hidden}
-.card.evt > img{width:100%;aspect-ratio:16/9;object-fit:cover;background:var(--surface-alt)}
-.card.evt > :not(img){padding-left:1.2rem;padding-right:1.2rem}
+.card.evt > :not(.ethumb){padding-left:1.2rem;padding-right:1.2rem}
+.card.evt .ethumb{border-radius:0}
 .card.evt > .meta{padding-top:1rem}
 .card.evt > :last-child{padding-bottom:1.15rem}
 .card.evt .where{font-size:.9rem;color:var(--ink-faint)}
+
+/* ── An event's 16:9 picture ─────────────────────────────
+   Planning Center's own picture when there is one, cropped to 16:9 so a
+   slightly-off upload still lines up with its neighbours. Without one, the
+   date, set quietly in the brand tint: the same shape, so the list keeps its
+   rhythm whether or not anyone uploaded anything. */
+.ethumb{position:relative;aspect-ratio:16/9;overflow:hidden;border-radius:var(--r-lg);container-type:inline-size;
+  background:linear-gradient(150deg,var(--brand-tint),var(--surface-alt))}
+.ethumb img{width:100%;height:100%;object-fit:cover;display:block}
+.ethumb-date{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;color:var(--brand);line-height:1;font-variant-numeric:lining-nums}
+.ethumb-date .m{font-size:max(.62rem,5.2cqi);font-weight:700;letter-spacing:.18em;text-transform:uppercase}
+.ethumb-date .d{font-family:var(--f-display);font-size:24cqi;margin:.12em 0 .14em;color:var(--brand-hover)}
+.ethumb-date .w{font-size:max(.62rem,5.4cqi);color:var(--ink-soft)}
+.ethumb-tag{position:absolute;top:.55rem;left:.55rem;background:var(--surface-card);color:var(--brand);
+  font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  padding:.28rem .5rem;border-radius:var(--r-sm);box-shadow:0 1px 2px rgba(23,33,58,.12)}
+
+/* ── The events list (News & Events) ─────────────────────
+   One row per event: picture left, words right. The whole row is the link,
+   via the title's ::after, so a phone user can tap anywhere on it. */
+.elist{list-style:none;margin:1.8rem 0 0;padding:0;display:flex;flex-direction:column}
+.eitem{position:relative;display:grid;grid-template-columns:minmax(0,15rem) minmax(0,1fr);
+  gap:1.35rem;align-items:start;padding:1.25rem 0;border-top:1px solid var(--border)}
+.eitem:last-child{border-bottom:1px solid var(--border)}
+.ebody{min-width:0}
+.ebody .meta{font-size:.9rem;color:var(--brand);font-weight:600;font-variant-numeric:tabular-nums;margin:0 0 .3rem}
+.ebody h3{font-size:1.32rem}
+.ebody h3 a{color:var(--ink);text-decoration:none}
+.ebody h3 a::after{content:"";position:absolute;inset:0}
+.eitem:hover h3 a{color:var(--brand);text-decoration:underline}
+.edesc{color:var(--ink-soft);margin-top:.4rem;max-width:var(--measure);
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.ebody .where{font-size:.9rem;color:var(--ink-faint);margin-top:.35rem}
+.ego{margin-top:.5rem;font-size:.92rem;font-weight:600;color:var(--brand)}
+/* on a phone: a small picture beside the words, so a month of events is a
+   list you can scan rather than a tower of pictures */
+@media (max-width:640px){
+  .eitem{grid-template-columns:7.25rem minmax(0,1fr);gap:.9rem;padding:1rem 0}
+  .eitem .ethumb{border-radius:var(--r-sm)}
+  .eitem .ethumb-date .w{display:none}
+  .eitem .ethumb-tag{top:auto;bottom:0;left:0;right:0;border-radius:0;text-align:center;
+    font-size:.6rem;padding:.18rem 0;box-shadow:none;background:rgba(255,255,255,.9)}
+  .ebody h3{font-size:1.12rem}
+  .ebody .meta{font-size:.84rem;margin-bottom:.15rem}
+  .edesc{-webkit-line-clamp:2;font-size:.95rem;margin-top:.25rem}
+  .ego{display:none}
+}
 .seclink{margin-top:1.15rem}
 .seclink a{font-weight:700;text-decoration:none}
 .seclink a::after{content:" →"}
