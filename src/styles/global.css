@@ -473,12 +473,18 @@ a:hover{color:var(--brand-hover)}
 .beacon-pages{display:flex;flex-direction:column;gap:1.6rem;margin-top:1.7rem}
 .beacon-page{margin:0}
 /* never scale a page past its own pixels — --page-w is its true width, set per
-   page by BeaconIssue.astro. A page narrower than the column is centred. */
-.beacon-page a{display:block;border:1px solid var(--border);border-radius:var(--r-lg);
-  overflow:hidden;background:var(--surface-card);box-shadow:var(--shadow);
-  max-width:min(100%,var(--page-w,100%));margin-inline:auto}
-.beacon-page a:hover{border-color:var(--border-strong)}
-.beacon-page img{width:100%;height:auto;display:block}
+   page by BeaconIssue.astro. A page narrower than the column is centred.
+   No frame: the build has already cropped the blank sheet off, and `multiply`
+   lets whatever white is left in the artwork (the gutters between panels)
+   take on the page colour, so the bulletin sits on the site rather than in a
+   white box. Safe only because the site has no dark background behind it. */
+.beacon-page a{display:block;max-width:min(100%,var(--page-w,100%));margin-inline:auto}
+.beacon-page img{width:100%;height:auto;display:block;mix-blend-mode:multiply}
+/* on a phone every pixel of width is legibility: run the pages edge to edge,
+   past the column's side padding, and keep the caption in the column */
+@media (max-width:640px){
+  .beacon-page a{max-width:none;margin-inline:-1.35rem}
+}
 .beacon-page figcaption{margin-top:.55rem;font-size:.88rem;color:var(--ink-faint)}
 .beacon-page figcaption a{font-weight:600;display:inline-flex;align-items:center;min-height:44px}
 .beacon-none{margin-top:1.4rem;color:var(--ink-faint);max-width:var(--measure)}
@@ -500,7 +506,8 @@ a:hover{color:var(--brand-hover)}
 /* printing the bulletin: just the pages, edge to edge, one per sheet */
 @media print{
   .phead,.beacon-hi,.seclink,.crumb,.prevnext,.beacon-page figcaption{display:none}
-  .beacon-page a{border:0;box-shadow:none;border-radius:0}
+  .beacon-page a{margin-inline:0}
+  .beacon-page img{mix-blend-mode:normal}
   .beacon-page{break-after:page}
   .beacon-page:last-child{break-after:auto}
 }

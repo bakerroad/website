@@ -52,7 +52,7 @@ if (existsSync(ISSUES)) {
     try { issue = JSON.parse(readFileSync(join(ISSUES, f), "utf8")); } catch { continue; }
     for (const pg of issue.pages || []) {
       const src = pg?.image;
-      if (typeof src !== "string" || !src.startsWith("/") || !/\.jpe?g$/i.test(src)) continue;
+      if (typeof src !== "string" || !src.startsWith("/") || !/\.(jpe?g|png)$/i.test(src)) continue;
       const file = join("public", src.replace(/^\//, ""));
       if (seen.has(file) || !existsSync(file)) continue;
       seen.add(file);

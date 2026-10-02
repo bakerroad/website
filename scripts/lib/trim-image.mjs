@@ -27,6 +27,13 @@ const MIN_BORDER = 8;    // px; below this it is a scan edge, not padding
 const QUALITY = 80;
 const MAX_WIDTH = 2000;  // beyond this is detail no screen shows
 
+/** Re-encode in the file's own format, so the path Tina wrote still matches.
+ *  PNGs go to a 256-colour palette: the 4 October 2026 pages came in as 5-11MB
+ *  PNGs and left at 0.7-1.3MB with the small print still crisp. */
+const encode = (pipe, file) => /\.png$/i.test(file)
+  ? pipe.png({ palette: true, quality: 85, compressionLevel: 9, effort: 7 })
+  : pipe.jpeg({ quality: QUALITY, progressive: true, mozjpeg: true });
+
 /** Measure the bounding box of everything that is not blank canvas. */
 async function contentBox(file) {
   const { data, info } = await sharp(file).greyscale().raw().toBuffer({ resolveWithObject: true });
@@ -60,12 +67,16 @@ export async function trimIfPadded(file, { pad = 2, maxWidth = MAX_WIDTH } = {})
   // An untrimmed page can still be far too large to send to a phone. The office
   // uploaded a 4760px scan on 11 September 2026; nothing shows more than 2000.
   if (border < MIN_BORDER) {
-    if (imageW <= maxWidth) return null;            // nothing to do at all
-    const out = await sharp(file).resize({ width: maxWidth })
-      .jpeg({ quality: QUALITY, progressive: true, mozjpeg: true }).toBuffer();
+    // A palette PNG is one this has already squeezed; a full-colour one is not.
+    const meta = await sharp(file).metadata();
+    const rawPng = /\.png$/i.test(file) && !meta.paletteBitDepth;
+    if (imageW <= maxWidth && !rawPng) return null; // nothing to do at all
+    let pipe = sharp(file);
+    if (imageW > maxWidth) pipe = pipe.resize({ width: maxWidth });
+    const out = await encode(pipe, file).toBuffer();
     const wasKb = Math.round(readFileSync(file).length / 1024);
     writeFileSync(file, out);
-    return `${imageW}x${imageH} -> ${maxWidth}px wide  ${wasKb}KB -> ${Math.round(out.length / 1024)}KB`;
+    return `${imageW}x${imageH} -> ${Math.min(imageW, maxWidth)}px wide  ${wasKb}KB -> ${Math.round(out.length / 1024)}KB`;
   }
 
   const region = {
@@ -76,7 +87,7 @@ export async function trimIfPadded(file, { pad = 2, maxWidth = MAX_WIDTH } = {})
   };
   let pipe = sharp(file).extract(region);
   if (region.width > maxWidth) pipe = pipe.resize({ width: maxWidth });
-  const out = await pipe.jpeg({ quality: QUALITY, progressive: true, mozjpeg: true }).toBuffer();
+  const out = await encode(pipe, file).toBuffer();
   const wasKb = Math.round(readFileSync(file).length / 1024);
   writeFileSync(file, out);
   const nowKb = Math.round(out.length / 1024);
