@@ -1,5 +1,4 @@
 {
-  "churchCenterUrl": "https://bakerroadbaptistchurch.churchcenter.com",
   "googlePlaceId": "ChIJdZCijh5cP4YRD2idB3WaxMU",
   "reviewUrl": "https://search.google.com/local/writereview?placeid=ChIJdZCijh5cP4YRD2idB3WaxMU",
   "latitude": 29.769583,
@@ -16,7 +15,12 @@
   "email": "bakerroadbc@gmail.com",
   "prayerEmail": "bakerroadbc@gmail.com",
   "mapUrl": "https://www.google.com/maps/place/?q=place_id:ChIJdZCijh5cP4YRD2idB3WaxMU",
-  "officeHours": [],
+  "officeHours": [
+    {
+      "day": "Tuesday - Friday",
+      "hours": "9:00 AM - 2:00 PM (Closed 12:00 to 1:00 PM)"
+    }
+  ],
   "sunday": [
     {
       "label": "Sunday School, all ages",
@@ -54,6 +58,7 @@
   "youtubeUrl": "https://www.youtube.com/@BRBCBaytown",
   "givingUrl": "https://bakerroadbaptistchurch.churchcenter.com/giving",
   "appUrl": "https://subsplash.com/bakerroadbaptistchurch",
+  "churchCenterUrl": "https://bakerroadbaptistchurch.churchcenter.com",
   "connectionCardUrl": "https://bakerroadbaptistchurch.churchcenter.com/people/forms/1314833",
   "serveFormUrl": "https://bakerroadbaptistchurch.churchcenter.com/people/forms/1314832"
 }
